@@ -1,0 +1,8 @@
+
+
+http://raphaello.univ-fcomte.fr/IG/RayTracing/LancerDeRayons.htm
+
+https://www.lama.univ-savoie.fr/pagesmembres/lachaud/Cours/INFO805/Tests/html/ig_tp2.html
+
+http://nguyen.univ-tln.fr/share/Infographie3D/trans_raytracing.pdf
+http://mathinfo.univ-reims.fr/image/siRendu/Documents/2004-Chap6-RayTracing.pdf
