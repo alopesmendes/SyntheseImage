@@ -9,17 +9,20 @@ CC = g++
 DBG = no
 
 ifeq ($(DBG),yes) #en mode debug
-  CFLAGS = -g -Wpointer-arith -Wall -ansi
+  CFLAGS = -g -Wpointer-arith -Wall -ansi -std=c++11
 else              #en mode normal
-  CFLAGS = -O2 -ansi
+  CFLAGS = -O2 -ansi -std=c++11
 endif
 
 # assemblage des infos de lib. et inc.
 lib =   $(libG3X)
+
 # fichiers *.c locaux
 src = src/
+
 # fichiers *.h locaux et lib.
-inc = -I./include $(incG3X)
+inc = -I./include #$(incG3X) 
+
 
 exec = lray
 
@@ -27,16 +30,16 @@ all : $(exec) clean
 
 # r�gle g�n�rique de cr�ation de xxx.o � partir de src/xxx.c
 %.o : $(src)%.cpp
-	@echo "module $@"
+	@echo "module $@ $<"
 	@$(CC) $(CFLAGS) $(inc) -c $< -o $@
 	@echo "------------------------"
 
 # r�gle g�n�rique de cr�ation de l'executable xxx � partir de src/xxx.c (1 seul module)
-% : %.o
+lray : lray.o Point.o Parser.o StandardFigure.o Shape.o Sphere.o Cube.o Color.o Vector.o
 	@echo "assemblage [$^]->$@"
 	@$(CC) $^ $(lib) -o $@
 	@echo "------------------------"
-	
+
 .PHONY : clean cleanall ?
 
 # informations sur les param�tres de compilation       

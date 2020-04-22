@@ -1,29 +1,81 @@
 #include <iostream>
+#include <string>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <Parser.hpp>
+#include <fstream>
+#include <sstream>
+#include "../include/Parser.h"
+#include "../include/Sphere.h"
+#include "../include/StandardFigure.h"
 
 using namespace std;
 
-void Parser::parser(int argc, char **argv) {
+Parser::Parser(int level, string file, string imageName) {
+    this->level = level;
+    this->file = file;
+    this->imageName = imageName;
+}
+
+Parser::~Parser() { }
+
+Parser Parser::init(int argc, char **argv, string opts) {
     int opt;
-    while ((opt = getopt(argc, argv, "n:i:o:")) != EOF) {
+    int level;
+    string file;
+    string imageName;
+    while ((opt = getopt(argc, argv, opts.c_str())) != EOF) {
         switch (opt) {
             case 'n':
-                cout << "value of n is "<< optarg <<endl ;
+                level = atoi(optarg);
                 break;
             case 'i':
-                cout << "value of i is "<< optarg <<endl ;
+                file = optarg;
                 break;
             case 'o':
-                cout << "value of o is "<< optarg <<endl ;
+                imageName = optarg;
                 break;
             default:
                 break;
         }
     }
-    
+    return Parser(level, file, imageName);
 }
+
+void Parser::addShape(StandardFigure sf, string description, vector<Shape*>& shapes) {
+    switch (sf) {
+        case CAMERA:
+            break;
+        case RAY:
+            break;
+        case SPHERE:
+  
+            shapes.push_back(new Sphere(description));
+            break;
+        case CUBE:
+            break;
+        case INVALID:
+            cout << "Invalid" << endl;
+            break;
+        default:
+            break;
+    }
+}
+
+void Parser::parser(int argc, char **argv, vector<Shape*>& shapes) {
+    string line, figure, descritption;
+    Parser parser = Parser::init(argc, argv, "n:i:o:");
+    ifstream readFile(parser.file.c_str());
+
+    while(getline(readFile, line)) {
+        stringstream iss(line);
+        getline(iss, figure, '{');
+        getline(iss, descritption, '}');
+        addShape(resolveStandardFigure(figure), descritption, shapes);
+        
+    }  
+    readFile.close(); 
+}
+
 
