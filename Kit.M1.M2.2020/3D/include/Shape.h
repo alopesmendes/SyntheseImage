@@ -7,8 +7,10 @@
 #define __SHAPE_HPP__
 
     #include <string>
+    #include <sstream>
     #include "Point.h"
     #include "Color.h"
+    #include "Ray.h"
 
     using namespace std;
 
@@ -40,15 +42,24 @@
             Shape();
 
             /*
-             * Constructs a Shape via it's description.
-             * @param description: string
-            */
-            //virtual Shape init(string description);
-
-            /*
              * Deletes the Shape.
             */
-            ~Shape();
+            ~Shape() {};
+
+            /*
+            *   Getter for Color.
+            *   @return Color
+            */
+            const Color getColor() const;
+
+            /*
+            *   Checks if the ray intersect with our shape.
+            *   @param ray: Ray
+            *   @param dist: double
+            */
+            virtual bool intersect(const Ray& ray, double& dist) = 0;
+
+            virtual operator std::string() const;
 
     };
 

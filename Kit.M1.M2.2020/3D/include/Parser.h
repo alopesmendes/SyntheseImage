@@ -10,6 +10,7 @@
     #include <vector>
     #include "Shape.h"
     #include "StandardFigure.h"
+    #include "Scene.h"
 
     using namespace std;
 
@@ -19,16 +20,10 @@
             string file;
             string imageName;
 
-        public:
             /*
              * Constructs default Parser.
             */
             Parser(int level, string file, string imageName);
-
-            /*
-             * Deletes the Parser.
-            */
-            ~Parser();
 
             /*
              * Initiazes a Parser with it's parameters.
@@ -41,21 +36,35 @@
             static Parser init(int argc, char **argv, string opts);
 
             /*
-             * Will determine which subclass of Shape it will add to shapes.
+             * Will add elements to scene.
              * @param sf: StandardFigure.
              * @param description: string.
-             * @param shapes: vector<Shape>&.
+             * @param scene: Scene&.
             */
-            static void addShape(StandardFigure sf, string description, vector<Shape*>& shapes);
+            static void addToScene(StandardFigure sf, string description, Scene& scene);
+
+        public:
+
+            /*
+             * Deletes the Parser.
+            */
+            ~Parser();
+
+            /*
+            *   Getter for imageName;
+            *   @return string
+            */
+            string getImageName();
+
 
             /*
              * Parses the according arguments in the argv.
              * Will add the parse shape to shapes.
              * @param argc: int.
              * @param argv: char**.
-             * @param shapes: vector<Shape>.
+             * @param scene: Scene&.
             */
-            static void parser(int argc, char **argv, vector<Shape*>& shapes);
+            static Parser parser(int argc, char **argv, Scene& scene);
     };
 
 

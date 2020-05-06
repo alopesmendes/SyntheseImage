@@ -6,6 +6,10 @@
 #define __POINT_HPP__
 
     #include <iostream>
+    #include <string>
+    #include <sstream>
+
+    using namespace std;
 
     class Point {
         private:
@@ -22,12 +26,35 @@
             */
             Point(double x, double y, double z);
             
+            /*
+            *   Constructs default Point.
+            */
             Point() : Point(0, 0, 0) {};
 
             /*
              *  Deletes Point.
             */
             ~Point();
+
+            /*
+            *   Getter for x
+            *   @return double.
+            */
+            double getX() const;
+
+            /*
+            *   Getter for y
+            *   @return double.
+            */
+            double getY() const;
+
+            /*
+            *   Getter for z
+            *   @return double.
+            */
+            double getZ() const;
+
+            virtual operator std::string() const;
 
     };
 

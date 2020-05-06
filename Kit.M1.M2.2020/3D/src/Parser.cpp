@@ -7,8 +7,10 @@
 #include <fstream>
 #include <sstream>
 #include "../include/Parser.h"
+#include "../include/Camera.h"
 #include "../include/Sphere.h"
 #include "../include/StandardFigure.h"
+#include "../include/Ray.h"
 
 using namespace std;
 
@@ -19,6 +21,10 @@ Parser::Parser(int level, string file, string imageName) {
 }
 
 Parser::~Parser() { }
+
+string Parser::getImageName() {
+    return imageName;
+}
 
 Parser Parser::init(int argc, char **argv, string opts) {
     int opt;
@@ -43,17 +49,13 @@ Parser Parser::init(int argc, char **argv, string opts) {
     return Parser(level, file, imageName);
 }
 
-void Parser::addShape(StandardFigure sf, string description, vector<Shape*>& shapes) {
+void Parser::addToScene(StandardFigure sf, string description, Scene& scene) {
     switch (sf) {
         case CAMERA:
-            break;
-        case RAY:
+            scene.addCamera(Camera(description));
             break;
         case SPHERE:
-  
-            shapes.push_back(new Sphere(description));
-            break;
-        case CUBE:
+            scene.addShape(sf, new Sphere(description));
             break;
         case INVALID:
             cout << "Invalid" << endl;
@@ -63,7 +65,7 @@ void Parser::addShape(StandardFigure sf, string description, vector<Shape*>& sha
     }
 }
 
-void Parser::parser(int argc, char **argv, vector<Shape*>& shapes) {
+Parser Parser::parser(int argc, char **argv, Scene& scene) {
     string line, figure, descritption;
     Parser parser = Parser::init(argc, argv, "n:i:o:");
     ifstream readFile(parser.file.c_str());
@@ -72,10 +74,11 @@ void Parser::parser(int argc, char **argv, vector<Shape*>& shapes) {
         stringstream iss(line);
         getline(iss, figure, '{');
         getline(iss, descritption, '}');
-        addShape(resolveStandardFigure(figure), descritption, shapes);
+        addToScene(resolveStandardFigure(figure), descritption, scene);
         
     }  
     readFile.close(); 
+    return parser;
 }
 
 

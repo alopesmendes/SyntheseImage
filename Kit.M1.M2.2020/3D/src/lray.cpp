@@ -12,10 +12,13 @@ using namespace std;
 
 
 int main(int argc, char **argv) {
-    vector<Shape*> shapes;
-    Parser::parser(argc, argv, shapes);
-    for (auto i = shapes.begin(); i != shapes.end(); ++i) {
-        cout << **i << endl;
-    }
+    /*auto value = new Value<Color>(Color());
+    cout << *value << endl;*/
+    Scene scene = Scene();
+    Parser p = Parser::parser(argc, argv, scene);
+
+    cout << scene << endl;
+    scene.update();
+    
     return 0;
 }

@@ -8,7 +8,26 @@ Point::Point(double x, double y, double z) {
 
 Point::~Point() { }
 
+double Point::getX() const {
+    return x;
+}
+
+double Point::getY() const {
+    return y;
+}
+
+double Point::getZ() const {
+    return z;
+}
+
+Point::operator std::__cxx11::string() const {
+    stringstream ss;
+    ss << "Point (x:" << x << ", y:" << y << ", z:" << z << ")";
+    return ss.str();
+}
+
 std::ostream& operator<<(std::ostream& os, const Point& point) {
-    os << "Point (x:" << point.x << ", y:" << point.y << ", z:" << point.z << ")";
+    string text = point;
+    os << text;
     return os;
 }

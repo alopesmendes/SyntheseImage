@@ -29,11 +29,19 @@ Shape::Shape() {
     color = Color();
  }
 
-Shape::~Shape() { }
+const Color Shape::getColor() const {
+    return color;
+}
 
+Shape::operator std::string() const {
+    stringstream ss;
+    ss << "Shape (" << point 
+    << ", " << color << ")";
+    return ss.str();
+}
 
 std::ostream& operator<<(std::ostream& os, const Shape& shape) {
-    os << "Shape (" << shape.point 
-    << ", " << shape.color << ")";
+    string text = shape;
+    os << text;
     return os;
 }

@@ -6,21 +6,25 @@
 #define __COLOR_HPP__
 
     #include <iostream>
+    #include <string>
+    #include <sstream>
+
+    using namespace std;
 
     class Color {
         private:
-            double red, green, blue;
+            unsigned char red, green, blue;
 
             friend std::ostream& operator<<(std::ostream&, const Color&);
         
         public:
             /*
              *  Constructs a Color with it's red, green, and blue coordonates.
-             *  @param red: double.
-             *  @param green: double.
-             *  @param blue: double.
+             *  @param red: unsigned char.
+             *  @param green: unsigned char.
+             *  @param blue: unsigned char.
             */
-            Color(double red, double green, double blue);
+            Color(unsigned char red, unsigned char green, unsigned char blue);
 
             /*
              * Constructs by default a Color.
@@ -31,6 +35,27 @@
              *  Deletes Color.
             */
             ~Color();
+
+            /*
+            *   Getter for red.
+            *   @return red;
+            */
+            unsigned char getRed();
+
+            /*
+            *   Getter for blue.
+            *   @return blue;
+            */
+            unsigned char getBlue();
+
+            /*
+            *   Getter for green.
+            *   @return green;
+            */
+            unsigned char getGreen();
+
+            virtual operator std::string() const;
+
     };
 
 

@@ -19,9 +19,7 @@ StandardFigure resolveStandardFigure(string input) {
     sf.insert(pair<string, StandardFigure>("cube", CUBE));*/
     static const map<string, StandardFigure> sf {
         { "camera", CAMERA },
-        { "ray", RAY },
         { "sphere", SPHERE },
-        { "cube", CUBE },
     };
     
     input.erase(remove_if(input.begin(), input.end(), ::isspace), input.end());

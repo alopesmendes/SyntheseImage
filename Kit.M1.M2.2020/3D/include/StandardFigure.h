@@ -11,10 +11,8 @@
 
     enum StandardFigure {
         CAMERA,
-        RAY,
         SPHERE,
-        CUBE,
-        INVALID
+        INVALID,
     };
 
     /*
@@ -23,5 +21,6 @@
      * @return: StandardFigure.
     */
     StandardFigure resolveStandardFigure(string input);
+
 
 #endif

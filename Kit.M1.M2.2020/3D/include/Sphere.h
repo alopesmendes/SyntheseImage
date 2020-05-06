@@ -7,11 +7,12 @@
 #define __SPHERE_HPP__
 
     #include <iostream>
+    #include <sstream>
+    #include <string>
     #include "Point.h"
     #include "Vector.h"
     #include "Color.h"
     #include "Shape.h"
-    #include <string>
 
     using namespace std;
 
@@ -29,26 +30,25 @@
             Sphere(Point point, Color color, double radius);
 
             /*
+             * Constructs default Sphere.
+            */
+            Sphere();
+
+            /*
+             *  Deletes the Sphere.
+            */
+            ~Sphere() {};
+
+            /*
              * Constructs a Sphere with it's description.
              * Will use Shape constructor.
              * @param description: string.
             */
             Sphere(string description);
 
-            /*
-             * Constructs default Sphere.
-            */
-            Sphere();
+            virtual bool intersect(const Ray& ray, double& dist);
 
-            /*
-             * Read Shape.h comment.
-            */
-            //virtual Shape init(string description);
-
-            /*
-             *  Deletes the Sphere.
-            */
-            ~Sphere();
+            virtual operator std::string() const;
     };
 
 #endif

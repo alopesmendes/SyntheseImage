@@ -35,7 +35,7 @@ all : $(exec) clean
 	@echo "------------------------"
 
 # r�gle g�n�rique de cr�ation de l'executable xxx � partir de src/xxx.c (1 seul module)
-lray : lray.o Point.o Parser.o StandardFigure.o Shape.o Sphere.o Cube.o Color.o Vector.o
+lray : lray.o Point.o Parser.o StandardFigure.o Shape.o Sphere.o Color.o Vector.o Utils.o Camera.o Ray.o Scene.o Image.o Light.o
 	@echo "assemblage [$^]->$@"
 	@$(CC) $^ $(lib) -o $@
 	@echo "------------------------"
