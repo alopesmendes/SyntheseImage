@@ -12,6 +12,7 @@
     enum StandardFigure {
         CAMERA,
         SPHERE,
+        LIGHT,
         INVALID,
     };
 

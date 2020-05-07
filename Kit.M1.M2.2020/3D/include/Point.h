@@ -54,6 +54,8 @@
             */
             double getZ() const;
 
+            Point &operator=(const Point &p);
+
             virtual operator std::string() const;
 
     };

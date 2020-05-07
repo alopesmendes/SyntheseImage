@@ -46,6 +46,10 @@ Vector Vector::operator/(double a) {
     return Vector(this->x / a, this->y / a, this->z / a);
 }
 
+Point Vector::operator+(const Point &p) {
+    return Point(this->x + p.getX(), this->y + p.getY(), this->z + p.getZ());
+}
+
 double Vector::scalarProduct(const Vector &v) {
     return this->x * v.x + this->y * v.y + this->z * v.z;
 }

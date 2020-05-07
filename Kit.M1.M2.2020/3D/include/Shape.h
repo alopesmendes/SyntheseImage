@@ -5,12 +5,13 @@
 
 #ifndef __SHAPE_HPP__
 #define __SHAPE_HPP__
-
+    #include <iostream>
     #include <string>
     #include <sstream>
     #include "Point.h"
     #include "Color.h"
     #include "Ray.h"
+    #include "Hit.h"
 
     using namespace std;
 
@@ -55,9 +56,10 @@
             /*
             *   Checks if the ray intersect with our shape.
             *   @param ray: Ray
-            *   @param dist: double
+            *   @param Hit: Hit&
+            *   @return bool
             */
-            virtual bool intersect(const Ray& ray, double& dist) = 0;
+            virtual bool intersect(const Ray& ray, Hit& hit) = 0;
 
             virtual operator std::string() const;
 

@@ -49,13 +49,16 @@ Parser Parser::init(int argc, char **argv, string opts) {
     return Parser(level, file, imageName);
 }
 
-void Parser::addToScene(StandardFigure sf, string description, Scene& scene) {
+void Parser::addToScene(Parser parser, StandardFigure sf, string description, Scene& scene) {
     switch (sf) {
         case CAMERA:
             scene.addCamera(Camera(description));
             break;
         case SPHERE:
             scene.addShape(sf, new Sphere(description));
+            break;
+        case LIGHT:
+            scene.addLight(Light(parser.level, description));
             break;
         case INVALID:
             cout << "Invalid" << endl;
@@ -74,7 +77,7 @@ Parser Parser::parser(int argc, char **argv, Scene& scene) {
         stringstream iss(line);
         getline(iss, figure, '{');
         getline(iss, descritption, '}');
-        addToScene(resolveStandardFigure(figure), descritption, scene);
+        addToScene(parser, resolveStandardFigure(figure), descritption, scene);
         
     }  
     readFile.close(); 

@@ -20,6 +20,13 @@ double Point::getZ() const {
     return z;
 }
 
+Point &Point::operator=(const Point &p) {
+    this->x = p.x;
+    this->y = p.y;
+    this->z = p.z;
+    return (*this);
+}
+
 Point::operator std::__cxx11::string() const {
     stringstream ss;
     ss << "Point (x:" << x << ", y:" << y << ", z:" << z << ")";

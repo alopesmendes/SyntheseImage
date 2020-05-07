@@ -20,6 +20,7 @@ StandardFigure resolveStandardFigure(string input) {
     static const map<string, StandardFigure> sf {
         { "camera", CAMERA },
         { "sphere", SPHERE },
+        { "light", LIGHT },
     };
     
     input.erase(remove_if(input.begin(), input.end(), ::isspace), input.end());

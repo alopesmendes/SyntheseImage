@@ -54,6 +54,9 @@
             */
             unsigned char getGreen();
 
+            const Color operator*(double a) const;
+            const Color operator/(double a) const;
+
             virtual operator std::string() const;
 
     };

@@ -60,6 +60,7 @@
             bool operator!=(const Vector &p);
             Vector &operator=(const Vector &p);
             Vector operator+(const Vector &p);
+            Point operator+(const Point &p);
             Vector operator-(const Vector &p);
             Vector operator*(double a);
             Vector operator/(double b);

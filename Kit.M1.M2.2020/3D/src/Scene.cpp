@@ -1,6 +1,7 @@
 #include "../include/Scene.h"
 #include <cmath>
 
+
 Scene::Scene() {
 
 }
@@ -17,26 +18,34 @@ void Scene::addShape(const StandardFigure &standardFigure, Shape* shape) {
     shapes[standardFigure].push_back(shape);
 }
 
+void Scene::addLight(const Light &l) {
+    light = l;
+}
+
+void Scene::subDraw(Image &image, int i, int j) {
+    Hit hit;
+    double fov = 60. * M_PI / 180.;
+    Vector dir = Vector(
+        j - image.getWidth() / 2.,
+        i - image.getHeight() / 2.,
+        -image.getWidth() / (2. * tan(fov / 2.))
+    );
+	Ray r = Ray(camera.getPos(), dir / dir.normalize());
+    for (auto categorie = shapes.begin(); categorie != shapes.end(); ++categorie) {
+        for (auto shape = categorie->second.begin(); shape != categorie->second.end(); ++shape) {
+            if ((**shape).intersect(r, hit)) {
+                Color c = light.colorIntensity(hit, (**shape).getColor());
+                image.setPixel(i, j, c); 
+            }
+        }
+    }
+}
 
 void Scene::update() {
     Image image = Image(1024, 1024);
-    Point posCam = camera.getPos();
-    double fov = 60 * M_PI / 180;
-	double dist = 0;
-    double dir_z = -image.getWidth() / (2 * tan(fov / 2)); 
 	for(int i = 0; i < image.getHeight(); ++i) {
-		double dir_y = i - image.getHeight() / 2;
 		for(int j = 0; j < image.getWidth(); ++j){
-			float dir_x = j - image.getWidth() / 2;
-			Vector dir = Vector(dir_x, dir_y, dir_z);
-			Ray r = Ray(posCam, dir / dir.normalize());
-            for (auto categorie = shapes.begin(); categorie != shapes.end(); ++categorie) {
-                for (auto shape = categorie->second.begin(); shape != categorie->second.end(); ++shape) {
-                    if ((**shape).intersect(r, dist)) {
-                       image.setPixel(i, j, (**shape).getColor()); 
-                    }
-                }
-            }	
+            subDraw(image, i, j);
 		}
 	}
     Image::save(image, "image.ppm");
@@ -46,6 +55,7 @@ void Scene::update() {
 Scene::operator std::__cxx11::string() const {
     stringstream ss;
     ss << camera << endl;
+    ss << light << endl;
     ss << "Shapes {" << endl;
     for (auto i = shapes.begin(); i != shapes.end(); ++i) {
         for (auto j = i->second.begin(); j != i->second.end(); ++j) {

@@ -46,7 +46,7 @@
             */
             Sphere(string description);
 
-            virtual bool intersect(const Ray& ray, double& dist);
+            virtual bool intersect(const Ray& ray, Hit& hit);
 
             virtual operator std::string() const;
     };

@@ -14,15 +14,25 @@
     #include "StandardFigure.h"
     #include "Shape.h"
     #include "Image.h"
+    #include "Light.h"
 
     using namespace std;
 
     class Scene {
         private:
             Camera camera;
+            Light light;
             map<StandardFigure, vector<Shape*>> shapes;
 
             friend std::ostream& operator<<(std::ostream&, const Scene&);
+
+            /*
+            *   Draws the shapes according to the intersection with the ray and light.
+            *   @param image: Image&
+            *   @param i: int 
+            *   @param j: int
+            */
+            void subDraw(Image& image, int i, int j);
 
         public:
             /*
@@ -47,6 +57,12 @@
             *   @param shape: const Shape&
             */
             void addShape(const StandardFigure& standardFigure, Shape* shape);
+
+            /*
+            *   Add a light to the scene.
+            *   @param l: const Light&
+            */
+            void addLight(const Light& l);
 
             /*
             *   Updates the scene.

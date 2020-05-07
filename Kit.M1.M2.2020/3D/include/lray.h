@@ -15,5 +15,6 @@
     #include "Image.h"
     #include "Scene.h"
     #include "Light.h"
+    #include "Hit.h"
 
 #endif

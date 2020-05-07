@@ -21,7 +21,7 @@ Sphere::Sphere(string description) : Shape(description) {
 
 }
 
-bool Sphere::intersect(const Ray& ray, double& dist) {
+bool Sphere::intersect(const Ray& ray, Hit& hit) {
     Vector dir = ray.getDirection();
     Vector ori(point, ray.getOrigin());
     double a = 1;
@@ -37,8 +37,9 @@ bool Sphere::intersect(const Ray& ray, double& dist) {
         return false;
     }
     double t = t1 > 0. ? t1 : t2;
-    Vector P = ray.getDirection() * t;
-    Vector N = ori / ori.normalize();
+    hit.pos = (ray.getDirection() * t) + ray.getOrigin();
+    Vector v = Vector(point, hit.pos);
+    hit.normal = v / v.normalize();
     return true;
 }
 

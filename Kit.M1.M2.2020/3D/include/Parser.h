@@ -41,7 +41,7 @@
              * @param description: string.
              * @param scene: Scene&.
             */
-            static void addToScene(StandardFigure sf, string description, Scene& scene);
+            static void addToScene(Parser parser, StandardFigure sf, string description, Scene& scene);
 
         public:
 
