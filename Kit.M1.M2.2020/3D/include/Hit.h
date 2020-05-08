@@ -8,8 +8,9 @@
     #include <iostream>
     #include <string>
     #include <sstream>
-    #include "Point.h"
     #include "Vector.h"
+    #include "Vector.h"
+    #include "Color.h"
 
     using namespace std;
 
@@ -18,8 +19,10 @@
             friend std::ostream& operator<<(std::ostream&, const Hit&);
 
         public:
-            Point pos;
+            Vector pos;
             Vector normal;
+            double t;
+            Color color;
 
             /*
             *   Constructs default Hit.

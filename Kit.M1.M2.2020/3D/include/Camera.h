@@ -8,14 +8,14 @@
     #include <iostream>
     #include <string>
     #include <sstream>
-    #include "Point.h"
+    #include "Vector.h"
 
     using namespace std;
 
     class Camera {
         private:
-            Point pos;
-            Point target;
+            Vector pos;
+            Vector target;
             double theta;
             double phi;
             double dist;
@@ -24,13 +24,13 @@
         public:
             /*
             *   Constructs a Camera with it's pos, target, theta, phi and distance.
-            *   @param pos: Point
-            *   @param target: Point
+            *   @param pos: Vector
+            *   @param target: Vector
             *   @param theta: double
             *   @param phi: double
             *   @param dist: double
             */
-            Camera(Point pos, Point target, double theta, double phi, double dist);
+            Camera(Vector pos, Vector target, double theta, double phi, double dist);
             
             /*
             *   Constructs a Camera with it's description.
@@ -41,7 +41,7 @@
             /*
             *   Constructs a default Camera.
             */
-            Camera() : Camera(Point(), Point(), 0, 0, 0) {};
+            Camera() : Camera(Vector(), Vector(), 0, 0, 0) {};
 
             /*
             *   Deletes Camera.
@@ -50,9 +50,9 @@
 
             /*
             *   Getter for pos.
-            *   @return Point
+            *   @return Vector
             */
-            const Point getPos() const;
+            const Vector getPos() const;
 
             virtual operator std::string() const;
     };

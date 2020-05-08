@@ -1,7 +1,7 @@
 #include "../include/Shape.h"
 #include <sstream>
 
-Shape::Shape(Point point, Color color) : point(point), color(color) {
+Shape::Shape(Vector point, Color color) : point(point), color(color) {
 
 }
 
@@ -19,13 +19,13 @@ Shape::Shape(string description) {
     issPoints >> x >> y >> z;
     issColors >> red >> green >> blue;
 
-    this->point = Point(x, y, z);
+    this->point = Vector(x, y, z);
     this->color = Color(red, green, blue);
 
 }
 
 Shape::Shape() {
-    point = Point();
+    point = Vector();
     color = Color();
  }
 

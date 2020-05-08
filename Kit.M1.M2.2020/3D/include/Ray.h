@@ -7,29 +7,29 @@
     #include <iostream>
     #include <string>
     #include <sstream>
-    #include "Point.h"
+    #include "Vector.h"
     #include "Vector.h"
 
     using namespace std;
 
     class Ray {
         private:
-            Point origin;
+            Vector origin;
             Vector direction;
 
             friend std::ostream& operator<<(std::ostream&, const Ray&);
         public:
             /*
             *   Constructs a Ray with it's origin and direction.
-            *   @param origin: Point
+            *   @param origin: Vector
             *   @param direction: Vector
             */
-            Ray(Point origin, Vector direction);
+            Ray(Vector origin, Vector direction);
 
             /*
             *   Constructs a default Ray.
             */
-            Ray() : Ray(Point(), Vector()) {};
+            Ray() : Ray(Vector(), Vector()) {};
 
             /*
             *   Deletes Ray.
@@ -38,9 +38,9 @@
 
             /*
             *   Getter for origin.
-            *   @return Point
+            *   @return Vector
             */
-            Point getOrigin() const;
+            Vector getOrigin() const;
 
             /*
             *   Getter for direction.

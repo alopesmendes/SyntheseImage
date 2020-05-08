@@ -44,9 +44,9 @@ void Image::save(const Image& image, const string& file) {
         unsigned char r, g, b;
         // loop over each pixel in the image, clamp and convert to byte format
         for (int i = 0; i < image.width * image.height; ++i) {
-            r = image.pixels[i].getRed();
-            g = image.pixels[i].getGreen();
-            b = image.pixels[i].getBlue();
+            r = min(255., max(0., image.pixels[i].getRed()));
+            g = min(255., max(0., image.pixels[i].getGreen()));
+            b = min(255., max(0., image.pixels[i].getBlue()));
             ofs << r << g << b;
         }
         ofs.close();

@@ -1,6 +1,6 @@
 #include "../include/Light.h"
 
-Light::Light(int level, Point pos, double intensity) {
+Light::Light(int level, Vector pos, double intensity) {
     this->level = level;
     this->pos = pos;
     this->intensity = intensity;
@@ -18,7 +18,7 @@ Light::Light(int level, std::string description) {
     issPos >> pos_x >> pos_y >> pos_z;
     issIntensity >> it;
     this->level = level;
-    this->pos = Point(pos_x, pos_y, pos_z);
+    this->pos = Vector(pos_x, pos_y, pos_z);
     this->intensity = it;
 }
 
@@ -26,12 +26,16 @@ Light::~Light() {
 
 }
 
-Color Light::colorIntensity(const Hit &hit, const Color &color) {
-    Vector v = Vector(hit.pos, this->pos);
-    Vector vNorm = v / v.normalize();
-    double sc = intensity * max(0., vNorm.scalarProduct(hit.normal)) / (v.scalarProduct(v));
-    return color * sc;
-    //return color;
+Color Light::colorIntensity(const Hit &hit, const double &dist) {
+    Vector v = (this->pos - hit.pos).getNormalized();
+    return hit.color 
+    * intensity
+    * max(0., v.scalarProduct(hit.normal)) 
+    / dist;
+}
+
+Vector Light::getPos() const {
+    return pos;
 }
 
 Light::operator std::string() const {

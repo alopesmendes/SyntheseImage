@@ -1,8 +1,10 @@
 #include "../include/Hit.h"
 
 Hit::Hit() {
-    this->pos = Point();
+    this->pos = Vector();
     this->normal = Vector();
+    this->t = 0;
+    this->color = Color();
 }
 
 Hit::~Hit() {

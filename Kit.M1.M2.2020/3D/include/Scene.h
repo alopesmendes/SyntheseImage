@@ -27,12 +27,13 @@
             friend std::ostream& operator<<(std::ostream&, const Scene&);
 
             /*
-            *   Draws the shapes according to the intersection with the ray and light.
+            *   Checks if the shapes intersect with the ray and light.
             *   @param image: Image&
             *   @param i: int 
             *   @param j: int
+            *   @reyurn bool
             */
-            void subDraw(Image& image, int i, int j);
+            bool intersect(const Ray& ray, Hit& hit);
 
         public:
             /*

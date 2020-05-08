@@ -54,8 +54,17 @@ double Vector::scalarProduct(const Vector &v) {
     return this->x * v.x + this->y * v.y + this->z * v.z;
 }
 
-double Vector::normalize() {
-    return sqrt(scalarProduct(*this));
+void Vector::normalize() {
+    double norm = sqrt(scalarProduct(*this));
+    x /= norm;
+    y /= norm;
+    z /= norm;
+}
+
+Vector Vector::getNormalized() {
+    Vector result(*this);
+    result.normalize();
+    return result;
 }
 
 Vector::operator std::string() const {

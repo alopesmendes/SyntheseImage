@@ -13,18 +13,18 @@
 
     class Color {
         private:
-            unsigned char red, green, blue;
+            double red, green, blue;
 
             friend std::ostream& operator<<(std::ostream&, const Color&);
         
         public:
             /*
              *  Constructs a Color with it's red, green, and blue coordonates.
-             *  @param red: unsigned char.
-             *  @param green: unsigned char.
-             *  @param blue: unsigned char.
+             *  @param red: double.
+             *  @param green: double.
+             *  @param blue: double.
             */
-            Color(unsigned char red, unsigned char green, unsigned char blue);
+            Color(double red, double green, double blue);
 
             /*
              * Constructs by default a Color.
@@ -40,19 +40,19 @@
             *   Getter for red.
             *   @return red;
             */
-            unsigned char getRed();
+            double getRed();
 
             /*
             *   Getter for blue.
             *   @return blue;
             */
-            unsigned char getBlue();
+            double getBlue();
 
             /*
             *   Getter for green.
             *   @return green;
             */
-            unsigned char getGreen();
+            double getGreen();
 
             const Color operator*(double a) const;
             const Color operator/(double a) const;

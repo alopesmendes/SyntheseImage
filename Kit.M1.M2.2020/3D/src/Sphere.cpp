@@ -5,7 +5,7 @@
 #include <cmath>
 
 
-Sphere::Sphere(Point point, Color color, double radius) : Shape(point, color) {
+Sphere::Sphere(Vector point, Color color, double radius) : Shape(point, color) {
     this->radius = radius;
 }
 
@@ -22,24 +22,22 @@ Sphere::Sphere(string description) : Shape(description) {
 }
 
 bool Sphere::intersect(const Ray& ray, Hit& hit) {
-    Vector dir = ray.getDirection();
-    Vector ori(point, ray.getOrigin());
+    hit.color = color;
     double a = 1;
-    double b = 2 * dir.scalarProduct(ori);
-    double c = ori.scalarProduct(ori) - radius * radius;
-    double delta = (b * b - 4 * a * c);
-    if(delta < 0.) {
+    double b = 2 * ray.getDirection().scalarProduct(ray.getOrigin() - point);
+    double c = (ray.getOrigin()-point).scalarProduct(ray.getOrigin()-point) - radius*radius;
+    double delta = b*b - 4 * a*c;
+    if(delta < 0) {
       return false;
 	}
     double t1 = (-b - sqrt(delta)) / (2* a);
     double t2 = (-b + sqrt(delta)) / (2* a);
-    if (t2 < 0.) {
+    if (t2 < 0) {
         return false;
     }
-    double t = t1 > 0. ? t1 : t2;
-    hit.pos = (ray.getDirection() * t) + ray.getOrigin();
-    Vector v = Vector(point, hit.pos);
-    hit.normal = v / v.normalize();
+    hit.t = t1 > 0 ? t1 : t2;
+    hit.pos = ray.getOrigin() + ray.getDirection()*hit.t;
+    hit.normal = (hit.pos - point).getNormalized();
     return true;
 }
 

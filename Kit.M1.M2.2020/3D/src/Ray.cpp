@@ -1,6 +1,6 @@
 #include "../include/Ray.h"
 
-Ray::Ray(Point origin, Vector direction) {
+Ray::Ray(Vector origin, Vector direction) {
     this->origin = origin;
     this->direction = direction;
 
@@ -10,7 +10,7 @@ Ray::~Ray() {
 
 }
 
-Point Ray::getOrigin() const {
+Vector Ray::getOrigin() const {
     return origin;
 }
 

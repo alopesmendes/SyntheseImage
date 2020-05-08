@@ -1,7 +1,7 @@
 #include "../include/Camera.h"
 #include <sstream>
 
-Camera::Camera(Point pos, Point target, double theta, double phi, double dist) {
+Camera::Camera(Vector pos, Vector target, double theta, double phi, double dist) {
     this->pos = pos;
     this->target = target;
     this->theta = theta;
@@ -34,8 +34,8 @@ Camera::Camera(string description) {
     issPhi >> phiD;
     issDist >> distD;
 
-    this->pos = Point(pos_x, pos_y, pos_z);
-    this->target = Point(target_x, target_y, target_z);
+    this->pos = Vector(pos_x, pos_y, pos_z);
+    this->target = Vector(target_x, target_y, target_z);
     this->theta = thetaD;
     this->phi = phiD;
     this->dist = distD;
@@ -45,7 +45,7 @@ Camera::~Camera() {
 
 }
 
-const Point Camera::getPos() const {
+const Vector Camera::getPos() const {
     return pos;
 }
 

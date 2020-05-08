@@ -22,30 +22,52 @@ void Scene::addLight(const Light &l) {
     light = l;
 }
 
-void Scene::subDraw(Image &image, int i, int j) {
-    Hit hit;
-    double fov = 60. * M_PI / 180.;
-    Vector dir = Vector(
-        j - image.getWidth() / 2.,
-        i - image.getHeight() / 2.,
-        -image.getWidth() / (2. * tan(fov / 2.))
-    );
-	Ray r = Ray(camera.getPos(), dir / dir.normalize());
+bool Scene::intersect(const Ray& ray, Hit& hit) {
+    bool hasItersect = false;
+    hit.t = INFINITY;
     for (auto categorie = shapes.begin(); categorie != shapes.end(); ++categorie) {
         for (auto shape = categorie->second.begin(); shape != categorie->second.end(); ++shape) {
-            if ((**shape).intersect(r, hit)) {
-                Color c = light.colorIntensity(hit, (**shape).getColor());
-                image.setPixel(i, j, c); 
+            Hit localHit;
+            bool localItersect = (**shape).intersect(ray, localHit);
+            if (localItersect) {
+                hasItersect = true;
+                if (localHit.t < hit.t) {
+                    hit.t = localHit.t;
+                    hit.pos = localHit.pos;
+                    hit.normal = localHit.normal;
+                    hit.color = localHit.color;
+                }
             }
         }
     }
+    return hasItersect;
 }
 
 void Scene::update() {
     Image image = Image(1024, 1024);
-	for(int i = 0; i < image.getHeight(); ++i) {
-		for(int j = 0; j < image.getWidth(); ++j){
-            subDraw(image, i, j);
+    double fov = 60. * M_PI / 180.;
+	for(int i = 0; i < image.getWidth(); ++i) {
+		for(int j = 0; j < image.getHeight(); ++j) {
+            Vector dir = Vector(
+                j - image.getWidth() / 2.,
+                i - image.getHeight() / 2.,
+                -image.getWidth() / (2. * tan(fov / 2.))
+            );
+            dir.normalize();
+            Hit hit, hitLight;
+            Ray ray = Ray(camera.getPos(), dir);
+            bool hasIter = intersect(ray, hit);
+            if (hasIter) {
+                Vector v = light.getPos() - hit.pos;
+                double d_light2 = v.scalarProduct(v);
+                Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
+                bool hasIterLight = intersect(rayLight, hitLight);
+                if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
+                    continue;
+                }
+                Color c = light.colorIntensity(hit, d_light2);
+                image.setPixel(i, j, c);
+            }
 		}
 	}
     Image::save(image, "image.ppm");

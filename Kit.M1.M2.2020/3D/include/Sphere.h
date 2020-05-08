@@ -9,7 +9,7 @@
     #include <iostream>
     #include <sstream>
     #include <string>
-    #include "Point.h"
+    #include "Vector.h"
     #include "Vector.h"
     #include "Color.h"
     #include "Shape.h"
@@ -24,10 +24,10 @@
         public:
             /*
              *  Constructs a Sphere with it's point and color.
-             *  @param point: Point.
+             *  @param point: Vector.
              *  @param color: Color.
             */
-            Sphere(Point point, Color color, double radius);
+            Sphere(Vector point, Color color, double radius);
 
             /*
              * Constructs default Sphere.

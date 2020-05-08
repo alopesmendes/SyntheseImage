@@ -52,9 +52,14 @@
             
             /*
             *   Normalize the Vector.
-            *   @return double
             */
-            double normalize();
+            void normalize();
+
+            /*
+            *   Returns the vector normalized.
+            *   @return Vector.
+            */
+            Vector getNormalized();
 
             bool operator==(const Vector &p);
             bool operator!=(const Vector &p);
@@ -67,6 +72,5 @@
             virtual operator std::string() const;
 
     };
-
-
+    
 #endif

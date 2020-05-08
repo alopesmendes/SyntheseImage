@@ -8,7 +8,7 @@
     #include <iostream>
     #include <string>
     #include <sstream>
-    #include "Point.h"
+    #include "Vector.h"
     #include "Color.h"
     #include "Ray.h"
     #include "Hit.h"
@@ -21,15 +21,15 @@
             friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
             
         protected:
-            Point point;
+            Vector point;
             Color color;
         public:
             /* 
              *  Constructs a Shape with it's point and color.
-             *  @param point: Point.
+             *  @param point: Vector.
              *  @param color: Color.
             */
-            Shape(Point point, Color color);
+            Shape(Vector point, Color color);
 
             /*
              * Constructs a Shape with it's description.
