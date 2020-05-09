@@ -14,6 +14,7 @@ using namespace std;
 int main(int argc, char **argv) {
     /*auto value = new Value<Color>(Color());
     cout << *value << endl;*/
+    
     Scene scene = Scene();
     Parser p = Parser::parser(argc, argv, scene);
 

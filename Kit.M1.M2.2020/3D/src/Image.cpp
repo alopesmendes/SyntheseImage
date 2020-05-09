@@ -11,9 +11,23 @@ Image::Image(int width, int height, const Color& color) {
         pixels[i] = color;
 }
 
-/*Image::Image() : width(0), height(0), pixels(nullptr) {
+Image::Image(string description) {
+    string line;
+    double width, height;
+    double r, g, b;
+    stringstream iss(description);
+    getline(iss, line, '|');
+    stringstream issDim(line);
+    issDim >> width >> height;
+    getline(iss, line, '|');
+    stringstream issColor(line);
+    issColor >> r >> g >> b;
+    new (this) Image(width, height, Color(r, g, b));
+}
 
-}*/
+Image::Image() : width(0), height(0), bg(Color()), pixels(nullptr) {
+
+}
 
 Image::~Image() {
     if(pixels != NULL) { 
@@ -62,9 +76,25 @@ void Image::save(const Image& image, const string& file) {
     }
 }
 
+Image &Image::operator=(const Image &im) {
+    width = im.width;
+    height = im.height;
+    bg = im.bg;
+    if(pixels != NULL) { 
+        delete []pixels; 
+    }
+    pixels = new Color[im.width * im.height];
+    for (int i = 0; i < im.width * im.height; i++) {
+        pixels[i] = im.bg;
+    }
+    
+}
+
 Image::operator std::string() const {
     stringstream ss;
-    ss << "Image (width:" << width << ", height:" << height << ")";
+    ss << "Image (width:" << width 
+    << ", height:" << height
+    << ", background:" << bg << ")";
     return ss.str();
 }
 

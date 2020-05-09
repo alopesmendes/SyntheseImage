@@ -46,12 +46,10 @@
             ~Light();
 
             /*
-            *   Will determine the color according to the ligth.
-            *   @param hit: const Hit&
-            *   @param dist: const double&
-            *   @return Color
+            *   Getter for intensity.
+            *   @return double
             */
-            Color colorIntensity(const Hit& hit, const double& dist);
+            const double getIntensity() const;
 
             /*
             *   Getter for pos

@@ -20,6 +20,7 @@
 
     class Scene {
         private:
+            int ps; 
             Image image;
             Camera camera;
             Light light;
@@ -46,7 +47,7 @@
             /*
             *   Constructs a Scene.
             */
-            Scene();
+            Scene(int ps = 8);
 
             /*
             *   Deletes a Scene.
@@ -71,6 +72,12 @@
             *   @param l: const Light&
             */
             void addLight(const Light& l);
+
+            /*
+            *   Add the image showing the scene.
+            *   @param im: const Image&
+            */
+            void addImage(const Image& im);
 
             /*
             *   Updates the scene.

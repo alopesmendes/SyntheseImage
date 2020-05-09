@@ -40,22 +40,26 @@
             *   Getter for red.
             *   @return red;
             */
-            double getRed();
+            const double getRed() const;
 
             /*
             *   Getter for blue.
             *   @return blue;
             */
-            double getBlue();
+            const double getBlue() const;
 
             /*
             *   Getter for green.
             *   @return green;
             */
-            double getGreen();
+            const double getGreen() const;
 
             const Color operator*(double a) const;
+            const Color operator*(const Color& c) const;
             const Color operator/(double a) const;
+            Color &operator+=(const Color &c);
+            Color &operator=(const Color &c);
+
 
             virtual operator std::string() const;
 

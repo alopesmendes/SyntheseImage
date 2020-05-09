@@ -10,6 +10,7 @@
     using namespace std;
 
     enum StandardFigure {
+        IMAGE,
         CAMERA,
         SPHERE,
         LIGHT,

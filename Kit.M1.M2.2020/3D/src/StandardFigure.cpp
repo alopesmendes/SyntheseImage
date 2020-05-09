@@ -18,6 +18,7 @@ StandardFigure resolveStandardFigure(string input) {
     sf.insert(pair<string, StandardFigure>("sphere", SPHERE));
     sf.insert(pair<string, StandardFigure>("cube", CUBE));*/
     static const map<string, StandardFigure> sf {
+        { "image", IMAGE },
         { "camera", CAMERA },
         { "sphere", SPHERE },
         { "light", LIGHT },

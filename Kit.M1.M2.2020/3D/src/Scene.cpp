@@ -1,10 +1,17 @@
 #include "../include/Scene.h"
+#include <stdio.h>
 #include <cmath>
+#include <algorithm>
+#include <random>
 
 #define W 1024
 #define H 1024
 
-Scene::Scene() : image(Image(W, H)) {
+std::default_random_engine engine;
+std::uniform_real_distribution<double> uniform(0, 1);
+
+Scene::Scene(int ps) {
+    this->ps = ps;
 }
 
 Scene::~Scene() {
@@ -21,6 +28,10 @@ void Scene::addShape(const StandardFigure &standardFigure, Shape* shape) {
 
 void Scene::addLight(const Light &l) {
     light = l;
+}
+
+void Scene::addImage(const Image &im) {
+    image = im;
 }
 
 bool Scene::intersect(const Ray& ray, Hit& hit) {
@@ -46,7 +57,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
         return image.backgroundColor();
     }
     Hit hit, hitLight;
-    Color c;
+    Color c = Color();
     bool hasIter = intersect(ray, hit);
     if (hasIter) {
         if ( hit.shape->getMaterial().isMirror() ) {
@@ -68,15 +79,31 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
                     c = getColor(rayRef, nbonds - 1);
                 }
             } else {
+                // contribution eclairage direct
                 Vector v = light.getPos() - hit.pos;
                 double d_light2 = v.scalarProduct(v);
                 Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
                 bool hasIterLight = intersect(rayLight, hitLight);
                 if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
-                    c =image.backgroundColor();
+                    c = image.backgroundColor();
                 } else {
-                    c = light.colorIntensity(hit, d_light2);
+                    c = hit.shape->getColor() / M_PI * light.getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
                 }
+
+                // ajout contribution indirect
+            
+                double r1 = uniform(engine), r2 = uniform(engine);
+                double x = cos(2 * M_PI * r1) * sqrt(1 - r2);
+                double y = sin(2 * M_PI * r1) * sqrt(1 - r2);
+                double z = sqrt(r2);
+                Vector dRandomLocal = Vector(x, y, z);
+                Vector ran = Vector(uniform(engine)-0.5, uniform(engine)-0.5, uniform(engine)-0.5);
+                Vector tangent1 = hit.normal.cross(ran); tangent1.normalize();
+                Vector tangent2 = tangent1.cross(hit.normal);
+                
+                Vector dRandom = hit.normal*z + tangent1*x + tangent2*y;
+                Ray rayRandom = Ray(hit.pos + hit.normal*0.001, dRandom);
+                c += hit.shape->getColor() * getColor(rayRandom, nbonds - 1);
             }
         }
     }
@@ -85,8 +112,10 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
 
 void Scene::update() {
     double fov = 60. * M_PI / 180.;
-	for(int i = 0; i < image.getWidth(); ++i) {
-		for(int j = 0; j < image.getHeight(); ++j) {
+
+#pragma cmp parallel for
+	for(int i = 0; i < image.getHeight(); ++i) {
+		for(int j = 0; j < image.getWidth(); ++j) {
             Vector dir = Vector(
                 j - image.getWidth() / 2.,
                 i - image.getHeight() / 2.,
@@ -94,7 +123,12 @@ void Scene::update() {
             );
             dir.normalize();
             Ray ray = Ray(camera.getPos(), dir);
-            image.setPixel(i, j, getColor(ray, 5));
+            Color c;
+            for (int k = 0; k < ps; ++k) {
+                c += getColor(ray, 5) / ps;
+            }
+            //c = getColor(ray, 5);
+            image.setPixel(i, j, c);
 		}
 	}
     Image::save(image, "image.ppm");
@@ -103,6 +137,7 @@ void Scene::update() {
 
 Scene::operator std::__cxx11::string() const {
     stringstream ss;
+    ss << image << endl;
     ss << camera << endl;
     ss << light << endl;
     ss << "Shapes {" << endl;

@@ -11,6 +11,7 @@
 #include "../include/Sphere.h"
 #include "../include/StandardFigure.h"
 #include "../include/Ray.h"
+#include "../include/Image.h"
 
 using namespace std;
 
@@ -51,6 +52,9 @@ Parser Parser::init(int argc, char **argv, string opts) {
 
 void Parser::addToScene(Parser parser, StandardFigure sf, string description, Scene& scene) {
     switch (sf) {
+        case IMAGE:
+            scene.addImage(Image(description));
+            break;
         case CAMERA:
             scene.addCamera(Camera(description));
             break;

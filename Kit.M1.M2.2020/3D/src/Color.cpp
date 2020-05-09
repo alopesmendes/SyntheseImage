@@ -1,5 +1,6 @@
 #include "../include/Color.h"
 
+double clamp(double value);
 
 Color::Color(double red, double green, double blue) {
     this->red = red;
@@ -12,33 +13,57 @@ Color::Color() : Color(0, 0, 0) {
 
 Color::~Color() { }
 
-
-
-double Color::getRed() {
-    return (red);
+double clamp(double value) {
+    return value;
 }
 
-double Color::getBlue() {
-    return (blue);
+const double Color::getRed() const {
+    return clamp(red);
 }
 
-double Color::getGreen() {
-    return (green);
+const double Color::getBlue() const {
+    return clamp(blue);
+}
+
+const double Color::getGreen() const {
+    return clamp(green);
 }
 
 const Color Color::operator*(double a) const {
     return Color(
-        red * a,
-        green * a,
-        blue * a
+        this->red * a,
+        this->green * a,
+        this->blue * a
     );
+}
+
+const Color Color::operator*(const Color& c) const {
+    return Color(
+        this->red * c.red,
+        this->green * c.green,
+        this->blue * c.blue
+    );
+}
+
+Color &Color::operator+=(const Color &c) {
+    red += c.red;
+    green += c.green;
+    blue += c.blue;
+    return (*this);
+}
+
+Color &Color::operator=(const Color &c) {
+    red = c.red;
+    green = c.green;
+    blue = c.blue;
+    return (*this);
 }
 
 const Color Color::operator/(double a) const {
     return Color(
-        red / a,
-        green / a,
-        blue / a
+        this->red / a,
+        this->green / a,
+        this->blue / a
     );
 }
 

@@ -41,6 +41,13 @@
             *   @return double
             */
             double scalarProduct(const Vector &p);
+
+            /*
+            *   Creates a cross version of this vector.
+            *   @param v: const Vector&
+            *   @return Vector
+            */
+            Vector cross(const Vector& v);
             
             /*
             *   Normalize the Vector.

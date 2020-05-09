@@ -1,4 +1,5 @@
 #include "../include/Light.h"
+#include <cmath>
 
 Light::Light(Vector pos, double intensity) {
     this->pos = pos;
@@ -24,13 +25,10 @@ Light::~Light() {
 
 }
 
-Color Light::colorIntensity(const Hit &hit, const double &dist) {
-    Vector v = (this->pos - hit.pos).getNormalized();
-    return hit.shape->getColor()
-    * intensity
-    * max(0., v.scalarProduct(hit.normal)) 
-    / dist;
+const double Light::getIntensity() const {
+    return intensity;
 }
+
 
 Vector Light::getPos() const {
     return pos;

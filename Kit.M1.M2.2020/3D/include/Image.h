@@ -28,6 +28,17 @@
             Image(int width, int height, const Color& bg = Color());
 
             /*
+            *   Constructs a Image with it's description
+            *   @param description: string
+            */
+            Image(string description);
+
+            /*
+            *   Constructs default Image.
+            */
+            Image();
+
+            /*
             *   Deletes Image.
             */
             ~Image();
@@ -65,6 +76,7 @@
             */             
             static void save(const Image& image, const string& file);
             
+            Image &operator=(const Image &c);
             virtual operator std::string() const;
 
     };
