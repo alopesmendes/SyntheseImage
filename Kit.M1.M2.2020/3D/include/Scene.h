@@ -20,6 +20,7 @@
 
     class Scene {
         private:
+            Image image;
             Camera camera;
             Light light;
             map<StandardFigure, vector<Shape*>> shapes;
@@ -34,6 +35,12 @@
             *   @reyurn bool
             */
             bool intersect(const Ray& ray, Hit& hit);
+
+            /*
+            *   Gets the right color for a pixel.
+            *   @return Color.
+            */
+            Color getColor(const Ray& ray, int nbonds = 0);
 
         public:
             /*

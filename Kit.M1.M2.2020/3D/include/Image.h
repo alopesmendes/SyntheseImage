@@ -15,6 +15,7 @@
     class Image {
         private:
             int width, height;
+            Color bg;
             Color* pixels;
 
             friend std::ostream& operator<<(std::ostream&, const Image&);
@@ -24,12 +25,7 @@
             *   Constructs a Image with it's width and height.
             *   Will set all pixels to Color() by default.
             */
-            Image(int width, int height, const Color& color = Color());
-
-            /*
-            *   Constructs by default a Image.
-            */
-            //Image();
+            Image(int width, int height, const Color& bg = Color());
 
             /*
             *   Deletes Image.
@@ -51,9 +47,16 @@
             const int getWidth() const;
 
             /*
-            *   Getter for height.
+            *   Getter for height.$
+            *   @return int
             */
             const int getHeight() const;
+            
+            /*
+            *   Getter for background color.
+            *   @return Color.
+            */
+            const Color backgroundColor() const;
 
             /*
             *   Saves all the pixels of the image in the file

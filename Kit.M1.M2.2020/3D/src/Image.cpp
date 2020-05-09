@@ -1,9 +1,11 @@
 #include "../include/Image.h"
 #include <fstream>
+#include <cmath>
 
 Image::Image(int width, int height, const Color& color) {
     this->width = width;
     this->height = height;
+    this->bg = color;
     pixels = new Color[width * height];
     for (int i = 0; i < width * height; ++i)
         pixels[i] = color;
@@ -27,6 +29,10 @@ const int Image::getHeight() const {
     return height;
 }
 
+const Color Image::backgroundColor() const {
+    return bg;
+}
+
 void Image::setPixel(int x, int y, Color color) {
     if(x * width + y > width * height) {
         return;
@@ -44,9 +50,9 @@ void Image::save(const Image& image, const string& file) {
         unsigned char r, g, b;
         // loop over each pixel in the image, clamp and convert to byte format
         for (int i = 0; i < image.width * image.height; ++i) {
-            r = min(255., max(0., image.pixels[i].getRed()));
-            g = min(255., max(0., image.pixels[i].getGreen()));
-            b = min(255., max(0., image.pixels[i].getBlue()));
+            r = min(255., max(0., pow(image.pixels[i].getRed(), 1/2.2)));
+            g = min(255., max(0., pow(image.pixels[i].getGreen(), 1/2.2)));
+            b = min(255., max(0., pow(image.pixels[i].getBlue(), 1/2.2)));
             ofs << r << g << b;
         }
         ofs.close();

@@ -8,7 +8,6 @@
     #include <iostream>
     #include <string>
     #include <sstream>
-    #include "Point.h"
 
     using namespace std;
     
@@ -25,13 +24,6 @@
              *  @param z: double.
             */
             Vector(double x, double y, double z);
-
-            /*
-            *   Constructs a Vector from two points a and b.
-            *   @param a: Point
-            *   @param b: Point
-            */
-            Vector(const Point &a, const Point &b);
 
             /*
             *   Constructs default Vector.
@@ -65,8 +57,8 @@
             bool operator!=(const Vector &p);
             Vector &operator=(const Vector &p);
             Vector operator+(const Vector &p);
-            Point operator+(const Point &p);
             Vector operator-(const Vector &p);
+            Vector operator-(double a);
             Vector operator*(double a);
             Vector operator/(double b);
             virtual operator std::string() const;

@@ -9,9 +9,6 @@
     #include <iostream>
     #include <sstream>
     #include <string>
-    #include "Vector.h"
-    #include "Vector.h"
-    #include "Color.h"
     #include "Shape.h"
 
     using namespace std;
@@ -27,7 +24,7 @@
              *  @param point: Vector.
              *  @param color: Color.
             */
-            Sphere(Vector point, Color color, double radius);
+            Sphere(Vector point, Color color, double radius, Material material = Material());
 
             /*
              * Constructs default Sphere.

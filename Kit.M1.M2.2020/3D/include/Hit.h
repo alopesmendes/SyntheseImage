@@ -9,11 +9,12 @@
     #include <string>
     #include <sstream>
     #include "Vector.h"
-    #include "Vector.h"
     #include "Color.h"
+    #include "Shape.h"
 
     using namespace std;
 
+    class Shape;
     class Hit {
         private:
             friend std::ostream& operator<<(std::ostream&, const Hit&);
@@ -22,7 +23,7 @@
             Vector pos;
             Vector normal;
             double t;
-            Color color;
+            Shape* shape;
 
             /*
             *   Constructs default Hit.
@@ -33,6 +34,8 @@
             *   Deletes Hit
             */
             ~Hit();
+
+            Hit &operator=(const Hit &p);
 
             virtual operator std::string() const;
     };

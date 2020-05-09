@@ -58,7 +58,7 @@ void Parser::addToScene(Parser parser, StandardFigure sf, string description, Sc
             scene.addShape(sf, new Sphere(description));
             break;
         case LIGHT:
-            scene.addLight(Light(parser.level, description));
+            scene.addLight(Light(description));
             break;
         case INVALID:
             cout << "Invalid" << endl;

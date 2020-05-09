@@ -12,9 +12,11 @@
     #include "Color.h"
     #include "Ray.h"
     #include "Hit.h"
+    #include "Material.h"
 
     using namespace std;
-
+    
+    class Hit;
     class Shape {
         private:
             
@@ -23,13 +25,14 @@
         protected:
             Vector point;
             Color color;
+            Material material;
         public:
             /* 
              *  Constructs a Shape with it's point and color.
              *  @param point: Vector.
              *  @param color: Color.
             */
-            Shape(Vector point, Color color);
+            Shape(Vector point, Color color, Material material = Material());
 
             /*
              * Constructs a Shape with it's description.
@@ -46,12 +49,14 @@
              * Deletes the Shape.
             */
             ~Shape() {};
+            
+            const Color getColor() const;
 
             /*
-            *   Getter for Color.
-            *   @return Color
+            *   Getter for material.
+            *   @return Material
             */
-            const Color getColor() const;
+            const Material getMaterial() const;
 
             /*
             *   Checks if the ray intersect with our shape.

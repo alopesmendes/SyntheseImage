@@ -4,11 +4,18 @@ Hit::Hit() {
     this->pos = Vector();
     this->normal = Vector();
     this->t = 0;
-    this->color = Color();
+    this->shape = nullptr;
 }
 
 Hit::~Hit() {
 
+}
+
+Hit &Hit::operator=(const Hit &p) {
+    this->pos = p.pos;
+    this->normal = p.normal;
+    this->t = p.t;
+    this->shape = p.shape;
 }
 
 Hit::operator std::string() const {

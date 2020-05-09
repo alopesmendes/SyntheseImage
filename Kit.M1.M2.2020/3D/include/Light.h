@@ -16,7 +16,6 @@
 
     class Light {
         private:
-            int level;
             Vector pos;
             double intensity;
 
@@ -28,18 +27,18 @@
             *   @param pos: Vector
             *   @param intensity: double
             */
-            Light(int level, Vector pos, double intensity);
+            Light(Vector pos, double intensity);
 
             /*
             *   Constructs a Light with it's level and description.
             *   @param description: string
             */
-            Light(int level, string description);
+            Light(string description);
 
             /*
             *   Constructs default Light.
             */
-            Light() : Light(0, Vector(), 0) {};
+            Light() : Light(Vector(), 0) {};
 
             /*
             *   Deletes Light

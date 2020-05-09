@@ -1,9 +1,10 @@
 #include "../include/Scene.h"
 #include <cmath>
 
+#define W 1024
+#define H 1024
 
-Scene::Scene() {
-
+Scene::Scene() : image(Image(W, H)) {
 }
 
 Scene::~Scene() {
@@ -32,10 +33,7 @@ bool Scene::intersect(const Ray& ray, Hit& hit) {
             if (localItersect) {
                 hasItersect = true;
                 if (localHit.t < hit.t) {
-                    hit.t = localHit.t;
-                    hit.pos = localHit.pos;
-                    hit.normal = localHit.normal;
-                    hit.color = localHit.color;
+                    hit = localHit;
                 }
             }
         }
@@ -43,8 +41,49 @@ bool Scene::intersect(const Ray& ray, Hit& hit) {
     return hasItersect;
 }
 
+Color Scene::getColor(const Ray &ray, int nbonds) {
+    if (nbonds == 0) {
+        return image.backgroundColor();
+    }
+    Hit hit, hitLight;
+    Color c;
+    bool hasIter = intersect(ray, hit);
+    if (hasIter) {
+        if ( hit.shape->getMaterial().isMirror() ) {
+            Vector dMirror = ray.getDirection() - hit.normal * 2 * hit.normal.scalarProduct(ray.getDirection());
+            Ray rMirror = Ray(hit.pos + hit.normal*0.001, dMirror);
+            c = getColor(rMirror, nbonds - 1);
+        } else {
+            if ( hit.shape->getMaterial().isTransparent() ) {
+                double n1 = 1, n2 = 1.3;
+                Vector nt = hit.normal;
+                if (hit.normal.scalarProduct(ray.getDirection()) > 0) {
+                    swap(n1, n2);
+                    nt = hit.normal * (-1);
+                }
+                double radical = 1 - pow(n1 / n2, 2)*(1 - pow(nt.scalarProduct(ray.getDirection()), 2));
+                if (radical > 0) {
+                    Vector dirRef = (ray.getDirection() - nt * nt.scalarProduct(ray.getDirection())) * (n1/n2) - nt * sqrt(radical);
+                    Ray rayRef = Ray(hit.pos - nt*0.001, dirRef);
+                    c = getColor(rayRef, nbonds - 1);
+                }
+            } else {
+                Vector v = light.getPos() - hit.pos;
+                double d_light2 = v.scalarProduct(v);
+                Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
+                bool hasIterLight = intersect(rayLight, hitLight);
+                if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
+                    c =image.backgroundColor();
+                } else {
+                    c = light.colorIntensity(hit, d_light2);
+                }
+            }
+        }
+    }
+    return c;
+}
+
 void Scene::update() {
-    Image image = Image(1024, 1024);
     double fov = 60. * M_PI / 180.;
 	for(int i = 0; i < image.getWidth(); ++i) {
 		for(int j = 0; j < image.getHeight(); ++j) {
@@ -54,20 +93,8 @@ void Scene::update() {
                 -image.getWidth() / (2. * tan(fov / 2.))
             );
             dir.normalize();
-            Hit hit, hitLight;
             Ray ray = Ray(camera.getPos(), dir);
-            bool hasIter = intersect(ray, hit);
-            if (hasIter) {
-                Vector v = light.getPos() - hit.pos;
-                double d_light2 = v.scalarProduct(v);
-                Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
-                bool hasIterLight = intersect(rayLight, hitLight);
-                if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
-                    continue;
-                }
-                Color c = light.colorIntensity(hit, d_light2);
-                image.setPixel(i, j, c);
-            }
+            image.setPixel(i, j, getColor(ray, 5));
 		}
 	}
     Image::save(image, "image.ppm");

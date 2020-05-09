@@ -7,7 +7,6 @@
 
     #include "Color.h"
     #include "Parser.h"
-    #include "Point.h"
     #include "Shape.h"
     #include "Sphere.h"
     #include "Vector.h"
@@ -16,5 +15,6 @@
     #include "Scene.h"
     #include "Light.h"
     #include "Hit.h"
+    #include "Material.h"
 
 #endif

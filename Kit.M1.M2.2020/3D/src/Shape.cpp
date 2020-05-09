@@ -1,8 +1,10 @@
 #include "../include/Shape.h"
 #include <sstream>
 
-Shape::Shape(Vector point, Color color) : point(point), color(color) {
-
+Shape::Shape(Vector point, Color color, Material material) {
+    this->point = point;
+    this->color = color;
+    this->material = material;
 }
 
 Shape::Shape(string description) {
@@ -21,16 +23,22 @@ Shape::Shape(string description) {
 
     this->point = Vector(x, y, z);
     this->color = Color(red, green, blue);
+    this->material = Material();
 
 }
 
 Shape::Shape() {
     point = Vector();
     color = Color();
+    material = Material();
  }
 
 const Color Shape::getColor() const {
     return color;
+}
+
+const Material Shape::getMaterial() const {
+    return material;
 }
 
 Shape::operator std::string() const {

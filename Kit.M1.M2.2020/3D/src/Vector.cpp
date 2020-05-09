@@ -7,12 +7,6 @@ Vector::Vector(double x, double y, double z) {
     this->z = z;
 }
 
-Vector::Vector(const Point &a, const Point &b) {
-    this->x = b.getX() - a.getX();
-    this->y = b.getY() - a.getY();
-    this->z = b.getZ() - a.getZ(); 
-}
-
 Vector::~Vector() { }
 
 Vector Vector::operator+(const Vector &p) {
@@ -38,16 +32,16 @@ Vector &Vector::operator=(const Vector &p) {
     return (*this);
 }
 
+Vector Vector::operator-(double a) {
+    return Vector(this->x - a, this->y - a, this->z - a);
+}
+
 Vector Vector::operator*(double a) {
     return Vector(this->x * a, this->y * a, this->z * a);
 }
 
 Vector Vector::operator/(double a) {
     return Vector(this->x / a, this->y / a, this->z / a);
-}
-
-Point Vector::operator+(const Point &p) {
-    return Point(this->x + p.getX(), this->y + p.getY(), this->z + p.getZ());
 }
 
 double Vector::scalarProduct(const Vector &v) {
