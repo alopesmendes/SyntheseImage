@@ -15,6 +15,8 @@
     using namespace std;
 
     class Shape;
+    class Vector;
+    class Color;
     class Hit {
         private:
             friend std::ostream& operator<<(std::ostream&, const Hit&);
@@ -26,12 +28,12 @@
             Shape* shape;
 
             /*
-            *   Constructs default Hit.
+            *   @brief Constructs default Hit.
             */
             Hit();
 
             /*
-            *   Deletes Hit
+            *   @brief Deletes Hit
             */
             ~Hit();
 

@@ -1,4 +1,5 @@
 #include "../include/Material.h"
+#include <sstream>
 
 Material::Material(bool mirror, bool transparecy) {
     this->mirror = mirror;
@@ -20,9 +21,8 @@ const bool Material::isTransparent() const {
 
 Material::operator std::string() const {
     stringstream ss;
-    ss << "Material ( mirror:" << mirror
-    << ", transparecy:" << transparecy
-    << ")";
+    ss << "Material (mirror:" << mirror
+    << ", transparecy:" << transparecy << ")";
     return ss.str();
 }
 

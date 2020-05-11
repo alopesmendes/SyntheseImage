@@ -14,16 +14,20 @@
 
     using namespace std;
 
+    class Shape;
+    class Scene;
+    enum StandardFigure;
     class Parser {
         private:
             int level;
             string file;
             string imageName;
+            int ps;
 
             /*
              * Constructs default Parser.
             */
-            Parser(int level, string file, string imageName);
+            Parser(int level, string file, string imageName, int ps);
 
             /*
              * Initiazes a Parser with it's parameters.
@@ -64,7 +68,7 @@
              * @param argv: char**.
              * @param scene: Scene&.
             */
-            static Parser parser(int argc, char **argv, Scene& scene);
+            static Scene parser(int argc, char **argv);
     };
 
 

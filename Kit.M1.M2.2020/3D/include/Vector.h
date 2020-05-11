@@ -7,7 +7,6 @@
 
     #include <iostream>
     #include <string>
-    #include <sstream>
 
     using namespace std;
     
@@ -18,44 +17,44 @@
             friend std::ostream& operator<<(std::ostream&, const Vector&);
         public:
             /*
-             *  Constructs a Vector with it's x, y, and z coordonates.
-             *  @param x: double.
-             *  @param y: double.
-             *  @param z: double.
+            *   @brief Constructs a Vector with it's x, y, and z coordonates.
+            *   @param x: double.
+            *   @param y: double.
+            *   @param z: double.
             */
             Vector(double x, double y, double z);
 
             /*
-            *   Constructs default Vector.
+            *   @brief Constructs default Vector.
             */
             Vector() : Vector(0, 0, 0) {};
 
             /*
-             *  Deletes Vector.
+            *   @brief Deletes Vector.
             */
             ~Vector();
 
             /*
-            *   Calculates the scalar product.
+            *   @brief Calculates the scalar product.
             *   @param p: const Vector &
             *   @return double
             */
             double scalarProduct(const Vector &p);
 
             /*
-            *   Creates a cross version of this vector.
+            *   @brief Creates a cross version of this vector.
             *   @param v: const Vector&
             *   @return Vector
             */
             Vector cross(const Vector& v);
             
             /*
-            *   Normalize the Vector.
+            *   @brief Normalize the Vector.
             */
             void normalize();
 
             /*
-            *   Returns the vector normalized.
+            *   @brief Returns the vector normalized.
             *   @return Vector.
             */
             Vector getNormalized();

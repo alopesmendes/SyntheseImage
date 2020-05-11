@@ -1,28 +1,14 @@
 #include "../include/Image.h"
 #include <fstream>
-#include <cmath>
+#include <sstream>
 
-Image::Image(int width, int height, const Color& color) {
+Image::Image(int width, int height, const Color& bg) {
     this->width = width;
     this->height = height;
-    this->bg = color;
+    this->bg = bg;
     pixels = new Color[width * height];
     for (int i = 0; i < width * height; ++i)
-        pixels[i] = color;
-}
-
-Image::Image(string description) {
-    string line;
-    double width, height;
-    double r, g, b;
-    stringstream iss(description);
-    getline(iss, line, '|');
-    stringstream issDim(line);
-    issDim >> width >> height;
-    getline(iss, line, '|');
-    stringstream issColor(line);
-    issColor >> r >> g >> b;
-    new (this) Image(width, height, Color(r, g, b));
+        pixels[i] = bg;
 }
 
 Image::Image() : width(0), height(0), bg(Color()), pixels(nullptr) {
@@ -33,6 +19,17 @@ Image::~Image() {
     if(pixels != NULL) { 
         delete []pixels; 
     }
+}
+
+Image* Image::create(string description) {
+    string line;
+    double width, height;
+    double r, g, b;
+    stringstream iss(description);
+    getline(iss, line, '|');
+    stringstream issDim(line);
+    issDim >> width >> height;
+    return new Image(width, height);
 }
 
 const int Image::getWidth() const {
@@ -64,9 +61,9 @@ void Image::save(const Image& image, const string& file) {
         unsigned char r, g, b;
         // loop over each pixel in the image, clamp and convert to byte format
         for (int i = 0; i < image.width * image.height; ++i) {
-            r = min(255., max(0., pow(image.pixels[i].getRed(), 1/2.2)));
-            g = min(255., max(0., pow(image.pixels[i].getGreen(), 1/2.2)));
-            b = min(255., max(0., pow(image.pixels[i].getBlue(), 1/2.2)));
+            r = image.pixels[i].getRed();
+            g = image.pixels[i].getGreen();
+            b = image.pixels[i].getBlue();
             ofs << r << g << b;
         }
         ofs.close();

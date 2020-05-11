@@ -6,7 +6,6 @@
 #define __MATERIAL_HPP__
     #include <iostream>
     #include <string>
-    #include <sstream>
 
     using namespace std;
 
@@ -17,23 +16,23 @@
             friend std::ostream& operator<<(std::ostream&, const Material&);
         public:
             /*
-            *   Constructs default Material.
+            *   @brief Constructs default Material.
             */
             Material(bool mirror = false, bool transparecy = false);
 
             /*
-            *   Deletes Material.
+            *   @brief Deletes Material.
             */
             ~Material();
             
             /*
-            *   Return true if it's a mirror.
+            *   @brief Return true if it's a mirror.
             *   @return bool
             */
             const bool isMirror() const;
 
             /*
-            *   Return true if it's transparent.
+            *   @brief Return true if it's transparent.
             *   @return bool
             */
             const bool isTransparent() const;

@@ -1,12 +1,21 @@
 #include "../include/Light.h"
 #include <cmath>
+#include <sstream>
 
 Light::Light(Vector pos, double intensity) {
     this->pos = pos;
     this->intensity = intensity;
 }
 
-Light::Light(std::string description) {
+Light::Light() : Light(Vector(), 0) {
+    
+}
+
+Light::~Light() {
+
+}
+
+Light* Light::create(string description) {
     string pos, intensity;
     double pos_x, pos_y, pos_z;
     double it;
@@ -17,12 +26,7 @@ Light::Light(std::string description) {
     stringstream issIntensity(intensity);
     issPos >> pos_x >> pos_y >> pos_z;
     issIntensity >> it;
-    this->pos = Vector(pos_x, pos_y, pos_z);
-    this->intensity = it;
-}
-
-Light::~Light() {
-
+    return new Light(Vector(pos_x, pos_y, pos_z), it);
 }
 
 const double Light::getIntensity() const {

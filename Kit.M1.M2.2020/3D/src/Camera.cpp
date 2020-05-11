@@ -9,7 +9,15 @@ Camera::Camera(Vector pos, Vector target, double theta, double phi, double dist)
     this->dist = dist;
 }
 
-Camera::Camera(string description) {
+Camera::Camera() : Camera(Vector(), Vector(), 0, 0, 0) {
+
+}
+    
+Camera::~Camera() {
+
+}
+
+Camera* Camera::create(string description) {
     string pos, target, theta, phi, dist;
     double pos_x, pos_y, pos_z;
     double target_x, target_y, target_z;
@@ -33,16 +41,9 @@ Camera::Camera(string description) {
     issTheta >> thetaD;
     issPhi >> phiD;
     issDist >> distD;
-
-    this->pos = Vector(pos_x, pos_y, pos_z);
-    this->target = Vector(target_x, target_y, target_z);
-    this->theta = thetaD;
-    this->phi = phiD;
-    this->dist = distD;
-}
-    
-Camera::~Camera() {
-
+    return new Camera(Vector(pos_x, pos_y, pos_z), Vector(target_x, target_y, target_z),
+        thetaD, phiD, distD
+    );
 }
 
 const Vector Camera::getPos() const {

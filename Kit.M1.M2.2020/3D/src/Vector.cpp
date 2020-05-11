@@ -1,5 +1,6 @@
 #include "../include/Vector.h"
 #include <cmath>
+#include <sstream>
 
 Vector::Vector(double x, double y, double z) {
     this->x = x;

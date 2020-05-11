@@ -7,8 +7,6 @@
 #define __SHAPE_HPP__
     #include <iostream>
     #include <string>
-    #include <sstream>
-    #include "Vector.h"
     #include "Color.h"
     #include "Ray.h"
     #include "Hit.h"
@@ -17,50 +15,41 @@
     using namespace std;
     
     class Hit;
+    class Color;
+    class Material;
+    class Ray;
     class Shape {
         private:
             
             friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
             
-        protected:
-            Vector point;
-            Color color;
-            Material material;
         public:
-            /* 
-             *  Constructs a Shape with it's point and color.
-             *  @param point: Vector.
-             *  @param color: Color.
-            */
-            Shape(Vector point, Color color, Material material = Material());
 
             /*
-             * Constructs a Shape with it's description.
-             * @param description: string.
-            */
-            Shape(string description);
-
-            /*
-             * Constructs a default Shape.
+            *   @brief Constructs a default Shape.
             */
             Shape();
 
             /*
-             * Deletes the Shape.
+            *   @brief Deletes the Shape.
             */
             ~Shape() {};
             
-            const Color getColor() const;
+            /*
+            *   @brief Getter for the color.
+            *   @return Color.
+            */
+            virtual const Color getColor() const = 0;
 
             /*
-            *   Getter for material.
+            *   @brief Getter for material.
             *   @return Material
             */
-            const Material getMaterial() const;
+            virtual const Material getMaterial() const = 0;
 
             /*
-            *   Checks if the ray intersect with our shape.
-            *   @param ray: Ray
+            *   @brief Checks if the ray intersect with our shape and saves it in hit.
+            *   @param ray: const Ray&
             *   @param Hit: Hit&
             *   @return bool
             */

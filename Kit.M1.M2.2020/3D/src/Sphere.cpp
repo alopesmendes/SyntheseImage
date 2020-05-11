@@ -5,37 +5,52 @@
 #include <cmath>
 
 
-Sphere::Sphere(Vector point, Color color, double radius, Material material) : Shape(point, color, material) {
+Sphere::Sphere(Vector point, Color color, double radius, Material material) {
+    this->point = point;
+    this->color = color;
+    this->material = material;
     this->radius = radius;
 }
 
-Sphere::Sphere() : Shape() { 
+Sphere::Sphere() : Sphere(Vector(), Color(), 0) { 
     this->radius = 0;
 }
 
-Sphere::Sphere(string description) : Shape(description) {
-    size_t pos = Utils::nthOccurrence(description, "|", 2);
-    string line = description.substr(pos + 1);
-    stringstream issRadius(line);
-    issRadius >> this->radius;
+Sphere* Sphere::create(string description) {
+    string line;
+    double x, y, z;
+    double red, green, blue;
+    double radius;
+    stringstream iss(description);
 
-    pos = Utils::nthOccurrence(description, "|", 3);
+    getline(iss, line, '|');
+    stringstream issPoints(line);
+    issPoints >> x >> y >> z;
+
+    getline(iss, line, '|');
+    stringstream issColors(line);
+    issColors >> red >> green >> blue;
+
+    getline(iss, line, '|');
+    stringstream issRadius(line);
+    issRadius >> radius;
+    bool m = false, t = false;
+    size_t pos = Utils::nthOccurrence(description, "|", 3);
     if (pos == -1) {
-        return;
+        return new Sphere(Vector(x, y, z), Color(red, green, blue), radius, Material());
     }
-    bool m, t;
-    line = description.substr(pos + 1);
+
+    getline(iss, line, '|');
     stringstream issMirror(line);
     issMirror >> m;
-    this->material = Material(m);
     pos = Utils::nthOccurrence(description, "|", 4);
     if (pos == -1) {
-        return;
+        return new Sphere(Vector(x, y, z), Color(red, green, blue), radius, Material(m));;
     }
-    line = description.substr(pos + 1);
+    getline(iss, line, '|');
     stringstream issTransperecy(line);
     issTransperecy >> t;
-    this->material = Material(m, t);
+    return new Sphere(Vector(x, y, z), Color(red, green, blue), radius, Material(m, t));
 }
 
 bool Sphere::intersect(const Ray& ray, Hit& hit) {
@@ -56,6 +71,14 @@ bool Sphere::intersect(const Ray& ray, Hit& hit) {
     hit.normal = (hit.pos - point).getNormalized();
     hit.shape = &(*this);
     return true;
+}
+
+const Color Sphere::getColor() const {
+    return color;
+}
+
+const Material Sphere::getMaterial() const {
+    return material;
 }
 
 Sphere::operator std::string() const {

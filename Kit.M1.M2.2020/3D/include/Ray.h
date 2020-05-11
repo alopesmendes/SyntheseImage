@@ -6,12 +6,11 @@
 #define __RAY_HPP__
     #include <iostream>
     #include <string>
-    #include <sstream>
-    #include "Vector.h"
     #include "Vector.h"
 
     using namespace std;
 
+    class Vector;
     class Ray {
         private:
             Vector origin;
@@ -20,16 +19,16 @@
             friend std::ostream& operator<<(std::ostream&, const Ray&);
         public:
             /*
-            *   Constructs a Ray with it's origin and direction.
+            *   @brief Constructs a Ray with it's origin and direction.
             *   @param origin: Vector
             *   @param direction: Vector
             */
             Ray(Vector origin, Vector direction);
 
             /*
-            *   Constructs a default Ray.
+            *   @brief Constructs a default Ray.
             */
-            Ray() : Ray(Vector(), Vector()) {};
+            Ray();
 
             /*
             *   Deletes Ray.

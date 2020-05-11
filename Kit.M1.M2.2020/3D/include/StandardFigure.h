@@ -18,9 +18,9 @@
     };
 
     /*
-     * According to input will return a StandardFigure.
-     * @param input: string.
-     * @return: StandardFigure.
+    *   @brief According to input will return a StandardFigure.
+    *   @param input: string.
+    *   @return: StandardFigure.
     */
     StandardFigure resolveStandardFigure(string input);
 

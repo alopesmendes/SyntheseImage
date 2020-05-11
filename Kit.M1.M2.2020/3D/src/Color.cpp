@@ -1,6 +1,7 @@
 #include "../include/Color.h"
+#include <sstream>
+#include <cmath>
 
-double clamp(double value);
 
 Color::Color(double red, double green, double blue) {
     this->red = red;
@@ -13,8 +14,8 @@ Color::Color() : Color(0, 0, 0) {
 
 Color::~Color() { }
 
-double clamp(double value) {
-    return value;
+const double Color::clamp(double value) const {
+    return min(255., max(0., pow(value, 1/2.2)));
 }
 
 const double Color::getRed() const {

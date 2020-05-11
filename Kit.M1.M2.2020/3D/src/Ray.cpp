@@ -1,8 +1,13 @@
 #include "../include/Ray.h"
+#include <sstream>
 
 Ray::Ray(Vector origin, Vector direction) {
     this->origin = origin;
     this->direction = direction;
+
+}
+
+Ray::Ray() : Ray(Vector(), Vector()) {
 
 }
 

@@ -15,11 +15,9 @@ int main(int argc, char **argv) {
     /*auto value = new Value<Color>(Color());
     cout << *value << endl;*/
     
-    Scene scene = Scene();
-    Parser p = Parser::parser(argc, argv, scene);
-
+    Scene scene = Parser::parser(argc, argv);
     cout << scene << endl;
-    scene.update();
-    
+    scene.generateScene();
+    scene.buildImage();
     return 0;
 }

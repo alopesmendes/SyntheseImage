@@ -7,42 +7,56 @@
 #define __SPHERE_HPP__
 
     #include <iostream>
-    #include <sstream>
     #include <string>
     #include "Shape.h"
+    #include "Vector.h"
 
     using namespace std;
 
+    class Vector;
+    class Shape;
     class Sphere: public Shape {
         private:
+            Vector point;
+            Color color;
+            Material material;
             double radius;
             
             friend std::ostream& operator<<(std::ostream&, const Sphere&);
         public:
             /*
-             *  Constructs a Sphere with it's point and color.
-             *  @param point: Vector.
-             *  @param color: Color.
+            *   @brief Constructs a Sphere with it's point, color, radius and Material.
+            *   @param point: Vector.
+            *   @param color: Color.
             */
             Sphere(Vector point, Color color, double radius, Material material = Material());
 
             /*
-             * Constructs default Sphere.
+            *   @brief Constructs default Sphere.
             */
             Sphere();
 
             /*
-             *  Deletes the Sphere.
+            *   @brief Deletes the Sphere.
             */
             ~Sphere() {};
 
             /*
-             * Constructs a Sphere with it's description.
-             * Will use Shape constructor.
-             * @param description: string.
+            *   @brief Creates a Sphere with it's description.
+            *   The format of description should be:
+            *   { pos | color | radius | material }
+            *   { double double double | double double double | double | double | double}
+            *   or
+            *   { double double double | double double double | double | double }
+            *   or
+            *   { double double double | double double double | double }
+            *   @param description: string
+            *   @return Sphere*
             */
-            Sphere(string description);
+            static Sphere* create(string description);
 
+            virtual const Color getColor() const;
+            virtual const Material getMaterial() const;
             virtual bool intersect(const Ray& ray, Hit& hit);
 
             virtual operator std::string() const;

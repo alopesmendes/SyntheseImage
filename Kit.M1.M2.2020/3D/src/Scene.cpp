@@ -3,14 +3,16 @@
 #include <cmath>
 #include <algorithm>
 #include <random>
+#include <sstream>
 
-#define W 1024
-#define H 1024
 
 std::default_random_engine engine;
 std::uniform_real_distribution<double> uniform(0, 1);
 
-Scene::Scene(int ps) {
+Scene::Scene(int level, string file, string imName, int ps) {
+    this->level = level;
+    this->file = file;
+    this->imageName = imName;
     this->ps = ps;
 }
 
@@ -57,7 +59,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
         return image.backgroundColor();
     }
     Hit hit, hitLight;
-    Color c = Color();
+    Color c;
     bool hasIter = intersect(ray, hit);
     if (hasIter) {
         if ( hit.shape->getMaterial().isMirror() ) {
@@ -91,29 +93,30 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
                 }
 
                 // ajout contribution indirect
-            
-                double r1 = uniform(engine), r2 = uniform(engine);
-                double x = cos(2 * M_PI * r1) * sqrt(1 - r2);
-                double y = sin(2 * M_PI * r1) * sqrt(1 - r2);
-                double z = sqrt(r2);
-                Vector dRandomLocal = Vector(x, y, z);
-                Vector ran = Vector(uniform(engine)-0.5, uniform(engine)-0.5, uniform(engine)-0.5);
-                Vector tangent1 = hit.normal.cross(ran); tangent1.normalize();
-                Vector tangent2 = tangent1.cross(hit.normal);
-                
-                Vector dRandom = hit.normal*z + tangent1*x + tangent2*y;
-                Ray rayRandom = Ray(hit.pos + hit.normal*0.001, dRandom);
-                c += hit.shape->getColor() * getColor(rayRandom, nbonds - 1);
+                if (level == 3) {
+                    double r1 = uniform(engine), r2 = uniform(engine);
+                    double x = cos(2 * M_PI * r1) * sqrt(1 - r2);
+                    double y = sin(2 * M_PI * r1) * sqrt(1 - r2);
+                    double z = sqrt(r2);
+                    Vector dRandomLocal = Vector(x, y, z);
+                    Vector ran = Vector(uniform(engine)-0.5, uniform(engine)-0.5, uniform(engine)-0.5);
+                    Vector tangent1 = hit.normal.cross(ran); tangent1.normalize();
+                    Vector tangent2 = tangent1.cross(hit.normal);
+                    
+                    Vector dRandom = hit.normal*z + tangent1*x + tangent2*y;
+                    Ray rayRandom = Ray(hit.pos + hit.normal*0.001, dRandom);
+                    c += hit.shape->getColor() * getColor(rayRandom, nbonds - 1);
+                }
             }
         }
     }
     return c;
 }
 
-void Scene::update() {
+void Scene::generateScene() {
     double fov = 60. * M_PI / 180.;
 
-#pragma cmp parallel for
+    #pragma cmp parallel for
 	for(int i = 0; i < image.getHeight(); ++i) {
 		for(int j = 0; j < image.getWidth(); ++j) {
             Vector dir = Vector(
@@ -124,18 +127,20 @@ void Scene::update() {
             dir.normalize();
             Ray ray = Ray(camera.getPos(), dir);
             Color c;
-            for (int k = 0; k < ps; ++k) {
-                c += getColor(ray, 5) / ps;
+            int nrays = level == 3 ? ps : 1;
+            for (int k = 0; k < nrays; ++k) {
+                c += getColor(ray, 5) / nrays;
             }
-            //c = getColor(ray, 5);
             image.setPixel(i, j, c);
 		}
 	}
-    Image::save(image, "image.ppm");
-
 }
 
-Scene::operator std::__cxx11::string() const {
+void Scene::buildImage() {
+    Image::save(image, imageName);
+}
+
+Scene::operator std::string() const {
     stringstream ss;
     ss << image << endl;
     ss << camera << endl;

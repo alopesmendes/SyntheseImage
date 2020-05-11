@@ -15,10 +15,11 @@
 
 using namespace std;
 
-Parser::Parser(int level, string file, string imageName) {
+Parser::Parser(int level, string file, string imageName, int ps) {
     this->level = level;
     this->file = file;
     this->imageName = imageName;
+    this->ps = ps;
 }
 
 Parser::~Parser() { }
@@ -32,6 +33,7 @@ Parser Parser::init(int argc, char **argv, string opts) {
     int level;
     string file;
     string imageName;
+    int ps = 1;
     while ((opt = getopt(argc, argv, opts.c_str())) != EOF) {
         switch (opt) {
             case 'n':
@@ -43,26 +45,29 @@ Parser Parser::init(int argc, char **argv, string opts) {
             case 'o':
                 imageName = optarg;
                 break;
+            case 'p':
+                ps = atoi(optarg);
+                break;
             default:
                 break;
         }
     }
-    return Parser(level, file, imageName);
+    return Parser(level, file, imageName, ps);
 }
 
 void Parser::addToScene(Parser parser, StandardFigure sf, string description, Scene& scene) {
     switch (sf) {
         case IMAGE:
-            scene.addImage(Image(description));
+            scene.addImage((*Image::create(description)));
             break;
         case CAMERA:
-            scene.addCamera(Camera(description));
+            scene.addCamera((*Camera::create(description)));
             break;
         case SPHERE:
-            scene.addShape(sf, new Sphere(description));
+            scene.addShape(sf, Sphere::create(description));
             break;
         case LIGHT:
-            scene.addLight(Light(description));
+            scene.addLight((*Light::create(description)));
             break;
         case INVALID:
             cout << "Invalid" << endl;
@@ -72,9 +77,10 @@ void Parser::addToScene(Parser parser, StandardFigure sf, string description, Sc
     }
 }
 
-Parser Parser::parser(int argc, char **argv, Scene& scene) {
+Scene Parser::parser(int argc, char **argv) {
     string line, figure, descritption;
-    Parser parser = Parser::init(argc, argv, "n:i:o:");
+    Parser parser = Parser::init(argc, argv, "n:i:o:p:");
+    Scene scene = Scene(parser.level, parser.file, parser.imageName, parser.ps);
     ifstream readFile(parser.file.c_str());
 
     while(getline(readFile, line)) {
@@ -85,7 +91,7 @@ Parser Parser::parser(int argc, char **argv, Scene& scene) {
         
     }  
     readFile.close(); 
-    return parser;
+    return scene;
 }
 
 

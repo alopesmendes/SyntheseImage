@@ -7,11 +7,11 @@
 
     #include <iostream>
     #include <string>
-    #include <sstream>
     #include "Color.h"
 
     using namespace std;
 
+    class Color;
     class Image {
         private:
             int width, height;
@@ -22,26 +22,33 @@
         
         public:
             /*
-            *   Constructs a Image with it's width and height.
-            *   Will set all pixels to Color() by default.
+            *   @brief Constructs a Image with it's width and height.
+            *   Will set all pixels to bg by default.
+            *   @param width: int
+            *   @param height: int
+            *   @bg : const Color&
             */
             Image(int width, int height, const Color& bg = Color());
 
             /*
-            *   Constructs a Image with it's description
-            *   @param description: string
-            */
-            Image(string description);
-
-            /*
-            *   Constructs default Image.
+            *   @brief Constructs default Image.
             */
             Image();
 
             /*
-            *   Deletes Image.
+            *   @brief Deletes Image.
             */
             ~Image();
+
+            /*
+            *   @brief Creates a Image with it's description.
+            *   The format of description should be:
+            *   { width height }
+            *   { int int }
+            *   @param description: string
+            *   @return Image*
+            */
+            static Image* create(string description);
 
             /*
             *   Sets the pixel at the position x, y to the following color.
@@ -52,25 +59,25 @@
             void setPixel(int x, int y, Color color);
 
             /*
-            *   Getter for width.
+            *   @brief Getter for width.
             *   @return int
             */
             const int getWidth() const;
 
             /*
-            *   Getter for height.$
+            *   @brief Getter for height.
             *   @return int
             */
             const int getHeight() const;
             
             /*
-            *   Getter for background color.
+            *   @brief Getter for background color.
             *   @return Color.
             */
             const Color backgroundColor() const;
 
             /*
-            *   Saves all the pixels of the image in the file
+            *   @brief Saves all the pixels of the image in the file in the format ppm.
             *   @param image: const Image&
             *   @param file: const string&
             */             

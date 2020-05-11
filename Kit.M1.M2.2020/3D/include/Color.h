@@ -7,7 +7,6 @@
 
     #include <iostream>
     #include <string>
-    #include <sstream>
 
     using namespace std;
 
@@ -16,40 +15,47 @@
             double red, green, blue;
 
             friend std::ostream& operator<<(std::ostream&, const Color&);
+
+            /*
+            *   @brief Returns the clamp of value with the gamma correction.
+            *   @param value: double
+            *   @return double
+            */
+            const double clamp(double value) const;
         
         public:
             /*
-             *  Constructs a Color with it's red, green, and blue coordonates.
-             *  @param red: double.
-             *  @param green: double.
-             *  @param blue: double.
+            *   @brief Constructs a Color with it's red, green, and blue coordonates.
+            *   @param red: double.
+            *   @param green: double.
+            *   @param blue: double.
             */
             Color(double red, double green, double blue);
 
             /*
-             * Constructs by default a Color.
+            *   @brief Constructs by default a Color where every coordonate values 0.
             */
             Color();
 
             /*
-             *  Deletes Color.
+            *   @brief Deletes Color.
             */
             ~Color();
 
             /*
-            *   Getter for red.
+            *   @brief Getter for red.
             *   @return red;
             */
             const double getRed() const;
 
             /*
-            *   Getter for blue.
+            *   @brief Getter for blue.
             *   @return blue;
             */
             const double getBlue() const;
 
             /*
-            *   Getter for green.
+            *   @brief Getter for green.
             *   @return green;
             */
             const double getGreen() const;
@@ -59,7 +65,6 @@
             const Color operator/(double a) const;
             Color &operator+=(const Color &c);
             Color &operator=(const Color &c);
-
 
             virtual operator std::string() const;
 

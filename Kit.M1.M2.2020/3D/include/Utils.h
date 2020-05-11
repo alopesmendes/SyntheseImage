@@ -11,12 +11,12 @@
     class Utils {
         public:
             /*
-             *  Will return the position of `nth` occurence of `findMe` in `str`.
-             *  If it does not find it it will return -1.
-             *  @param: str.
-             *  @param: str.
-             *  @param: int.
-             *  @return: size_t.
+            *   @brief Will return the position of `nth` occurence of `findMe` in `str`.
+            *   @brief If it does not find it it will return -1.
+            *   @param: str.
+            *   @param: str.
+            *   @param: int.
+            *   @return: size_t.
             */
             static size_t nthOccurrence(const string&, const string&, int);
     };

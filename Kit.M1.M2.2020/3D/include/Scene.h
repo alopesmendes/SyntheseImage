@@ -8,7 +8,6 @@
     #include <iostream>
     #include <vector>
     #include <map>
-    #include <sstream>
     #include <string>
     #include "Camera.h"
     #include "StandardFigure.h"
@@ -18,71 +17,88 @@
 
     using namespace std;
 
+    class Image;
+    class Camera;
+    class Light;
+    class Shape;
+    enum StandardFigure;
     class Scene {
         private:
-            int ps; 
             Image image;
             Camera camera;
             Light light;
             map<StandardFigure, vector<Shape*>> shapes;
+            int level;
+            string file;
+            string imageName;
+            int ps;
 
             friend std::ostream& operator<<(std::ostream&, const Scene&);
 
             /*
-            *   Checks if the shapes intersect with the ray and light.
-            *   @param image: Image&
-            *   @param i: int 
-            *   @param j: int
-            *   @reyurn bool
+            *   @brief Checks if the shapes intersect with the ray and hit allow us to keep track of this shapes.
+            *   @param ray: const Ray&
+            *   @param hit: Hit&
+            *   @return bool
             */
             bool intersect(const Ray& ray, Hit& hit);
 
             /*
-            *   Gets the right color for a pixel.
+            *   @brief Gets the right color for a pixel.
             *   @return Color.
             */
             Color getColor(const Ray& ray, int nbonds = 0);
 
         public:
             /*
-            *   Constructs a Scene.
+            *   @brief Constructs a Scene with it's level, file, imName and ps.
+            *   level is between 1-3.
+            *   file the name of the input file.
+            *   imName the name of file where the image generate will be saved.
+            *   ps the number of rays generate.
             */
-            Scene(int ps = 8);
+            Scene(int level, string file, string imName, int ps);
 
             /*
-            *   Deletes a Scene.
+            *   @brief Deletes a Scene.
             */
             ~Scene();
 
             /*
-            *   Add camera to the scene.
+            *   @brief Add camera to the scene.
             *   @param camera: const Camera&
             */
             void addCamera(const Camera& camera);
 
             /*
-            *   Add shape according to it's standardFigure to the scene.
+            *   @brief Add shape according to it's standardFigure to the scene.
             *   @param standardFigure: const StandardFigure&
             *   @param shape: const Shape&
             */
             void addShape(const StandardFigure& standardFigure, Shape* shape);
 
             /*
-            *   Add a light to the scene.
+            *   @brief Add a light to the scene.
             *   @param l: const Light&
             */
             void addLight(const Light& l);
 
             /*
-            *   Add the image showing the scene.
+            *   @brief Add the image showing the scene.
             *   @param im: const Image&
             */
             void addImage(const Image& im);
 
             /*
-            *   Updates the scene.
+            *   @brief Generates the scene.
+            *   Will set every pixel of the image it's color.
             */
-            void update();
+            void generateScene();
+
+            /*
+            *   @brief Builds the scene.
+            */
+            void buildImage();
 
             virtual operator std::string() const;
 
