@@ -1,19 +1,17 @@
 #include "../include/Sphere.h"
 #include "../include/Utils.h"
-#include "../include/Vector.h"
 #include <sstream>
 #include <cmath>
 
 
-Sphere::Sphere(Vector point, Color color, double radius, Material material) {
-    this->point = point;
+Sphere::Sphere(Vector pos, Color color, double radius, Material material) {
+    this->pos = pos;
     this->color = color;
     this->material = material;
     this->radius = radius;
 }
 
 Sphere::Sphere() : Sphere(Vector(), Color(), 0) { 
-    this->radius = 0;
 }
 
 Sphere* Sphere::create(string description) {
@@ -55,8 +53,8 @@ Sphere* Sphere::create(string description) {
 
 bool Sphere::intersect(const Ray& ray, Hit& hit) {
     double a = 1;
-    double b = 2 * ray.getDirection().scalarProduct(ray.getOrigin() - point);
-    double c = (ray.getOrigin()-point).scalarProduct(ray.getOrigin()-point) - radius*radius;
+    double b = 2 * ray.getDirection().scalarProduct(ray.getOrigin() - pos);
+    double c = (ray.getOrigin()-pos).scalarProduct(ray.getOrigin()-pos) - radius*radius;
     double delta = b*b - 4 * a*c;
     if(delta < 0) {
       return false;
@@ -68,7 +66,7 @@ bool Sphere::intersect(const Ray& ray, Hit& hit) {
     }
     hit.t = t1 > 0 ? t1 : t2;
     hit.pos = ray.getOrigin() + ray.getDirection()*hit.t;
-    hit.normal = (hit.pos - point).getNormalized();
+    hit.normal = (hit.pos - pos).getNormalized();
     hit.shape = &(*this);
     return true;
 }
@@ -83,7 +81,7 @@ const Material Sphere::getMaterial() const {
 
 Sphere::operator std::string() const {
     stringstream ss;
-    ss << "Sphere (position:" << point 
+    ss << "Sphere (position:" << pos 
     << ", color:" << color 
     << ", radius:" << radius 
     << ", material:" << material

@@ -17,7 +17,7 @@
     class Shape;
     class Sphere: public Shape {
         private:
-            Vector point;
+            Vector pos;
             Color color;
             Material material;
             double radius;
@@ -25,11 +25,13 @@
             friend std::ostream& operator<<(std::ostream&, const Sphere&);
         public:
             /*
-            *   @brief Constructs a Sphere with it's point, color, radius and Material.
-            *   @param point: Vector.
-            *   @param color: Color.
+            *   @brief Constructs a Sphere with it's pos, color, radius and Material.
+            *   @param pos: Vector
+            *   @param color: Color
+            *   @param radius: double
+            *   @param material: Material
             */
-            Sphere(Vector point, Color color, double radius, Material material = Material());
+            Sphere(Vector pos, Color color, double radius, Material material = Material());
 
             /*
             *   @brief Constructs default Sphere.
