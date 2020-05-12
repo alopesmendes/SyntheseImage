@@ -1,0 +1,85 @@
+@startuml
+
+class Parser {
+    {static}+Parser init(int argc, char **argv, string opts)
+    {static}+void addToScene(StandardFigure sf, string description, Scene& scene)
+    {static}+Parser parser(int argc, char **argv, Scene& scene)
+}
+
+enum StandardFigure {
+    CAMERA,
+    SPHERE, 
+    INVALID
+}
+
+class Scene {
+    .. Constructor ..
+    +Scene()
+    ==
+    +void addCamera(Camera camera)
+    +void addShape(StandardFigure sf, Camera camera)
+}
+
+class Camera {
+    .. Constructor ..
+    +Camera(Point pos, Point target, double theta, double phi, double dist)
+    +Camera(string description)
+    +Camera()
+}
+
+class Image {
+    .. Constructor ..
+    Image(int width, int height, const Color& color = Color(0,0,0))
+    Image()
+    ==
+    setPixel()
+}
+
+class Shape {
+    .. Constructor ..
+    +Shape(Point point, Color color)
+    +Shape(string description)
+    +Shape()
+    ==
+}
+
+class Point {
+    .. Constructor ..
+    +Point(double x, double y, double z)
+    +Point()
+    ==
+}
+
+class Vector {
+    .. Constructor ..
+    +Vector(double x, double y, double z)
+    +Vector()
+    ==
+}
+
+class Color {
+    .. Constructor ..
+    +Color(double red, double green, double blue)
+    +Color()
+    ==
+}
+
+class Sphere {
+    .. Constructor ..
+    +Sphere(Point point, double radius, Color color)
+    +Sphere(string description)
+    +Sphere()
+    ==
+}
+
+Point -left-> Shape
+Color -right-> Shape
+Sphere -up--|> Shape
+Color -down--> Sphere
+Point -down--> Sphere
+Scene .down..> Shape
+Scene .right..> Camera
+Scene .left..> StandardFigure
+Parser .down.> Scene
+Parser .down.> StandardFigure
+@enduml
