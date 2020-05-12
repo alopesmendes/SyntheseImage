@@ -69,6 +69,19 @@ Vector Vector::cross(const Vector &v) {
         this->x * v.y - this->y * v.x);
 }
 
+const double Vector::getX() const {
+    return x;
+}
+
+const double Vector::getY() const {
+    return y;
+}
+
+const double Vector::getZ() const {
+    return z;
+}
+
+
 Vector::operator std::string() const {
     stringstream ss;
     ss << "Vector (x:" << x << ", y:" << y << ", z:" << z << ")";

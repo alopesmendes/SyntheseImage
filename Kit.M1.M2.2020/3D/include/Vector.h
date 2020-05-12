@@ -59,6 +59,24 @@
             */
             Vector getNormalized();
 
+            /*
+            *   @brief Getter for x.
+            *   @return double
+            */
+            const double getX() const;
+
+            /*
+            *   @brief Getter for y.
+            *   @return double
+            */
+            const double getY() const;
+
+            /*
+            *   @brief Getter for z.
+            *   @return double
+            */
+            const double getZ() const;
+
             bool operator==(const Vector &p);
             bool operator!=(const Vector &p);
             Vector &operator=(const Vector &p);

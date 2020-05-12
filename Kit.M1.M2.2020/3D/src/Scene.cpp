@@ -61,6 +61,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
     Hit hit, hitLight;
     Color c;
     bool hasIter = intersect(ray, hit);
+    
     if (hasIter) {
         if ( hit.shape->getMaterial().isMirror() ) {
             Vector dMirror = ray.getDirection() - hit.normal * 2 * hit.normal.scalarProduct(ray.getDirection());
@@ -89,8 +90,9 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
                 if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
                     c = image.backgroundColor();
                 } else {
-                    c = hit.shape->getColor() / M_PI * light.getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
-                }
+                    //c = hit.shape->getColor() / M_PI * light.getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
+                    c = hit.shape->getColor() * light.getIntensity();
+                } 
 
                 // ajout contribution indirect
                 if (level == 3) {
