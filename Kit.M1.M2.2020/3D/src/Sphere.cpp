@@ -16,39 +16,17 @@ Sphere::Sphere() : Sphere(Vector(), Color(), 0) {
 
 Sphere* Sphere::create(string description) {
     string line;
-    double x, y, z;
-    double red, green, blue;
     double radius;
     stringstream iss(description);
 
-    getline(iss, line, '|');
-    stringstream issPoints(line);
-    issPoints >> x >> y >> z;
-
-    getline(iss, line, '|');
-    stringstream issColors(line);
-    issColors >> red >> green >> blue;
+    Vector pos = Utils::decodeVector(iss, '|');
+    Color color = Utils::decodeColor(iss, '|');
 
     getline(iss, line, '|');
     stringstream issRadius(line);
     issRadius >> radius;
-    bool m = false, t = false;
-    size_t pos = Utils::nthOccurrence(description, "|", 3);
-    if (pos == -1) {
-        return new Sphere(Vector(x, y, z), Color(red, green, blue), radius, Material());
-    }
-
-    getline(iss, line, '|');
-    stringstream issMirror(line);
-    issMirror >> m;
-    pos = Utils::nthOccurrence(description, "|", 4);
-    if (pos == -1) {
-        return new Sphere(Vector(x, y, z), Color(red, green, blue), radius, Material(m));;
-    }
-    getline(iss, line, '|');
-    stringstream issTransperecy(line);
-    issTransperecy >> t;
-    return new Sphere(Vector(x, y, z), Color(red, green, blue), radius, Material(m, t));
+    Material material = Utils::decodeMaterial(description, iss, '|', 3);
+    return new Sphere(pos, color, radius, material);
 }
 
 bool Sphere::intersect(const Ray& ray, Hit& hit) {

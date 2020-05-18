@@ -21,7 +21,8 @@ StandardFigure resolveStandardFigure(string input) {
         { "image", IMAGE },
         { "camera", CAMERA },
         { "sphere", SPHERE },
-        { "rectangle", RECTANGLE },
+        { "cube", CUBE },
+        { "plane", PLANE }, 
         { "light", LIGHT },
     };
     

@@ -77,14 +77,15 @@
             */
             const double getZ() const;
 
-            bool operator==(const Vector &p);
-            bool operator!=(const Vector &p);
             Vector &operator=(const Vector &p);
-            Vector operator+(const Vector &p);
-            Vector operator-(const Vector &p);
-            Vector operator-(double a);
-            Vector operator*(double a);
-            Vector operator/(double b);
+            friend Vector operator+(const Vector&, const Vector&);
+            friend Vector operator-(const Vector&, const Vector&);
+            friend Vector operator-(const Vector&, const double&);
+            friend Vector operator-(const double&, const Vector&);
+            friend Vector operator*(const Vector&, const double&);
+            friend Vector operator*(const double&, const Vector&);
+            friend Vector operator/(const Vector&, const double&);
+            friend Vector operator/(const double&, const Vector&);
             virtual operator std::string() const;
 
     };

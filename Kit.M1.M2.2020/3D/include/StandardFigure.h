@@ -13,7 +13,8 @@
         IMAGE,
         CAMERA,
         SPHERE,
-        RECTANGLE,
+        CUBE,
+        PLANE,
         LIGHT,
         INVALID,
     };

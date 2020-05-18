@@ -11,10 +11,11 @@
 #include "../include/Parser.h"
 #include "../include/Camera.h"
 #include "../include/Sphere.h"
-#include "../include/Rectangle.h"
+#include "../include/Cube.h"
 #include "../include/StandardFigure.h"
 #include "../include/Ray.h"
 #include "../include/Image.h"
+#include "../include/Plane.h"
 
 using namespace std;
 
@@ -77,8 +78,11 @@ void Parser::addToScene(Parser parser, StandardFigure sf, string description, Sc
         case SPHERE:
             scene.addShape(sf, Sphere::create(description));
             break;
-        case RECTANGLE:
-            scene.addShape(sf, Rectangle::create(description));
+        case CUBE:
+            scene.addShape(sf, Cube::create(description));
+            break;
+        case PLANE:
+            scene.addShape(sf, Plane::create(description));
             break;
         case LIGHT:
             scene.addLight((*Light::create(description)));

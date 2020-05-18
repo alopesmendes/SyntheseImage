@@ -9,9 +9,9 @@ CC = g++
 DBG = no
 
 ifeq ($(DBG),yes) #en mode debug
-  CFLAGS = -g -Wpointer-arith -Wall -ansi -std=c++11
+  CFLAGS = -g -Wpointer-arith -Wall -ansi -std=c++11 -openmp
 else              #en mode normal
-  CFLAGS = -O2 -ansi -std=c++11
+  CFLAGS = -O2 -ansi -std=c++11 -openmp
 endif
 
 # assemblage des infos de lib. et inc.
@@ -35,7 +35,7 @@ all : $(exec) clean
 	@echo "------------------------"
 
 # r�gle g�n�rique de cr�ation de l'executable xxx � partir de src/xxx.c (1 seul module)
-lray : lray.o Parser.o StandardFigure.o Shape.o Sphere.o Color.o Vector.o Utils.o Camera.o Ray.o Scene.o Image.o Light.o Hit.o Material.o Rectangle.o
+lray : lray.o Parser.o StandardFigure.o Shape.o Sphere.o Color.o Vector.o Utils.o Camera.o Ray.o Scene.o Image.o Light.o Hit.o Material.o Cube.o Plane.o
 	@echo "assemblage [$^]->$@"
 	@$(CC) $^ $(lib) -o $@
 	@echo "------------------------"

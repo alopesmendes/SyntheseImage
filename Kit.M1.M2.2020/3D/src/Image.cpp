@@ -1,4 +1,5 @@
 #include "../include/Image.h"
+#include "../include/Utils.h"
 #include <fstream>
 #include <sstream>
 
@@ -29,7 +30,11 @@ Image* Image::create(string description) {
     getline(iss, line, '|');
     stringstream issDim(line);
     issDim >> width >> height;
-    return new Image(width, height);
+    if (Utils::nthOccurrence(description, "|", 1) == -1) {
+        return new Image(width, height);
+    }
+    Color color = Utils::decodeColor(iss, '|');
+    return new Image(width, height, color);
 }
 
 const int Image::getWidth() const {
@@ -74,16 +79,17 @@ void Image::save(const Image& image, const string& file) {
 }
 
 Image &Image::operator=(const Image &im) {
-    width = im.width;
-    height = im.height;
-    bg = im.bg;
-    if(pixels != NULL) { 
-        delete []pixels; 
+    this->width = im.width;
+    this->height = im.height;
+    this->bg = im.bg;
+    if(this->pixels != NULL) { 
+        delete [](this->pixels); 
     }
-    pixels = new Color[im.width * im.height];
-    for (int i = 0; i < im.width * im.height; i++) {
-        pixels[i] = im.bg;
+    this->pixels = new Color[im.width * im.height];
+    for (int i = 0; i < im.width * im.height; ++i) {
+        this->pixels[i] = im.bg;
     }
+    return *this; 
     
 }
 

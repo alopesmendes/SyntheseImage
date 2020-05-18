@@ -3,8 +3,8 @@
 */
 
 
-#ifndef __RECTANGLE_HPP__
-#define __RECTANGLE_HPP__
+#ifndef __CUBE_HPP__
+#define __CUBE_HPP__
 
     #include <iostream>
     #include <string>
@@ -15,7 +15,7 @@
 
     class Vector;
     class Shape;
-    class Rectangle: public Shape {
+    class Cube: public Shape {
         private:
             Vector p1;
             Vector p2;
@@ -24,10 +24,10 @@
             Color color;
             Material material;
             
-            friend std::ostream& operator<<(std::ostream&, const Rectangle&);
+            friend std::ostream& operator<<(std::ostream&, const Cube&);
         public:
             /*
-            *   @brief Constructs a Rectangle with it's p1, p2, p3, p4, color and Material.
+            *   @brief Constructs a Cube with it's p1, p2, p3, p4, color and Material.
             *   @param p1: Vector
             *   @param p2: Vector
             *   @param p3: Vector
@@ -35,20 +35,20 @@
             *   @param color: Color
             *   @param material: Material
             */
-            Rectangle(Vector p1, Vector p2, Vector p3, Vector p4, Color color, Material material = Material());
+            Cube(Vector p1, Vector p2, Vector p3, Vector p4, Color color, Material material = Material());
 
             /*
-            *   @brief Constructs default Rectangle.
+            *   @brief Constructs default Cube.
             */
-            Rectangle();
+            Cube();
 
             /*
-            *   @brief Deletes the Rectangle.
+            *   @brief Deletes the Cube.
             */
-            ~Rectangle();
+            ~Cube();
 
             /*
-            *   @brief Creates a Rectangle with it's description.
+            *   @brief Creates a Cube with it's description.
             *   The format of description should be:
             *   { p1 | p2 | p3 | p4 | 
             *   color | material }
@@ -60,9 +60,9 @@
             *   { double double double | double double double | double double double | double double double | 
             *   double double double }
             *   @param description: string
-            *   @return Rectangle*
+            *   @return Cube*
             */
-            static Rectangle* create(string description);
+            static Cube* create(string description);
 
             /*
             *   Finds the min x form it's points.

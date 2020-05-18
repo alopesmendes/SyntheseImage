@@ -6,6 +6,8 @@
 #define __LRAY_HPP__
 
     #include "Color.h"
+    #include "Cube.h"
+    #include "Plane.h"
     #include "Parser.h"
     #include "Shape.h"
     #include "Sphere.h"

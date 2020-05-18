@@ -10,22 +10,6 @@ Vector::Vector(double x, double y, double z) {
 
 Vector::~Vector() { }
 
-Vector Vector::operator+(const Vector &p) {
-    return Vector(this->x + p.x, this->y + p.y, this->z + p.z);
-}
-
-Vector Vector::operator-(const Vector &p) {
-    return Vector(this->x - p.x, this->y - p.y, this->z - p.z);
-}
-
-bool Vector::operator==(const Vector &p) {
-    return this->x == p.x && this->y == p.y && this->z == p.z;
-}
-
-bool Vector::operator!=(const Vector &p) {
-    return this->x != p.x || this->y != p.y || this->z != p.z;
-}
-
 Vector &Vector::operator=(const Vector &p) {
     this->x = p.x;
     this->y = p.y;
@@ -33,16 +17,36 @@ Vector &Vector::operator=(const Vector &p) {
     return (*this);
 }
 
-Vector Vector::operator-(double a) {
-    return Vector(this->x - a, this->y - a, this->z - a);
+Vector operator+(const Vector &a, const Vector &b) {
+    return Vector(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
-Vector Vector::operator*(double a) {
-    return Vector(this->x * a, this->y * a, this->z * a);
+Vector operator-(const Vector &a, const Vector &b) {
+    return Vector(a.x - b.x, a.y - b.y, a.z - b.z);
 }
 
-Vector Vector::operator/(double a) {
-    return Vector(this->x / a, this->y / a, this->z / a);
+Vector operator-(const Vector &a, const double &b) {
+    return Vector(a.x - b, a.y - b, a.z - b);
+}
+
+Vector operator-(const double &a, const Vector &b) {
+    return Vector(a - b.x, a - b.y, a - b.z);
+}
+
+Vector operator*(const Vector &a, const double &b) {
+    return Vector(a.x * b, a.y * b, a.z * b);
+}
+
+Vector operator*(const double &a, const Vector &b) {
+    return Vector(b.x * a, b.y * a, b.z * a);
+}
+
+Vector operator/(const Vector &a, const double &b) {
+    return Vector(a.x / b, a.y / b, a.z / b);
+}
+
+Vector operator/(const double &a, const Vector &b) {
+    return Vector(a / b.x, a / b.y, a / b.z);
 }
 
 double Vector::scalarProduct(const Vector &v) {

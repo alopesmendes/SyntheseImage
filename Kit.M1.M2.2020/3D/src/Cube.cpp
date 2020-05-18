@@ -1,10 +1,10 @@
-#include "../include/Rectangle.h"
+#include "../include/Cube.h"
 #include "../include/Utils.h"
 #include <sstream>
 #include <cmath>
 
 
-Rectangle::Rectangle(Vector p1, Vector p2, Vector p3, Vector p4, Color color, Material material) {
+Cube::Cube(Vector p1, Vector p2, Vector p3, Vector p4, Color color, Material material) {
     this->p1 = p1;
     this->p2 = p2;
     this->p3 = p3;
@@ -13,74 +13,36 @@ Rectangle::Rectangle(Vector p1, Vector p2, Vector p3, Vector p4, Color color, Ma
     this->material = material;
 }
 
-Rectangle::Rectangle() : Rectangle(Vector(), Vector(), Vector(), Vector(), Color()) {
+Cube::Cube() : Cube(Vector(), Vector(), Vector(), Vector(), Color()) {
 
 }
 
-Rectangle::~Rectangle() {
+Cube::~Cube() {
 
 }
 
-Vector decodePoint(stringstream& iss, string& line) {
-    double x, y, z;
-    getline(iss, line, '|');
-    stringstream issPoints(line);
-    issPoints >> x >> y >> z;
-    return Vector(x, y, z);
-}
 
-Color decodeColor(stringstream& iss, string& line) {
-    double red, green, blue;
-    getline(iss, line, '|');
-    stringstream issPoints(line);
-    issPoints >> red >> green >> blue;
-    return Color(red, green, blue);
-}
-
-Material decodeMaterial(string description, stringstream& iss, string& line) {
-    bool m = false, t = false;
-    int begin = 6;
-    size_t pos = Utils::nthOccurrence(description, "|", begin);
-    if (pos == -1) {
-        return Material();
-    }
-    ++begin;
-
-    getline(iss, line, '|');
-    stringstream issMirror(line);
-    issMirror >> m;
-    pos = Utils::nthOccurrence(description, "|", begin);
-    if (pos == -1) {
-        return Material(m);
-    }
-    ++begin;
-    getline(iss, line, '|');
-    stringstream issTransperecy(line);
-    issTransperecy >> t;
-}
-
-Rectangle *Rectangle::create(string description) {
+Cube *Cube::create(string description) {
     int nbPoints = 4;
-    string line;
     stringstream iss(description);
     Vector vs[nbPoints];
     for (int i = 0; i < nbPoints; i++) {
-        vs[i] = decodePoint(iss, line);
+        vs[i] = Utils::decodeVector(iss, '|');
     }
-    Color c = decodeColor(iss, line);
-    Material m = decodeMaterial(description, iss, line);
-    return new Rectangle(vs[0], vs[1], vs[2], vs[3], c, m);
+    Color c = Utils::decodeColor(iss, '|');
+    Material m = Utils::decodeMaterial(description, iss, '|', 5);
+    return new Cube(vs[0], vs[1], vs[2], vs[3], c, m);
 }
 
-const Color Rectangle::getColor() const {
+const Color Cube::getColor() const {
     return color;
 }
 
-const Material Rectangle::getMaterial() const {
+const Material Cube::getMaterial() const {
     return material;
 }
 
-const double Rectangle::minX() const {
+const double Cube::minX() const {
     double minVector = std::min(std::min(p1.getX(), p2.getX()), std::min(p3.getX(), p4.getX()));
 	if(p1.getX() < p2.getX() && p1.getX()< p3.getX() && p1.getX()< p4.getX()){
 		return p1.getX();
@@ -88,7 +50,7 @@ const double Rectangle::minX() const {
 	return p1.getX() - abs(minVector);
 }
 
-const double Rectangle::minY() const {
+const double Cube::minY() const {
     double minVector = std::min(std::min(p1.getY(), p2.getY()), std::min(p3.getY(), p4.getY()));
 	if(p1.getY() < p2.getY() && p1.getY()< p3.getY() && p1.getY()< p4.getY()){
 		return p1.getY();
@@ -96,7 +58,7 @@ const double Rectangle::minY() const {
 	return p1.getY() - abs(minVector); 
 }
 
-const double Rectangle::minZ() const {
+const double Cube::minZ() const {
     double minVector = std::min(std::min(p1.getZ(), p2.getZ()), std::min(p3.getZ(), p4.getZ()));
 	if(p1.getZ() < p2.getZ() && p1.getZ()< p3.getZ() && p1.getZ()< p4.getZ()){
 		return p1.getZ();
@@ -104,7 +66,7 @@ const double Rectangle::minZ() const {
 	return p1.getZ() - abs(minVector);
 }
 
-const double Rectangle::maxX() const {
+const double Cube::maxX() const {
     double maxVector = std::max(std::max(p1.getX(), p2.getX()), std::max(p3.getX(), p4.getX()));
 	if(p1.getX() > p2.getX() && p1.getX() > p3.getX() && p1.getX() > p4.getX()){
 		return p1.getX();
@@ -112,7 +74,7 @@ const double Rectangle::maxX() const {
 	return p1.getX() + abs(maxVector);
 }
 
-const double Rectangle::maxY() const {
+const double Cube::maxY() const {
     double maxVector = std::max(std::max(p1.getY(), p2.getY()), std::max(p3.getY(), p4.getY()));
 	if(p1.getY() > p2.getY() && p1.getY() > p3.getY() && p1.getY()> p4.getY()){
 		return p1.getY();
@@ -120,7 +82,7 @@ const double Rectangle::maxY() const {
 	return p1.getY() + abs(maxVector);
 }
 
-const double Rectangle::maxZ() const {
+const double Cube::maxZ() const {
     double maxVector = std::max(std::max(p1.getZ(), p2.getZ()), std::max(p3.getZ(), p4.getZ()));
 	if(p1.getZ() > p2.getZ() && p1.getZ() > p3.getZ() && p1.getZ() > p4.getZ()){
 		return p1.getZ();
@@ -128,7 +90,7 @@ const double Rectangle::maxZ() const {
 	return p1.getZ() + abs(maxVector);
 }
 
-bool Rectangle::intersect(const Ray &ray, Hit &hit) {
+bool Cube::intersect(const Ray &ray, Hit &hit) {
     double invdx = 1. / ray.getDirection().getX();
     double invdy = 1. / ray.getDirection().getY();
     double invdz = 1. / ray.getDirection().getZ();
@@ -164,7 +126,7 @@ bool Rectangle::intersect(const Ray &ray, Hit &hit) {
     return false;
 }
 
-Rectangle::operator std::string() const {
+Cube::operator std::string() const {
     stringstream ss;
     ss << "Rectangle (p1:" << p1
     << ", p2:" << p2
@@ -175,7 +137,7 @@ Rectangle::operator std::string() const {
     return ss.str();
 }
 
-std::ostream &operator<<(std::ostream &os, const Rectangle &rectangle) {
+std::ostream &operator<<(std::ostream &os, const Cube &rectangle) {
     string text = rectangle;
     os << text;
     return os;

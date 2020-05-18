@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <random>
 #include <sstream>
+#include <limits>
+#include <omp.h>
 
 
 std::default_random_engine engine;
@@ -59,7 +61,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
         return image.backgroundColor();
     }
     Hit hit, hitLight;
-    Color c;
+    Color c = image.backgroundColor();
     bool hasIter = intersect(ray, hit);
     
     if (hasIter) {
@@ -90,9 +92,9 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
                 if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
                     c = image.backgroundColor();
                 } else {
-                    //c = hit.shape->getColor() / M_PI * light.getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
-                    c = hit.shape->getColor() * light.getIntensity();
+                    c = hit.shape->getColor() / M_PI * light.getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
                 } 
+                //c = hit.shape->getColor() * light.getIntensity();
 
                 // ajout contribution indirect
                 if (level == 3) {
@@ -118,7 +120,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
 void Scene::generateScene() {
     double fov = 60. * M_PI / 180.;
 
-    #pragma cmp parallel for
+    #pragma omp parallel for
 	for(int i = 0; i < image.getHeight(); ++i) {
 		for(int j = 0; j < image.getWidth(); ++j) {
             Vector dir = Vector(

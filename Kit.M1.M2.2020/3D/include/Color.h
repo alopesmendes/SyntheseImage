@@ -60,9 +60,11 @@
             */
             const double getGreen() const;
 
-            const Color operator*(double a) const;
-            const Color operator*(const Color& c) const;
-            const Color operator/(double a) const;
+            friend const Color operator*(const Color&, const double&);
+            friend const Color operator*(const double&, const Color&);
+            friend const Color operator*(const Color& a, const Color& b);
+            friend const Color operator/(const Color&, const double&);
+            friend const Color operator/(const double&, const Color&);
             Color &operator+=(const Color &c);
             Color &operator=(const Color &c);
 

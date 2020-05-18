@@ -16,6 +16,7 @@ Hit &Hit::operator=(const Hit &p) {
     this->normal = p.normal;
     this->t = p.t;
     this->shape = p.shape;
+    return *this;
 }
 
 Hit::operator std::string() const {
