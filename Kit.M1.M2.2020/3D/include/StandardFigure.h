@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 #ifndef __STANDARD_FIGURE_HPP__
@@ -19,10 +19,10 @@
         INVALID,
     };
 
-    /*
-    *   @brief According to input will return a StandardFigure.
-    *   @param input: string.
-    *   @return: StandardFigure.
+    /**
+     *  @brief According to input will return a StandardFigure.
+     *  @param input: string.
+     *  @return: StandardFigure.
     */
     StandardFigure resolveStandardFigure(string input);
 

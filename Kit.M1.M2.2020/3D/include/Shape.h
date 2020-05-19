@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 
@@ -25,33 +25,33 @@
             
         public:
 
-            /*
-            *   @brief Constructs a default Shape.
+            /**
+             *  @brief Constructs a default Shape.
             */
             Shape();
 
-            /*
-            *   @brief Deletes the Shape.
+            /**
+             *  @brief Deletes the Shape.
             */
             ~Shape() {};
             
-            /*
-            *   @brief Getter for the color.
-            *   @return Color.
+            /**
+             *  @brief Getter for the color.
+             *  @return Color.
             */
             virtual const Color getColor() const = 0;
 
-            /*
-            *   @brief Getter for material.
-            *   @return Material
+            /**
+             *  @brief Getter for material.
+             *  @return Material
             */
             virtual const Material getMaterial() const = 0;
 
-            /*
-            *   @brief Checks if the ray intersect with our shape and saves it in hit.
-            *   @param ray: const Ray&
-            *   @param Hit: Hit&
-            *   @return bool
+            /**
+             *  @brief Checks if the ray intersect with our shape and saves it in hit.
+             *  @param ray: const Ray&
+             *  @param hit: Hit&
+             *  @return bool
             */
             virtual bool intersect(const Ray& ray, Hit& hit) = 0;
 

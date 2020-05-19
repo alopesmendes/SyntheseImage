@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 #ifndef __MATERIAL_HPP__
@@ -15,25 +15,25 @@
             bool transparecy;
             friend std::ostream& operator<<(std::ostream&, const Material&);
         public:
-            /*
-            *   @brief Constructs default Material.
+            /**
+             *  @brief Constructs default Material.
             */
             Material(bool mirror = false, bool transparecy = false);
 
-            /*
-            *   @brief Deletes Material.
+            /**
+             *  @brief Deletes Material.
             */
             ~Material();
             
-            /*
-            *   @brief Return true if it's a mirror.
-            *   @return bool
+            /**
+             *  @brief Return true if it's a mirror.
+             *  @return bool
             */
             const bool isMirror() const;
 
-            /*
-            *   @brief Return true if it's transparent.
-            *   @return bool
+            /**
+             *  @brief Return true if it's transparent.
+             *  @return bool
             */
             const bool isTransparent() const;
 

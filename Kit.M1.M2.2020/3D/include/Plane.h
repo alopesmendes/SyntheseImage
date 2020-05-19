@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 
@@ -25,36 +25,36 @@
             friend std::ostream& operator<<(std::ostream&, const Plane&);
         public:
 
-            /*
-            *   @brief Constructs a Plane with it's pos, normal, color and material.
-            *   @param pos: Vector
-            *   @param normal: Vector
-            *   @param color: Color
-            *   @param material: Material
+            /**
+             *  @brief Constructs a Plane with it's pos, normal, color and material.
+             *  @param pos: Vector
+             *  @param normal: Vector
+             *  @param color: Color
+             *  @param material: Material
             */
             Plane(Vector pos, Vector normal, Color color, Material material = Material());
 
-            /*
-            *   @brief Constructs default Plane.
+            /**
+             *  @brief Constructs default Plane.
             */
             Plane();
 
-            /*
-            *   @brief Deletes the Plane.
+            /**
+             *  @brief Deletes the Plane.
             */
             ~Plane();
 
-            /*
-            *   @brief Creates a Plane with it's description.
-            *   The format of description should be:
-            *   { pos | normal | color | material }
-            *   { double double double | double double double | double double double | double double } 
-            *   or
-            *   { double double double | double double double | double double double | double }
-            *   or
-            *   { double double double | double double double | double double double } 
-            *   @param description: string
-            *   @return Plane*
+            /**
+             *  @brief Creates a Plane with it's description.
+             *  The format of description should be:
+             *  { pos | normal | color | material }
+             *  { double double double | double double double | double double double | double double } 
+             *  or
+             *  { double double double | double double double | double double double | double }
+             *  or
+             *  { double double double | double double double | double double double } 
+             *  @param description: string
+             *  @return Plane*
             */
             static Plane* create(string description);
 

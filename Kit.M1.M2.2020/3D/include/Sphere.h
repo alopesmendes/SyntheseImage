@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *   @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 
@@ -24,36 +24,36 @@
             
             friend std::ostream& operator<<(std::ostream&, const Sphere&);
         public:
-            /*
-            *   @brief Constructs a Sphere with it's pos, color, radius and Material.
-            *   @param pos: Vector
-            *   @param color: Color
-            *   @param radius: double
-            *   @param material: Material
+            /**
+             *   @brief Constructs a Sphere with it's pos, color, radius and Material.
+             *   @param pos: Vector
+             *   @param color: Color
+             *   @param radius: double
+             *   @param material: Material
             */
             Sphere(Vector pos, Color color, double radius, Material material = Material());
 
-            /*
-            *   @brief Constructs default Sphere.
+            /**
+             *   @brief Constructs default Sphere.
             */
             Sphere();
 
-            /*
-            *   @brief Deletes the Sphere.
+            /**
+             *   @brief Deletes the Sphere.
             */
             ~Sphere() {};
 
-            /*
-            *   @brief Creates a Sphere with it's description.
-            *   The format of description should be:
-            *   { pos | color | radius | material }
-            *   { double double double | double double double | double | double | double}
-            *   or
-            *   { double double double | double double double | double | double }
-            *   or
-            *   { double double double | double double double | double }
-            *   @param description: string
-            *   @return Sphere*
+            /**
+             *   @brief Creates a Sphere with it's description.
+             *   The format of description should be:
+             *   { pos | color | radius | material }
+             *   { double double double | double double double | double | double | double}
+             *   or
+             *   { double double double | double double double | double | double }
+             *   or
+             *   { double double double | double double double | double }
+             *   @param description: string
+             *   @return Sphere*
             */
             static Sphere* create(string description);
 

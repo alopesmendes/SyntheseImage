@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 
@@ -35,68 +35,68 @@
 
             friend std::ostream& operator<<(std::ostream&, const Scene&);
 
-            /*
-            *   @brief Checks if the shapes intersect with the ray and hit allow us to keep track of this shapes.
-            *   @param ray: const Ray&
-            *   @param hit: Hit&
-            *   @return bool
+            /**
+             *  @brief Checks if the shapes intersect with the ray and hit allow us to keep track of this shapes.
+             *  @param ray: const Ray&
+             *  @param hit: Hit&
+             *  @return bool
             */
             bool intersect(const Ray& ray, Hit& hit);
 
-            /*
-            *   @brief Gets the right color for a pixel.
-            *   @return Color.
+            /**
+             *  @brief Gets the right color for a pixel.
+             *  @return Color.
             */
             Color getColor(const Ray& ray, int nbonds = 0);
 
         public:
-            /*
-            *   @brief Constructs a Scene with it's level, file, imName and ps.
-            *   level is between 1-3.
-            *   file the name of the input file.
-            *   imName the name of file where the image generate will be saved.
-            *   ps the number of rays generate.
+            /**
+             *  @brief Constructs a Scene with it's level, file, imName and ps.
+             *  @param level is between 1-3: int
+             *  @param file the name of the input file: string
+             *  @param imName the name of file where the image generate will be saved: string
+             *  @param ps the number of rays generate: ps
             */
             Scene(int level, string file, string imName, int ps);
 
-            /*
-            *   @brief Deletes a Scene.
+            /**
+             *  @brief Deletes a Scene.
             */
             ~Scene();
 
-            /*
-            *   @brief Add camera to the scene.
-            *   @param camera: const Camera&
+            /**
+             *  @brief Add camera to the scene.
+             *  @param camera: const Camera&
             */
             void addCamera(const Camera& camera);
 
-            /*
-            *   @brief Add shape according to it's standardFigure to the scene.
-            *   @param standardFigure: const StandardFigure&
-            *   @param shape: const Shape&
+            /**
+             *  @brief Add shape according to it's standardFigure to the scene.
+             *  @param standardFigure: const StandardFigure&
+             *  @param shape: const Shape&
             */
             void addShape(const StandardFigure& standardFigure, Shape* shape);
 
-            /*
-            *   @brief Add a light to the scene.
-            *   @param l: const Light&
+            /**
+             *  @brief Add a light to the scene.
+             *  @param l: const Light&
             */
             void addLight(const Light& l);
 
-            /*
-            *   @brief Add the image showing the scene.
-            *   @param im: const Image&
+            /**
+             *  @brief Add the image showing the scene.
+             *  @param im: const Image&
             */
             void addImage(const Image& im);
 
-            /*
-            *   @brief Generates the scene.
-            *   Will set every pixel of the image it's color.
+            /**
+             *  @brief Generates the scene.
+             *  Will set every pixel of the image it's color.
             */
             void generateScene();
 
-            /*
-            *   @brief Builds the scene.
+            /**
+             *  @brief Builds the scene.
             */
             void buildImage();
 

@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 #ifndef __COLOR_HPP__
@@ -16,15 +16,15 @@
 
             friend std::ostream& operator<<(std::ostream&, const Color&);
 
-            /*
-            *   @brief Returns the clamp of value with the gamma correction.
-            *   @param value: double
-            *   @return double
+            /**
+             *  @brief Returns the clamp of value with the gamma correction.
+             *  @param value: double
+             *  @return double
             */
             const double clamp(double value) const;
         
         public:
-            /*
+            /**
             *   @brief Constructs a Color with it's red, green, and blue coordonates.
             *   @param red: double.
             *   @param green: double.
@@ -32,31 +32,31 @@
             */
             Color(double red, double green, double blue);
 
-            /*
-            *   @brief Constructs by default a Color where every coordonate values 0.
+            /**
+             *  @brief Constructs by default a Color where every coordonate values 0.
             */
             Color();
 
-            /*
-            *   @brief Deletes Color.
+            /**
+             *  @brief Deletes Color.
             */
             ~Color();
 
-            /*
-            *   @brief Getter for red.
-            *   @return red;
+            /**
+             *  @brief Getter for red.
+             *  @return red;
             */
             const double getRed() const;
 
-            /*
-            *   @brief Getter for blue.
-            *   @return blue;
+            /**
+             *  @brief Getter for blue.
+             *  @return blue;
             */
             const double getBlue() const;
 
-            /*
-            *   @brief Getter for green.
-            *   @return green;
+            /**
+             *  @brief Getter for green.
+             *  @return green;
             */
             const double getGreen() const;
 

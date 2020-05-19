@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 #ifndef __RAY_HPP__
@@ -18,32 +18,32 @@
 
             friend std::ostream& operator<<(std::ostream&, const Ray&);
         public:
-            /*
-            *   @brief Constructs a Ray with it's origin and direction.
-            *   @param origin: Vector
-            *   @param direction: Vector
+            /**
+             *  @brief Constructs a Ray with it's origin and direction.
+             *  @param origin: Vector
+             *  @param direction: Vector
             */
             Ray(Vector origin, Vector direction);
 
-            /*
-            *   @brief Constructs a default Ray.
+            /**
+             *  @brief Constructs a default Ray.
             */
             Ray();
 
-            /*
-            *   Deletes Ray.
+            /**
+             *  @brief Deletes Ray.
             */
             ~Ray();
 
-            /*
-            *   Getter for origin.
-            *   @return Vector
+            /**
+             *  @brief Getter for origin.
+             *  @return Vector
             */
             Vector getOrigin() const;
 
-            /*
-            *   Getter for direction.
-            *   @return Vector.
+            /**
+             *  @brief Getter for direction.
+             *  @return Vector.
             */
             Vector getDirection() const;
 

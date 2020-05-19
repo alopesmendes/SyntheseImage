@@ -1,5 +1,5 @@
-/*
-*   @Authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
 */
 
 #ifndef __HIT_HPP__
@@ -27,13 +27,13 @@
             double t;
             Shape* shape;
 
-            /*
-            *   @brief Constructs default Hit.
+            /**
+             *  @brief Constructs default Hit.
             */
             Hit();
 
-            /*
-            *   @brief Deletes Hit
+            /**
+             *  @brief Deletes Hit
             */
             ~Hit();
 
