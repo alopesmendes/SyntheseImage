@@ -18,8 +18,6 @@
     class Sphere: public Shape {
         private:
             Vector pos;
-            Color color;
-            Material material;
             double radius;
             
             friend std::ostream& operator<<(std::ostream&, const Sphere&);
@@ -47,9 +45,7 @@
              *   @brief Creates a Sphere with it's description.
              *   The format of description should be:
              *   { pos | color | radius | material }
-             *   { double double double | double double double | double | double | double}
-             *   or
-             *   { double double double | double double double | double | double }
+             *   { double double double | double double double | double | double  double}
              *   or
              *   { double double double | double double double | double }
              *   @param description: string

@@ -16,6 +16,8 @@
 #include "../include/Ray.h"
 #include "../include/Image.h"
 #include "../include/Plane.h"
+#include "../include/Triangle.h"
+#include "../include/Box.h"
 
 using namespace std;
 
@@ -37,7 +39,7 @@ Parser Parser::init(int argc, char **argv, string opts) {
     int level;
     string file;
     string imageName;
-    int ps = 1;
+    int ps = 0;
     int this_option_optind = optind ? optind : 1;
     int option_index = 0;
     static struct option long_options[] = {
@@ -75,6 +77,9 @@ void Parser::addToScene(Parser parser, StandardFigure sf, string description, Sc
         case CAMERA:
             scene.addCamera((*Camera::create(description)));
             break;
+        case LIGHT:
+            scene.addLight((*Light::create(description)));
+            break;
         case SPHERE:
             scene.addShape(sf, Sphere::create(description));
             break;
@@ -84,8 +89,11 @@ void Parser::addToScene(Parser parser, StandardFigure sf, string description, Sc
         case PLANE:
             scene.addShape(sf, Plane::create(description));
             break;
-        case LIGHT:
-            scene.addLight((*Light::create(description)));
+        case TRIANGLE:
+            scene.addShape(sf, Triangle::create(description));
+            break;
+        case BOX:
+            scene.addShape(sf, Box::create(description));
             break;
         case INVALID:
             cout << "Invalid" << endl;

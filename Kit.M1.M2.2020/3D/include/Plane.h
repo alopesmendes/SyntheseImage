@@ -19,8 +19,6 @@
         private:
             Vector pos;
             Vector normal;
-            Color color;
-            Material material;
             
             friend std::ostream& operator<<(std::ostream&, const Plane&);
         public:

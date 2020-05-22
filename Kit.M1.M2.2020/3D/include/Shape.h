@@ -22,13 +22,12 @@
         private:
             
             friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
-            
-        public:
+        
+        protected:
+            Color color;
+            Material material;
 
-            /**
-             *  @brief Constructs a default Shape.
-            */
-            Shape();
+        public:
 
             /**
              *  @brief Deletes the Shape.

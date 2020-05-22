@@ -13,12 +13,24 @@
         private:
             bool mirror;
             bool transparecy;
+            double ambience;
+            double diffuse;
+            double specular;
+            double reflectance;
+            int specularExponent;
             friend std::ostream& operator<<(std::ostream&, const Material&);
+
+            friend std::istream& operator>>(std::istream&, Material&);
         public:
+            /**
+             *  @brief Constructs a Material with it's ambience, diffuse, specular, refletance and specularExponent.
+            */
+            Material(bool mirror, bool transparecy);
+
             /**
              *  @brief Constructs default Material.
             */
-            Material(bool mirror = false, bool transparecy = false);
+            Material();
 
             /**
              *  @brief Deletes Material.

@@ -18,5 +18,5 @@
     #include "Light.h"
     #include "Hit.h"
     #include "Material.h"
-
+    #include "Box.h"
 #endif

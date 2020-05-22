@@ -31,7 +31,7 @@ void Scene::addShape(const StandardFigure &standardFigure, Shape* shape) {
 }
 
 void Scene::addLight(const Light &l) {
-    light = l;
+    lights.push_back(l);
 }
 
 void Scene::addImage(const Image &im) {
@@ -85,19 +85,20 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
                 }
             } else {
                 // contribution eclairage direct
-                Vector v = light.getPos() - hit.pos;
-                double d_light2 = v.scalarProduct(v);
-                Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
-                bool hasIterLight = intersect(rayLight, hitLight);
-                if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
-                    c = image.backgroundColor();
-                } else {
-                    c = hit.shape->getColor() / M_PI * light.getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
-                } 
-                //c = hit.shape->getColor() * light.getIntensity();
+                for (auto light = lights.begin(); light != lights.end(); light++) {
+                    Vector v = light->getPos() - hit.pos;
+                    double d_light2 = v.scalarProduct(v);
+                    Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
+                    bool hasIterLight = intersect(rayLight, hitLight);
+                    if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
+                        c += image.backgroundColor();
+                    } else {
+                        c += hit.shape->getColor() / M_PI * light->getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
+                    } 
+                }
 
                 // ajout contribution indirect
-                if (level == 3) {
+                if (level == 3 && ps > 0) {
                     double r1 = uniform(engine), r2 = uniform(engine);
                     double x = cos(2 * M_PI * r1) * sqrt(1 - r2);
                     double y = sin(2 * M_PI * r1) * sqrt(1 - r2);
@@ -117,19 +118,46 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
     return c;
 }
 
-void Scene::generateScene() {
+/*
+Color Scene::getColor(const Ray &ray, int nbonds) {
+    if (nbonds == 0) {
+        return image.backgroundColor();
+    }
+    Hit hit, hitLight;
+    bool hasIter = intersect(ray, hit);
+    if (!hasIter) {
+        return image.backgroundColor();
+    }
+    Color c = image.backgroundColor();
+    for (auto light = lights.begin(); light != lights.end(); ++light) {
+        Vector v = light->getPos() - hit.pos;
+        Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
+        bool hasIterLight = intersect(rayLight, hitLight);
+        double d_light2 = v.scalarProduct(v);
+        if (hasIterLight && hitLight.t*hitLight.t <= d_light2) {
+            c += Color();
+        } else {
+            c += hit.shape->getColor() / M_PI * light->getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
+        }
+
+    }
+    return c;
+}
+*/
+void Scene::render() {
     double fov = 60. * M_PI / 180.;
 
     #pragma omp parallel for
 	for(int i = 0; i < image.getHeight(); ++i) {
 		for(int j = 0; j < image.getWidth(); ++j) {
-            Vector dir = Vector(
+            /*Vector dir = Vector(
                 j - image.getWidth() / 2.,
                 i - image.getHeight() / 2.,
                 -image.getWidth() / (2. * tan(fov / 2.))
             );
             dir.normalize();
-            Ray ray = Ray(camera.getPos(), dir);
+            Ray ray = Ray(camera.getPos(), dir);*/
+            Ray ray = camera.makeRay(i, j, image);
             Color c;
             int nrays = level == 3 ? ps : 1;
             for (int k = 0; k < nrays; ++k) {
@@ -148,7 +176,11 @@ Scene::operator std::string() const {
     stringstream ss;
     ss << image << endl;
     ss << camera << endl;
-    ss << light << endl;
+    ss << "Lights {" << endl;
+    for (auto i = lights.begin(); i != lights.end(); i++) {
+        ss << '\t' << (*i) << endl;
+    }
+    ss << "}"<< endl;
     ss << "Shapes {" << endl;
     for (auto i = shapes.begin(); i != shapes.end(); ++i) {
         for (auto j = i->second.begin(); j != i->second.end(); ++j) {

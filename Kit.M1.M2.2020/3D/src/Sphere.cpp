@@ -60,9 +60,9 @@ const Material Sphere::getMaterial() const {
 Sphere::operator std::string() const {
     stringstream ss;
     ss << "Sphere (position:" << pos 
-    << ", color:" << color 
     << ", radius:" << radius 
-    << ", material:" << material
+    << ", " << color 
+    << ", " << material
     << ")";
     return ss.str();
 }

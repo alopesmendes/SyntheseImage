@@ -8,17 +8,19 @@
     #include <iostream>
     #include <string>
     #include "Vector.h"
+    #include "Ray.h"
+    #include "Image.h"
 
     using namespace std;
 
     class Vector;
+    class Ray;
+    class Image;
     class Camera {
         private:
             Vector pos;
             Vector target;
-            double theta;
-            double phi;
-            double dist;
+            double theta,phi,dist;
 
             friend std::ostream& operator<<(std::ostream&, const Camera&);
         public:
@@ -28,7 +30,7 @@
              *  @param target: Vector
              *  @param theta: double
              *  @param phi: double
-             *  @param dist: double
+             *  @param dist:double
             */
             Camera(Vector pos, Vector target, double theta, double phi, double dist);
 
@@ -57,6 +59,15 @@
              *  @return Vector
             */
             const Vector getPos() const;
+
+            /**
+             *  @brief Makes a ray from the camera.
+             *  @param i: const int&
+             *  @param j: const int&
+             *  @param im: const Image&
+             *  @return: Ray.
+            */
+            Ray makeRay(const int &u, const int &v, const Image& im);
 
             virtual operator std::string() const;
     };

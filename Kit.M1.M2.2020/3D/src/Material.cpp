@@ -6,6 +6,9 @@ Material::Material(bool mirror, bool transparecy) {
     this->transparecy = transparecy;
 }
 
+Material::Material() : Material(false, false) {
+    
+}
 
 Material::~Material() {
 
@@ -30,4 +33,8 @@ std::ostream &operator<<(std::ostream &os, const Material &material) {
     string text = material;
     os << text;
     return os;
+}
+
+std::istream &operator>>(std::istream &is, Material &material) {
+    return is >> material.mirror >> material.transparecy;
 }

@@ -57,7 +57,9 @@ Plane::operator string() const {
     stringstream ss;
     ss << "Plane (position:" << pos
     << ", normal:" << normal
-    << ", color:" << color << ")"; 
+    << ", " << color
+    << ", " << material
+    << ")"; 
     return ss.str();
 }
 

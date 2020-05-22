@@ -41,6 +41,14 @@ Vector operator*(const double &a, const Vector &b) {
     return Vector(b.x * a, b.y * a, b.z * a);
 }
 
+Vector operator*(const Vector &a, const Vector &b) {
+    return Vector(a.x * b.x, a.y * b.y, a.z * b.z);
+}
+
+Vector operator/(const Vector &a, const Vector &b) {
+    return Vector(a.x / b.x, a.y / b.y, a.z / b.z);
+}
+
 Vector operator/(const Vector &a, const double &b) {
     return Vector(a.x / b, a.y / b, a.z / b);
 }
@@ -51,6 +59,10 @@ Vector operator/(const double &a, const Vector &b) {
 
 double Vector::scalarProduct(const Vector &v) {
     return this->x * v.x + this->y * v.y + this->z * v.z;
+}
+
+double Vector::norm(const Vector &v) {
+    return sqrt(this->x * v.x + this->y * v.y + this->z * v.z);
 }
 
 void Vector::normalize() {
@@ -96,4 +108,8 @@ std::ostream& operator<<(std::ostream& os, const Vector& vector) {
     string text = vector;
     os << text;
     return os;
+}
+
+std::istream &operator>>(std::istream &is, Vector &vector) {
+    return is >> vector.x >> vector.y >> vector.z;
 }

@@ -14,46 +14,38 @@ size_t Utils::nthOccurrence(const string& str, const string& findMe, int nth) {
     return pos;
 }
 
-void Utils::decode3double(std::stringstream &iss, const char &separator, double &x, double &y, double &z) {
-    string line;
-    getline(iss, line, '|');
-    stringstream issPoints(line);
-    issPoints >> x >> y >> z;
-}
-
 Vector Utils::decodeVector(std::stringstream &iss, const char &separator) {
-    double x, y, z;
-    decode3double(iss, separator, x, y, z);
-    return Vector(x, y, z);
+    string line;
+    getline(iss, line, separator);
+    stringstream issVector(line);
+    Vector v;
+    issVector >> v;
+    return v;
 }
 
 Color Utils::decodeColor(std::stringstream &iss, const char &separator) {
-    double red, green, blue;
-    decode3double(iss, separator, red, green, blue);
-    return Color(red, green, blue);
+    string line;
+    getline(iss, line, separator);
+    stringstream issColor(line);
+    Color c;
+    issColor >> c;
+    return c;
 }
 
 Material Utils::decodeMaterial(const std::string &description, std::stringstream &iss, const char &separator, const int &position) {
-    bool m = false, t = false;
     string line;
     stringstream ss;
     ss << separator;
     size_t posIndex = Utils::nthOccurrence(description, ss.str(), position);
+    Material m;
     if (posIndex == -1) {
-        return Material();
+        return m;
     }
 
     getline(iss, line, separator);
-    stringstream issMirror(line);
-    issMirror >> m;
-    posIndex = Utils::nthOccurrence(description, ss.str(), position + 1);
-    if (posIndex == -1) {
-        return Material(m);;
-    }
-    getline(iss, line, separator);
-    stringstream issTransperecy(line);
-    issTransperecy >> t;
-    return Material(m, t);
+    stringstream issMaterial(line);
+    issMaterial >> m;
+    return m;
 }
 
 double Utils::decodeDouble(std::stringstream &iss, const char &separator) {

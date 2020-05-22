@@ -16,12 +16,15 @@
 
             friend std::ostream& operator<<(std::ostream&, const Color&);
 
+            friend std::istream& operator>>(std::istream&, Color&);
+
             /**
              *  @brief Returns the clamp of value with the gamma correction.
              *  @param value: double
              *  @return double
             */
             const double clamp(double value) const;
+
         
         public:
             /**
@@ -29,6 +32,7 @@
             *   @param red: double.
             *   @param green: double.
             *   @param blue: double.
+            *   @param opacity: double.
             */
             Color(double red, double green, double blue);
 

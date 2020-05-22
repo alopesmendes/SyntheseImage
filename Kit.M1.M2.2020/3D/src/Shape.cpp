@@ -1,10 +1,6 @@
 #include "../include/Shape.h"
 #include <sstream>
 
-Shape::Shape() {
-
-}
-
 
 Shape::operator std::string() const {
     stringstream ss;

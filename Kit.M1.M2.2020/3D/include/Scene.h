@@ -26,7 +26,7 @@
         private:
             Image image;
             Camera camera;
-            Light light;
+            vector<Light> lights;
             map<StandardFigure, vector<Shape*>> shapes;
             int level;
             string file;
@@ -93,7 +93,7 @@
              *  @brief Generates the scene.
              *  Will set every pixel of the image it's color.
             */
-            void generateScene();
+            void render();
 
             /**
              *  @brief Builds the scene.

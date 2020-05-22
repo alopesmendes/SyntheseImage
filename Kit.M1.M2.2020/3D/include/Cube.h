@@ -21,8 +21,6 @@
             Vector p2;
             Vector p3;
             Vector p4;
-            Color color;
-            Material material;
             
             friend std::ostream& operator<<(std::ostream&, const Cube&);
         public:
@@ -50,15 +48,10 @@
             /**
              *  @brief Creates a Cube with it's description.
              *  The format of description should be:
-             *  { p1 | p2 | p3 | p4 | 
-             *  color | material }
-             *  { double double double | double double double | double double double | double double double | 
-             *  double double double | double | double }
+             *  { p1 | p2 | p3 | p4 | color | material }
+             *  { double double double | double double double | double double double | double double double |  double double double | double double }
              *  or
-             *  { double double double | double double double | double double double | double double double | 
-             *  double double double | double }
-             *  { double double double | double double double | double double double | double double double | 
-             *  double double double }
+             *  { double double double | double double double | double double double | double double double | double double double }
              *  @param description: string
              *  @return Cube*
             */

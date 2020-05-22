@@ -24,6 +24,8 @@ StandardFigure resolveStandardFigure(string input) {
         { "cube", CUBE },
         { "plane", PLANE }, 
         { "light", LIGHT },
+        { "triangle", TRIANGLE},
+        { "box", BOX},
     };
     
     input.erase(remove_if(input.begin(), input.end(), ::isspace), input.end());

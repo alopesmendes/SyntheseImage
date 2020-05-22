@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     
     Scene scene = Parser::parser(argc, argv);
     cout << scene << endl;
-    scene.generateScene();
+    scene.render();
     scene.buildImage();
     return 0;
 }

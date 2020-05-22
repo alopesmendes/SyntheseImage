@@ -18,6 +18,7 @@ Color &Color::operator+=(const Color &c) {
     this->red += c.red;
     this->green += c.green;
     this->blue += c.blue;
+
     return (*this);
 }
 
@@ -27,6 +28,7 @@ Color &Color::operator=(const Color &c) {
     this->blue = c.blue;
     return (*this);
 }
+
 
 const double Color::clamp(double value) const {
     return min(255., max(0., pow(value, 1/2.2)));
@@ -66,7 +68,10 @@ const Color operator/(const double &a, const Color &b) {
 
 Color::operator std::string() const {
     stringstream ss;
-    ss << "Color (r:" << red << ", g:" << green << ", b:" << blue << ")";
+    ss << "Color (r:" << red
+    << ", g:" << green 
+    << ", b:" << blue 
+    << ")";
     return ss.str();
 }
 
@@ -74,4 +79,8 @@ std::ostream& operator<<(std::ostream& os, const Color& color) {
     string text = color;
     os << text;
     return os;
+}
+
+std::istream &operator>>(std::istream &is, Color &color) {
+    return is >> color.red >> color.green >> color.blue;
 }

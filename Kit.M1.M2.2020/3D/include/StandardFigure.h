@@ -10,13 +10,15 @@
     using namespace std;
 
     enum StandardFigure {
+        INVALID,
         IMAGE,
         CAMERA,
+        LIGHT,
         SPHERE,
         CUBE,
+        TRIANGLE,
         PLANE,
-        LIGHT,
-        INVALID,
+        BOX,
     };
 
     /**

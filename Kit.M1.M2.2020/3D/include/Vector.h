@@ -15,6 +15,8 @@
             double x, y, z;
 
             friend std::ostream& operator<<(std::ostream&, const Vector&);
+
+            friend std::istream& operator>>(std::istream&, Vector&);
         public:
             /**
              *   @brief Constructs a Vector with it's x, y, and z coordonates.
@@ -52,6 +54,13 @@
              *   @brief Normalize the Vector.
             */
             void normalize();
+            
+            /**
+             *  @brief Calculates the norm.
+             *  @param v: const Vector &
+             *  @return double
+            */
+            double norm(const Vector &v);
 
             /**
              *   @brief Returns the vector normalized.
@@ -84,6 +93,8 @@
             friend Vector operator-(const double&, const Vector&);
             friend Vector operator*(const Vector&, const double&);
             friend Vector operator*(const double&, const Vector&);
+            friend Vector operator*(const Vector&, const Vector&);
+            friend Vector operator/(const Vector&, const Vector&);
             friend Vector operator/(const Vector&, const double&);
             friend Vector operator/(const double&, const Vector&);
             virtual operator std::string() const;

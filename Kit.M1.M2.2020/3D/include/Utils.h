@@ -18,17 +18,6 @@
     class Color;
     class Material;
     class Utils {
-        private:
-            /**
-             *  @brief Will decode iss according to the seperator and attribuate the 3 values to x, y, z.
-             *  The format of has to be three doubles seperated by spaces. 
-             *  @param iss: stringstream&
-             *  @param separator: const char&
-             *  @param x: double&
-             *  @param y: double&
-             *  @param z: double&
-            */
-            static void decode3double(stringstream& iss, const char& separator, double& x, double& y, double& z);
         public:
             /**
              *  @brief Will return the position of `nth` occurence of `findMe` in `str`.
