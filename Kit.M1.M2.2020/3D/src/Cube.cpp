@@ -34,14 +34,6 @@ Cube *Cube::create(string description) {
     return new Cube(vs[0], vs[1], vs[2], vs[3], c, m);
 }
 
-const Color Cube::getColor() const {
-    return color;
-}
-
-const Material Cube::getMaterial() const {
-    return material;
-}
-
 const double Cube::minX() const {
     double minVector = std::min(std::min(p1.getX(), p2.getX()), std::min(p3.getX(), p4.getX()));
 	if(p1.getX() < p2.getX() && p1.getX()< p3.getX() && p1.getX()< p4.getX()){

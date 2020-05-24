@@ -93,8 +93,7 @@
             */
             const double maxZ() const;
 
-            virtual const Color getColor() const;
-            virtual const Material getMaterial() const;
+
             virtual bool intersect(const Ray& ray, Hit& hit);
 
             virtual operator std::string() const;

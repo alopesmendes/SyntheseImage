@@ -49,13 +49,6 @@ bool Sphere::intersect(const Ray& ray, Hit& hit) {
     return true;
 }
 
-const Color Sphere::getColor() const {
-    return color;
-}
-
-const Material Sphere::getMaterial() const {
-    return material;
-}
 
 Sphere::operator std::string() const {
     stringstream ss;

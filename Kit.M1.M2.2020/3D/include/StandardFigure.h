@@ -19,6 +19,8 @@
         TRIANGLE,
         PLANE,
         BOX,
+        CONE,
+        CYLINDER,
     };
 
     /**

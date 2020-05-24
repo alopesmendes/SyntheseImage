@@ -18,6 +18,8 @@
 #include "../include/Plane.h"
 #include "../include/Triangle.h"
 #include "../include/Box.h"
+#include "../include/Cone.h"
+#include "../include/Cylinder.h"
 
 using namespace std;
 
@@ -94,6 +96,12 @@ void Parser::addToScene(Parser parser, StandardFigure sf, string description, Sc
             break;
         case BOX:
             scene.addShape(sf, Box::create(description));
+            break;
+        case CONE:
+            scene.addShape(sf, Cone::create(description));
+            break;
+        case CYLINDER:
+            scene.addShape(sf, Cylinder::create(description));
             break;
         case INVALID:
             cout << "Invalid" << endl;

@@ -28,13 +28,6 @@ Box *Box::create(std::string description) {
     return new Box(bbmin, bbmax, color, material);
 }
 
-const Color Box::getColor() const {
-    return color;
-}
-
-const Material Box::getMaterial() const {
-    return material;
-}
 
 bool Box::intersect(const Ray &ray, Hit &hit) {
     

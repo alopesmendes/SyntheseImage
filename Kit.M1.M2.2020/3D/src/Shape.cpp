@@ -2,6 +2,14 @@
 #include <sstream>
 
 
+const Color Shape::getColor() const {
+    return color;
+}
+
+const Material Shape::getMaterial() const {
+    return material;
+}
+
 Shape::operator std::string() const {
     stringstream ss;
     ss << "Shape";

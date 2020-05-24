@@ -32,13 +32,6 @@ Triangle *Triangle::create(std::string description) {
     return new Triangle(v0, v1, v2, color, material);
 }
 
-const Color Triangle::getColor() const {
-    return color;
-}
-
-const Material Triangle::getMaterial() const {
-    return material;
-}
 
 bool Triangle::intersect(const Ray &ray, Hit &hit) {
     /*double u, v;

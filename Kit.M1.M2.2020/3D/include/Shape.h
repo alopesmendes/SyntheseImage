@@ -38,13 +38,13 @@
              *  @brief Getter for the color.
              *  @return Color.
             */
-            virtual const Color getColor() const = 0;
+            virtual const Color getColor() const;
 
             /**
              *  @brief Getter for material.
              *  @return Material
             */
-            virtual const Material getMaterial() const = 0;
+            virtual const Material getMaterial() const;
 
             /**
              *  @brief Checks if the ray intersect with our shape and saves it in hit.

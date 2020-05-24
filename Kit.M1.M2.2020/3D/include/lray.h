@@ -19,4 +19,6 @@
     #include "Hit.h"
     #include "Material.h"
     #include "Box.h"
+    #include "Cone.h"
+    #include "Cylinder.h"
 #endif

@@ -26,13 +26,6 @@ Plane *Plane::create(string description) {
     return new Plane(pos, normal, color, material);
 }
 
-const Color Plane::getColor() const {
-    return color;
-}
-
-const Material Plane::getMaterial() const {
-    return material;
-}
 
 bool Plane::intersect(const Ray &ray, Hit &hit) {
     double dDotN = ray.getDirection().scalarProduct(normal);
