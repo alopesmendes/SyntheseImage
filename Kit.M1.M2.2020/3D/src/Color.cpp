@@ -29,21 +29,24 @@ Color &Color::operator=(const Color &c) {
     return (*this);
 }
 
+const double Color::gammaCorrection(double value) const {
+    return pow(value, 1/2.2);
+}
 
-const double Color::clamp(double value) const {
-    return min(255., max(0., pow(value, 1/2.2)));
+const double Color::clamp(double value, const double &vmin, const double &vmax) const {
+    return min(vmax, max(vmin, value));
 }
 
 const double Color::getRed() const {
-    return clamp(red);
+    return clamp(gammaCorrection(red), 0., 255);
 }
 
 const double Color::getBlue() const {
-    return clamp(blue);
+    return clamp(gammaCorrection(blue), 0., 255.);
 }
 
 const double Color::getGreen() const {
-    return clamp(green);
+    return clamp(gammaCorrection(green), 0., 255.);
 }
 
 const Color operator*(const Color &a, const double &b) {
@@ -64,6 +67,10 @@ const Color operator/(const Color &a, const double &b) {
 
 const Color operator/(const double &a, const Color &b) {
     return Color(a / b.red, a / b.green, a / b.blue);
+}
+
+const Color operator+(const Color &a, const Color &b) {
+    return Color(a.red + b.red, a.green + b.green, a.blue + b.blue);
 }
 
 Color::operator std::string() const {

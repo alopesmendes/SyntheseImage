@@ -1,5 +1,9 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will decode the lines.
+ *  @see Vector.h
+ *  @see Color.h
+ *  @see Material.h
 */
 
 #ifndef __UTILS_HPP__

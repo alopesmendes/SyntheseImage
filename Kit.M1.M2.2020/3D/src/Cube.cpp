@@ -106,13 +106,13 @@ bool Cube::intersect(const Ray &ray, Hit &hit) {
 
     double tfirst = std::max(std::max(t_min_x, t_min_y), t_min_z);
 
-    hit.t = tfirst > 0 ? tfirst : 0;
-    hit.pos = ray.getOrigin() + ray.getDirection()*hit.t;
-    Vector pos = p1;
-    hit.normal = (hit.pos - pos).getNormalized();
-    hit.shape = &(*this);
-
     if (tlast - tfirst >= -0.000001) {
+        hit.t = tfirst > 0 ? tfirst : 0;
+        hit.pos = ray.getOrigin() + ray.getDirection()*hit.t;
+        Vector pos = p1;
+        hit.normal = (hit.pos - pos).getNormalized();
+        hit.shape = &(*this);
+
         return true;
     }
     return false;

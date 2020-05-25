@@ -38,7 +38,7 @@ void Scene::addImage(const Image &im) {
     image = im;
 }
 
-bool Scene::intersect(const Ray& ray, Hit& hit) {
+const bool Scene::intersect(const Ray &ray, Hit &hit) const {
     bool hasItersect = false;
     hit.t = INFINITY;
     for (auto categorie = shapes.begin(); categorie != shapes.end(); ++categorie) {
@@ -56,7 +56,7 @@ bool Scene::intersect(const Ray& ray, Hit& hit) {
     return hasItersect;
 }
 
-Color Scene::getColor(const Ray &ray, int nbonds) {
+Color Scene::traceRay(const Ray &ray, int nbonds) {
     if (nbonds == 0) {
         return image.backgroundColor();
     }
@@ -68,7 +68,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
         if ( hit.shape->getMaterial().isMirror() ) {
             Vector dMirror = ray.getDirection() - hit.normal * 2 * hit.normal.scalarProduct(ray.getDirection());
             Ray rMirror = Ray(hit.pos + hit.normal*0.001, dMirror);
-            c = getColor(rMirror, nbonds - 1);
+            c = traceRay(rMirror, nbonds - 1);
         } else {
             if ( hit.shape->getMaterial().isTransparent() ) {
                 double n1 = 1, n2 = 1.3;
@@ -81,20 +81,12 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
                 if (radical > 0) {
                     Vector dirRef = (ray.getDirection() - nt * nt.scalarProduct(ray.getDirection())) * (n1/n2) - nt * sqrt(radical);
                     Ray rayRef = Ray(hit.pos - nt*0.001, dirRef);
-                    c = getColor(rayRef, nbonds - 1);
+                    c = traceRay(rayRef, nbonds - 1);
                 }
             } else {
                 // contribution eclairage direct
                 for (auto light = lights.begin(); light != lights.end(); light++) {
-                    Vector v = light->getPos() - hit.pos;
-                    double d_light2 = v.scalarProduct(v);
-                    Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
-                    bool hasIterLight = intersect(rayLight, hitLight);
-                    if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
-                        c += image.backgroundColor();
-                    } else {
-                        c += hit.shape->getColor() / M_PI * light->getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
-                    } 
+                    c+= light->getColor((*this), hit);
                 }
 
                 // ajout contribution indirect
@@ -110,7 +102,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
                     
                     Vector dRandom = hit.normal*z + tangent1*x + tangent2*y;
                     Ray rayRandom = Ray(hit.pos + hit.normal*0.001, dRandom);
-                    c += hit.shape->getColor() * getColor(rayRandom, nbonds - 1);
+                    c += hit.shape->getColor() * traceRay(rayRandom, nbonds - 1);
                 }
             }
         }
@@ -119,7 +111,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
 }
 
 /*
-Color Scene::getColor(const Ray &ray, int nbonds) {
+Color Scene::traceRay(const Ray &ray, int nbonds) {
     if (nbonds == 0) {
         return image.backgroundColor();
     }
@@ -130,16 +122,7 @@ Color Scene::getColor(const Ray &ray, int nbonds) {
     }
     Color c = image.backgroundColor();
     for (auto light = lights.begin(); light != lights.end(); ++light) {
-        Vector v = light->getPos() - hit.pos;
-        Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
-        bool hasIterLight = intersect(rayLight, hitLight);
-        double d_light2 = v.scalarProduct(v);
-        if (hasIterLight && hitLight.t*hitLight.t <= d_light2) {
-            c += Color();
-        } else {
-            c += hit.shape->getColor() / M_PI * light->getIntensity() * max(0., v.getNormalized().scalarProduct(hit.normal)) / d_light2;
-        }
-
+        c += light->getColor((*this), hit); 
     }
     return c;
 }
@@ -161,7 +144,7 @@ void Scene::render() {
             Color c;
             int nrays = level == 3 ? ps : 1;
             for (int k = 0; k < nrays; ++k) {
-                c += getColor(ray, 5) / nrays;
+                c += traceRay(ray, 5) / nrays;
             }
             image.setPixel(i, j, c);
 		}

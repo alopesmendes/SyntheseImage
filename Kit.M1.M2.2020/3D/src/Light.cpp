@@ -38,6 +38,28 @@ Vector Light::getPos() const {
     return pos;
 }
 
+Color Light::getColor(const Scene &scene, const Hit &hit) {
+    Color diffuse, specular, c;
+    Hit hitLight;
+    c = hit.shape->getColor() * 0.01;
+    Vector v = pos - hit.pos;
+    double d_light2 = v.scalarProduct(v);
+    Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
+    bool hasIterLight = scene.intersect(rayLight, hitLight);
+    if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
+        return Color();
+    } 
+    Vector normal = hit.normal;
+    Vector dir = rayLight.getDirection() - 2 * rayLight.getDirection().scalarProduct(normal) * normal;
+    Ray rRefl = Ray(hit.pos, -1 * dir);
+    double kd = max(0.0, normal.scalarProduct(rayLight.getDirection()));
+    double ks = pow(max(0.0, (rayLight.getDirection().scalarProduct(rRefl.getDirection()))), 2.);
+    diffuse = kd * hit.shape->getColor();
+    specular = ks * hit.shape->getColor();
+    c += hit.shape->getColor() + intensity * (diffuse + specular);
+    return c;
+}
+
 Light::operator std::string() const {
     stringstream ss;
     ss << "Light ( position:" << pos 

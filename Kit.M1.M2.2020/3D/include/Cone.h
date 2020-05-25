@@ -1,5 +1,9 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will generate a Cone that implements a Shape.
+ *  And will verify if a ray intersect this shape.
+ *  @see Shape.h
+ *  @see Vector.h
 */
 
 
@@ -34,7 +38,7 @@
             /**
              *  @brief Constructs default Cone.
             */
-            Cone(/* args */);
+            Cone();
 
             /**
              *  @brief Deletes a Cone.

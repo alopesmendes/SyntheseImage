@@ -1,5 +1,12 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will create a scene with it's camera, lights and shapes.
+ *  Will build a image after it traces it's rays to determine the color of the pixels.
+ *  @see Camera.h
+ *  @see StandardFigure.h"
+ *  @see Shape.h
+ *  @see Image.h
+ *  @see Light.h
 */
 
 
@@ -36,18 +43,10 @@
             friend std::ostream& operator<<(std::ostream&, const Scene&);
 
             /**
-             *  @brief Checks if the shapes intersect with the ray and hit allow us to keep track of this shapes.
-             *  @param ray: const Ray&
-             *  @param hit: Hit&
-             *  @return bool
-            */
-            bool intersect(const Ray& ray, Hit& hit);
-
-            /**
              *  @brief Gets the right color for a pixel.
              *  @return Color.
             */
-            Color getColor(const Ray& ray, int nbonds = 0);
+            Color traceRay(const Ray& ray, int nbonds = 0);
 
         public:
             /**
@@ -63,6 +62,14 @@
              *  @brief Deletes a Scene.
             */
             ~Scene();
+
+            /**
+             *  @brief Checks if the shapes intersect with the ray and hit allow us to keep track of this shapes.
+             *  @param ray: const Ray&
+             *  @param hit: Hit&
+             *  @return bool
+            */
+            const bool intersect(const Ray& ray, Hit& hit) const;
 
             /**
              *  @brief Add camera to the scene.

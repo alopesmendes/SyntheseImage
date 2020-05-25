@@ -1,5 +1,6 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will create a Materal informating us of the accurate texture of the shape.
 */
 
 #ifndef __MATERIAL_HPP__
@@ -13,15 +14,16 @@
         private:
             bool mirror;
             bool transparecy;
+            friend std::ostream& operator<<(std::ostream&, const Material&);
+
+            friend std::istream& operator>>(std::istream&, Material&);
+        public:
             double ambience;
             double diffuse;
             double specular;
             double reflectance;
             int specularExponent;
-            friend std::ostream& operator<<(std::ostream&, const Material&);
-
-            friend std::istream& operator>>(std::istream&, Material&);
-        public:
+            
             /**
              *  @brief Constructs a Material with it's ambience, diffuse, specular, refletance and specularExponent.
             */

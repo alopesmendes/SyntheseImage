@@ -1,5 +1,10 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will create the camera that will be place on the scene.
+ *  Will also generate the rays that will hit the shapes of the scene.
+ *  @see Vector.h
+ *  @see Ray.h
+ *  @see Image.h
 */
 
 #ifndef __CAMERA_HPP__

@@ -1,5 +1,12 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will create an `interface` Shape that will regroup every shape.
+ *  Every shape as it's surface color and material.
+ *  This class will use the method intersect to check if there's a ray intersection.
+ *  @see Color.h
+ *  @see Ray.h
+ *  @see Hit.h
+ *  @see Material.h
 */
 
 

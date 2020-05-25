@@ -1,5 +1,8 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will create a Ray with it's origin and direction.
+ *  This class will be use to see if a ray intersect a shape.
+ *  @see Vector.h
 */
 
 #ifndef __RAY_HPP__

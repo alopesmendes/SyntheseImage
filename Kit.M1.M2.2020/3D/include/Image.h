@@ -1,5 +1,8 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will generate a Image, will use the protocole to generate a ppm https://fr.wikipedia.org/wiki/Portable_pixmap
+ *  The method save will construct the file ppm. Will need to use the setPixel to set a pixel color.
+ *  @see Color.h 
 */
 
 #ifndef __IMAGE_HPP__

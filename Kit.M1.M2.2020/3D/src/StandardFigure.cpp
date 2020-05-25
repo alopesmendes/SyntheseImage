@@ -25,7 +25,6 @@ StandardFigure resolveStandardFigure(string input) {
         { "plane", PLANE }, 
         { "light", LIGHT },
         { "triangle", TRIANGLE},
-        { "box", BOX},
         { "cone", CONE },
         { "cylinder", CYLINDER }, 
     };

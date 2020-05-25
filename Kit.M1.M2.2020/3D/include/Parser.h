@@ -1,5 +1,12 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Parser the terminal line as according to the demand and return a Scene.
+ *  ./lray -n 1 -i [input file] -o [output file]
+ *  ./lray -n 2 -i [input file] 
+ *  ./lray -n 3 -i [input file] -o [output file] -ps [number of rays > 0]
+ *  @see Shape.h
+ *  @see StandardFigure.h
+ *  @see Scene.h
 */
 
 #ifndef __PARSER_HPP__

@@ -1,5 +1,9 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will generate a Cube that implements Shape.
+ *  And will verify if a ray intersect this shape.
+ *  @see Vector.h
+ *  @see Shape.h
 */
 
 

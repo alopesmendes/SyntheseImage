@@ -1,5 +1,6 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will include every .h of the project
 */
 
 #ifndef __LRAY_HPP__
@@ -18,7 +19,6 @@
     #include "Light.h"
     #include "Hit.h"
     #include "Material.h"
-    #include "Box.h"
     #include "Cone.h"
     #include "Cylinder.h"
 #endif

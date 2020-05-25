@@ -1,5 +1,11 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will create a Light to illumate the scene.
+ *  The method getColor will return the right color according to the hit information.
+ *  @see Vector.h
+ *  @see Color.h
+ *  @see Hit.h
+ *  @see Scene.h
 */
 
 #ifndef __LIGHT_HPP__
@@ -10,12 +16,14 @@
     #include "Vector.h"
     #include "Color.h"
     #include "Hit.h"
+    #include "Scene.h"
 
     using namespace std;
 
     class Vector;
     class Color;
     class Hit;
+    class Scene;
     class Light {
         private:
             Vector pos;
@@ -62,6 +70,14 @@
              *  @return Vector.
             */
             Vector getPos() const;
+
+            /**
+             *  @brief Calculates the color according to the hit in the scene.
+             *  @param scene: const Scene&
+             *  @param hit: const Hit&
+             *  @return Color
+            */
+            virtual Color getColor(const Scene& scene, const Hit& hit);
 
             virtual operator std::string() const;
     };

@@ -1,5 +1,9 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Will define the Color for our world objects.
+ *  The color must have three factors red, green and blue.
+ *  They must be double values between 0 and 1.
+ *  And gives access to this 3 factors from the getters in this class.
 */
 
 #ifndef __COLOR_HPP__
@@ -19,11 +23,21 @@
             friend std::istream& operator>>(std::istream&, Color&);
 
             /**
-             *  @brief Returns the clamp of value with the gamma correction.
+             *  @brief Returns the clamp of value according to vmin and vmax.
+             *  @param value: double
+             *  @param vmin: const double&
+             *  @param vmax: const double&
+             *  @return double
+            */
+            const double clamp(double value, const double& vmin, const double& vmax) const;
+
+            /**
+             *  @brief Returns the value with gamma correction.
+             *  Raises to power 1/2.2.
              *  @param value: double
              *  @return double
             */
-            const double clamp(double value) const;
+            const double gammaCorrection(double value) const;
 
         
         public:
@@ -69,6 +83,7 @@
             friend const Color operator*(const Color& a, const Color& b);
             friend const Color operator/(const Color&, const double&);
             friend const Color operator/(const double&, const Color&);
+            friend const Color operator+(const Color&, const Color&);
             Color &operator+=(const Color &c);
             Color &operator=(const Color &c);
 
