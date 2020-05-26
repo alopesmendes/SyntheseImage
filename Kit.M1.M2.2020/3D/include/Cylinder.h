@@ -25,6 +25,11 @@
             double radius;
             double height;
             friend std::ostream& operator<<(std::ostream&, const Cylinder&);
+
+            Vector normal_in(const Vector &p);
+
+            bool intersect_base(const Ray& ray, const Vector &c, Hit &hit);
+
         public:
 
             /**

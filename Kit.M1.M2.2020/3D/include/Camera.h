@@ -23,9 +23,17 @@
     class Image;
     class Camera {
         private:
-            Vector pos;
+            /*Vector pos;
             Vector target;
-            double theta,phi,dist;
+            Vector up;
+            double theta,phi,dist;*/
+
+            Vector pos;
+            Vector lowerLeftCorner;
+            Vector horizontal;
+            Vector vertical;
+            Vector u, v, w;
+            double lensRadius;
 
             friend std::ostream& operator<<(std::ostream&, const Camera&);
         public:
@@ -33,11 +41,29 @@
              *  @brief Constructs a Camera with it's pos, target, theta, phi and distance.
              *  @param pos: Vector
              *  @param target: Vector
+             *  @param up: Vector
              *  @param theta: double
              *  @param phi: double
              *  @param dist:double
             */
-            Camera(Vector pos, Vector target, double theta, double phi, double dist);
+            //Camera(Vector pos, Vector target, Vector up, double theta, double phi, double dist);
+
+            /**
+             *  @brief Constructs a default Camera.
+            */
+            //Camera();
+
+            /**
+             *  @brief Constructs a Camera with the different values.
+             *  @param lookfrom will determine the position of the camera: Vector
+             *  @param lookat will allow us to determine the direction in which the camera is looking at: Vector
+             *  @param vup will determine in which axis the camera is placed: Vector
+             *  @param vfov will determine the fov for the camera is in degrees: double
+             *  @param aspectRatio will determine the aspect ratio of the camera: double
+             *  @param aperture will determine the lens radius: double
+             *  @param dist will determine the focus distance of the camera: double
+            */
+            Camera(Vector lookfrom, Vector lookat, Vector vup, double vfov, double aspectRatio, double aperture, double dist);
 
             /**
              *  @brief Constructs a default Camera.

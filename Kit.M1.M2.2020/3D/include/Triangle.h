@@ -24,6 +24,7 @@
             Vector v1;
             Vector v2;
             friend std::ostream& operator<<(std::ostream&, const Triangle&);
+
         public:
             /**
              *  @brief Constructs a Triangle with it's v0, v1, v2, color and material.

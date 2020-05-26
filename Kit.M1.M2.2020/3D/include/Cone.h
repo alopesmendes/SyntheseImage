@@ -24,7 +24,14 @@
             Vector center;
             double radius;
             double height;
+
+            double cosAlphaSq;
+		    double sinAlphaSq;
             friend std::ostream& operator<<(std::ostream&, const Cone&);
+
+            Vector normal_in(const Vector& p);
+
+            bool intersect_base(const Ray& ray, const Vector &c, Hit &hit);
         public:
 
             /**
@@ -49,9 +56,7 @@
              *  @brief Creates a Cone with it's description.
              *  The format of description should be:
              *  { center | radius | height | color  | material }
-             *  { double double double | double | double | double double double | double double double | double | double}
-             *  or
-             *  { double double double | double | double | double double double | double double double | double }
+             *  { double double double | double | double | double double double | double double double | double  double}
              *  or
              *  { double double double | double | double | double double double | double double double }
              *  @param description: string
