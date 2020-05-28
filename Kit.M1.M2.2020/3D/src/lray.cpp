@@ -1,4 +1,4 @@
-//#include <g3x.h>
+#include <g3x.h>
 #include <iostream>
 #include <ctype.h>
 #include <stdio.h>
@@ -18,6 +18,7 @@ int main(int argc, char **argv) {
     Scene scene = Parser::parser(argc, argv);
     cout << scene << endl;
     scene.render();
-    scene.buildImage();
+    scene.build();
+    
     return 0;
 }

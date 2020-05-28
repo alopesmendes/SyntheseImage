@@ -37,16 +37,28 @@ const double Color::clamp(double value, const double &vmin, const double &vmax) 
     return min(vmax, max(vmin, value));
 }
 
-const double Color::getRed() const {
+const unsigned char Color::getRed() const {
     return clamp(gammaCorrection(red), 0., 255);
 }
 
-const double Color::getBlue() const {
+const unsigned char Color::getBlue() const {
     return clamp(gammaCorrection(blue), 0., 255.);
 }
 
-const double Color::getGreen() const {
+const unsigned char Color::getGreen() const {
     return clamp(gammaCorrection(green), 0., 255.);
+}
+
+const double Color::getDRed() const {
+    return red;
+}
+
+const double Color::getDBlue() const {
+    return blue;
+}
+
+const double Color::getDGreen() const {
+    return green;
 }
 
 const Color operator*(const Color &a, const double &b) {

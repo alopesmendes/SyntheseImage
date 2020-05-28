@@ -3,9 +3,9 @@
 #include <sstream>
 #include <cmath>
 
-/*Camera::Camera(Vector pos, Vector target, Vector up, double theta, double phi, double dist)
+/*Camera::Camera(Vector lookfrom, Vector target, Vector up, double theta, double phi, double dist)
  {
-    this->pos = pos;
+    this->lookfrom = lookfrom;
     this->target = target;
     this->up = up;
     this->theta = theta;
@@ -23,7 +23,7 @@ Camera* Camera::create(string description) {
     
     stringstream iss(description);
     char seperator = '|';
-    Vector pos = Utils::decodeVector(iss, seperator);
+    Vector lookfrom = Utils::decodeVector(iss, seperator);
     Vector target = Utils::decodeVector(iss, seperator);
     Vector up = Utils::decodeVector(iss, seperator);
     double theta = Utils::decodeDouble(iss, seperator) * M_PI / 180.;
@@ -35,19 +35,26 @@ Camera* Camera::create(string description) {
 */
 
 Camera::Camera(Vector lookfrom, Vector lookat, Vector vup, double vfov, double aspectRatio, double aperture, double dist) {
+    this->lookfrom = lookfrom;
+    this->lookat = lookat;
+    this->vup = vup;
+    this->vfov = vfov;
+    this->aspectRatio = aspectRatio;
+    this->aperture = aperture;
+    this->dist = dist;
+    
     auto theta = vfov * M_PI / 180;
     auto h = tan(theta/2);
-    auto viewport_height = 2.0 * h;
-    auto viewport_width = aspectRatio * viewport_height;
+    viewport_height = 2.0 * h;
+    viewport_width = aspectRatio * viewport_height;
 
     w = (lookfrom - lookat).getNormalized();
     u = vup.cross(w).getNormalized();
     v = w.cross(u);
 
-    pos = lookfrom;
     horizontal = dist * viewport_width * u;
     vertical = dist * viewport_height * v;
-    lowerLeftCorner = pos - horizontal/2 - vertical/2 - dist*w;
+    lowerLeftCorner = lookfrom - horizontal/2 - vertical/2 - dist*w;
     lensRadius = aperture / 2;
 }
 
@@ -75,7 +82,7 @@ Camera* Camera::create(string description) {
 
 
 const Vector Camera::getPos() const {
-    return pos;
+    return lookfrom;
 }
 
 double random_double() {
@@ -100,40 +107,71 @@ Ray Camera::makeRay(const int &i, const int &j, const Image &im) {
     /*double u = j - im.getWidth() / 2., v = i - im.getHeight() / 2.;
     Vector dir = Vector(u, v, dist);
     dir.normalize();
-    return Ray(pos, dir);*/
+    return Ray(lookfrom, dir);*/
     /*
     double normalized_i = (i / im.getWidth()) - 0.5;
     double normalized_j = (j / im.getWidth()) - 0.5;
     Vector image_point = normalized_i * right +
                             normalized_j * up +
-                            pos + target.getNormalized();
-    Vector ray_direction = image_point - pos;
-    return Ray(pos, ray_direction);*/
+                            lookfrom + target.getNormalized();
+    Vector ray_direction = image_point - lookfrom;
+    return Ray(lookfrom, ray_direction);*/
 
     double s = (j + random_double()) / (im.getHeight()-1), t = (i + random_double()) / (im.getWidth()-1);
     Vector rd = lensRadius * random_in_unit_disk();
     Vector offset = u * rd.getX() + v * rd.getY();
-    Vector dir = lowerLeftCorner + s*horizontal + t*vertical - pos - offset;
-    return Ray(pos + offset, dir.getNormalized());
+    Vector dir = lowerLeftCorner + s*horizontal + t*vertical - lookfrom - offset;
+    return Ray(lookfrom + offset, dir.getNormalized());
 
 }
-/*
-Camera::operator std::string() const {
-    stringstream ss;
-    ss << "Camera (position:" << pos
-    << ", target:" << target
-    << ", up:" << up 
-    << ", theta:" << theta 
-    << ", phi:" << phi
-    << ", dist:" << dist
-    << ")";
-    return ss.str();
+
+Camera &Camera::setPos(double x, double y, double z) {
+    Vector add(x, y, z);
+    return *this = Camera(lookfrom+add, lookat, vup, vfov, aspectRatio, aperture, dist);
 }
-*/
+
+Camera &Camera::setLookAt(double x, double y, double z) {
+    Vector add(x, y, z);
+    return *this = Camera(lookfrom, lookat+add, vup, vfov, aspectRatio, aperture, dist);
+}
+
+Camera &Camera::setUp(double x, double y, double z) {
+    Vector add(x, y, z);
+    return *this = Camera(lookfrom, lookat, add, vfov, aspectRatio, aperture, dist);
+}
+
+Camera &Camera::setFov(double fov) {
+    return *this = Camera(lookfrom, lookat, vup, vfov + fov, aspectRatio, aperture, dist);
+}
+
+Camera &Camera::operator=(const Camera &cam) {
+    this->lookfrom = cam.lookfrom;
+    this->lookat = cam.lookat;
+    this->vup = cam.vup;
+    this->vfov = cam.vfov;
+    this->aspectRatio = cam.aspectRatio;
+    this->aperture = cam.aperture;
+    this->dist = cam.dist;
+    
+    auto theta = vfov * M_PI / 180;
+    auto h = tan(theta/2);
+    viewport_height = 2.0 * h;
+    viewport_width = aspectRatio * viewport_height;
+
+    w = (lookfrom - lookat).getNormalized();
+    u = vup.cross(w).getNormalized();
+    v = w.cross(u);
+
+    horizontal = dist * viewport_width * u;
+    vertical = dist * viewport_height * v;
+    lowerLeftCorner = lookfrom - horizontal/2 - vertical/2 - dist*w;
+    lensRadius = aperture / 2;
+    return *this;
+}
 
 Camera::operator std::string() const {
     stringstream ss;
-    ss << "Camera (position:" << pos
+    ss << "Camera (position:" << lookfrom
     << ", lower left corner:" << lowerLeftCorner
     << ", horizontal:" << horizontal
     << ", vertical:" << vertical

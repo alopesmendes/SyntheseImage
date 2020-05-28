@@ -9,13 +9,13 @@ CC = g++
 DBG = no
 
 ifeq ($(DBG),yes) #en mode debug
-  CFLAGS = -g -Wpointer-arith -Wall -ansi -std=c++11 -openmp
+  CFLAGS = -g -Wpointer-arith -Wall -ansi -std=c++11 -openmp $(shell sdl2-config --cflags)
 else              #en mode normal
-  CFLAGS = -O2 -ansi -std=c++11 -openmp
+  CFLAGS = -O2 -ansi -std=c++11 -openmp $(shell sdl2-config --cflags)
 endif
 
 # assemblage des infos de lib. et inc.
-lib =   $(libG3X)
+lib = $(libG3X) $(shell sdl2-config --libs)
 
 # fichiers *.c locaux
 src = src/
@@ -35,7 +35,7 @@ all : $(exec) clean
 	@echo "------------------------"
 
 # r�gle g�n�rique de cr�ation de l'executable xxx � partir de src/xxx.c (1 seul module)
-lray : lray.o Parser.o StandardFigure.o Shape.o Sphere.o Color.o Vector.o Utils.o Camera.o Ray.o Scene.o Image.o Light.o Hit.o Material.o Cube.o Plane.o Triangle.o Cone.o Cylinder.o
+lray : lray.o Parser.o StandardFigure.o Shape.o Sphere.o Color.o Vector.o Utils.o Camera.o Ray.o Scene.o Image.o Light.o Hit.o Material.o Cube.o Plane.o Triangle.o Cone.o Cylinder.o GraphicWindow.o
 	@echo "assemblage [$^]->$@"
 	@$(CC) $^ $(lib) -o $@
 	@echo "------------------------"

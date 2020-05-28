@@ -62,6 +62,14 @@
             void setPixel(int x, int y, Color color);
 
             /**
+             *  @brief Gets the pixel color at the position x, y.
+             *  @param x: int
+             *  @param y: int
+             *  @return: Color
+            */
+            Color getPixelColor(int x, int y);
+
+            /**
              *  @brief Getter for width.
              *  @return int
             */
@@ -85,6 +93,8 @@
              *  @param file: const string&
             */             
             static void save(const Image& image, const string& file);
+
+            const int *toIntArray() const;
 
             Image &operator=(const Image &c);
             virtual operator std::string() const;

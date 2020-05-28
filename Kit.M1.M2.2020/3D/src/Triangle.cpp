@@ -86,3 +86,4 @@ std::ostream &operator<<(std::ostream &os, const Triangle &triangle) {
     os << text;
     return os;
 }
+

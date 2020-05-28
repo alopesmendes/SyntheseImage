@@ -64,19 +64,37 @@
              *  @brief Getter for red.
              *  @return red;
             */
-            const double getRed() const;
+            const unsigned char getRed() const;
 
             /**
              *  @brief Getter for blue.
              *  @return blue;
             */
-            const double getBlue() const;
+            const unsigned char getBlue() const;
 
             /**
              *  @brief Getter for green.
              *  @return green;
             */
-            const double getGreen() const;
+            const unsigned char getGreen() const;
+
+            /**
+             *  @brief Getter for red.
+             *  @return red;
+            */
+            const double getDRed() const;
+
+            /**
+             *  @brief Getter for blue.
+             *  @return blue;
+            */
+            const double getDBlue() const;
+
+            /**
+             *  @brief Getter for green.
+             *  @return green;
+            */
+            const double getDGreen() const;
 
             friend const Color operator*(const Color&, const double&);
             friend const Color operator*(const double&, const Color&);

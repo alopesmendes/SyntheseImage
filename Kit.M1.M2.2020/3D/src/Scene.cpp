@@ -1,4 +1,5 @@
 #include "../include/Scene.h"
+#include "../include/GraphicWindow.h"
 #include <stdio.h>
 #include <cmath>
 #include <algorithm>
@@ -110,23 +111,7 @@ Color Scene::traceRay(const Ray &ray, int nbonds) {
     return c;
 }
 
-/*
-Color Scene::traceRay(const Ray &ray, int nbonds) {
-    if (nbonds == 0) {
-        return image.backgroundColor();
-    }
-    Hit hit, hitLight;
-    bool hasIter = intersect(ray, hit);
-    if (!hasIter) {
-        return image.backgroundColor();
-    }
-    Color c = image.backgroundColor();
-    for (auto light = lights.begin(); light != lights.end(); ++light) {
-        c += light->getColor((*this), hit); 
-    }
-    return c;
-}
-*/
+
 void Scene::render() {
     double fov = 60. * M_PI / 180.;
 
@@ -153,6 +138,100 @@ void Scene::render() {
 
 void Scene::buildImage() {
     Image::save(image, imageName);
+}
+
+void Scene::buildWindow() {
+    GraphicWindow g(image.getWidth(), image.getHeight());
+    bool quit = false;
+    SDL_Event event;
+    g.render(image, camera);
+    map<SDL_Keycode, Camera&> events = {
+        {SDLK_DOWN, camera.setPos(0, -10, 0)},
+        {SDLK_RIGHT, camera.setPos(10, 0, 0)},
+        {SDLK_UP, camera.setPos(0, 10, 0)},
+        {SDLK_LEFT, camera.setPos(-10, 0, 0)},
+        {SDLK_i, camera.setLookAt(0, 10, 0)},
+        {SDLK_k, camera.setLookAt(0, -10, 0)},
+        {SDLK_j, camera.setLookAt(-10, 0, 0)},
+        {SDLK_l, camera.setLookAt(10, 0, 0)},
+        {SDLK_x, camera.setUp(1, 0, 0)},
+        {SDLK_y, camera.setUp(0, 1, 0)},
+        {SDLK_z, camera.setUp(0, 0, 1)},
+        {SDLK_KP_PLUS, camera.setFov(-10)},
+        {SDLK_KP_MINUS, camera.setFov(10)},
+    };
+
+    while (!quit) {
+        SDL_WaitEvent(&event);
+        switch (event.type) {
+            case SDL_QUIT:
+                quit = true;
+                break;
+            
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) {
+                    /// Arrow for pos
+                    case SDLK_DOWN:                        
+                        camera.setPos(0, -10, 0);
+                        break;
+                    case SDLK_RIGHT:
+                        camera.setPos(10, 0, 0);
+                        break;
+                    case SDLK_UP:
+                        camera.setPos(0, 10, 0);
+                        break;
+                    case SDLK_LEFT:
+                        camera.setPos(-10, 0, 0);
+                        break;
+                    /// Look at with i,j,k,l
+                    case SDLK_i:
+                        camera.setLookAt(0, 10, 0);
+                        break;
+                    case SDLK_k:
+                        camera.setLookAt(0, -10, 0);
+                        break;
+                    case SDLK_j:
+                        camera.setLookAt(-10, 0, 0);
+                        break;
+                    case SDLK_l:
+                        camera.setLookAt(10, 0, 0);
+                        break;
+                    /// vup with x,y,z
+                    case SDLK_x:
+                        camera.setUp(1, 0, 0);
+                        break;
+                    case SDLK_y:
+                        camera.setUp(0, 1, 0);
+                        break;
+                    case SDLK_z:
+                        camera.setUp(0, 0, 1);
+                        break;
+                    case SDLK_KP_PLUS:
+                        camera.setFov(-10);
+                        break;
+                    case SDLK_KP_MINUS:
+                        camera.setFov(10);
+                    default:
+                        break;
+                }
+                render();
+                g.render(image, camera);
+                break;
+            
+            default:
+                break;
+                
+        }
+    }
+
+}
+
+void Scene::build() {
+    if (level == 2) {
+        buildWindow();
+    } else {
+        buildImage();
+    }
 }
 
 Scene::operator std::string() const {

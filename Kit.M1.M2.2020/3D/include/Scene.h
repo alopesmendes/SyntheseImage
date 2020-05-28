@@ -103,9 +103,19 @@
             void render();
 
             /**
-             *  @brief Builds the scene.
+             *  @brief Builds the image of the scene (ppm).
             */
             void buildImage();
+
+            /**
+             *  @brief Builds the graphic window of the scene.
+            */
+            void buildWindow();
+
+            /**
+             *  @brief Builds the scene in a window, image or both.
+            */
+            void build();
 
             virtual operator std::string() const;
 

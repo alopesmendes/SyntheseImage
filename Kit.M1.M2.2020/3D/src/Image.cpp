@@ -56,6 +56,27 @@ void Image::setPixel(int x, int y, Color color) {
     pixels[(height - x - 1) * width + y] = color;
 }
 
+Color Image::getPixelColor(int x, int y) {
+    if(x * width + y > width * height) {
+        return Color();
+    }
+    return pixels[(height - x - 1) * width + y];
+}
+
+const int *Image::toIntArray() const
+{
+    int *res = new int[width * height * sizeof(int)];
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            res[j + i * width] = pixels[j + i * width].getRed() * 0x10000 + pixels[j + i * width].getGreen() * 0x100 + pixels[j + i * width].getBlue();
+        }
+    }
+    return res;
+}
+
+
 void Image::save(const Image& image, const string& file) {
     if (image.width == 0 || image.height == 0) { fprintf(stderr, "Can't save an empty image\n"); return; }
     std::ofstream ofs;

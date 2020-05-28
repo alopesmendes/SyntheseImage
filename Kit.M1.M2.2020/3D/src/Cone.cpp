@@ -37,8 +37,8 @@ Cone *Cone::create(std::string description) {
 }
 
 Vector Cone::normal_in(const Vector &p) {
-    Vector c0 (center.getX(), p.getY(), center.getZ());
- 	Vector c1 (center.getX(), center.getY()+height, center.getZ());
+    //Vector c0 (center.getX(), p.getY(), center.getZ());
+ 	//Vector c1 (center.getX(), center.getY()+height, center.getZ());
 
  	Vector v = p-center;
     v = Vector(v.getX(), 0, v.getZ());
@@ -51,38 +51,6 @@ Vector Cone::normal_in(const Vector &p) {
     );
 
  	return n;
-}
-
-bool Cone::intersect_base(const Ray &ray, const Vector &c, Hit &hit) {
-    Vector normal = normal_in (c);
-	Vector p0 (ray.getOrigin().getX()-center.getX(), ray.getOrigin().getY()-center.getY(), ray.getOrigin().getZ()-center.getZ());
-	double A = normal.getX();
-	double B = normal.getY();
-	double C = normal.getZ();
-	double D = - (A*(c.getX()-center.getX()) +B*(c.getY()-center.getY())+C*(c.getZ()-center.getZ()));
-
-	if (A*ray.getDirection().getX()+B*ray.getDirection().getY()+C*ray.getDirection().getZ()==0)
-		return false;
-	
-	double dist = - (A*p0.getX()+B*p0.getY()+C*p0.getZ()+D)/(A*ray.getDirection().getX()+B*ray.getDirection().getY()+C*ray.getDirection().getZ());
-
-	double epsilon = 0.00000001;
-	if (dist < epsilon)
-		return false;
-
-	Vector p = Vector(
-        p0.getX()+dist*ray.getDirection().getX(),
-        p0.getY()+dist*ray.getDirection().getY(),
-        p0.getZ()+dist*ray.getDirection().getZ()
-    );
-	if (p.getX()*p.getX()+p.getZ()*p.getZ()-radius*radius > epsilon)
-		return false;
-
-	hit.t = dist;
-    hit.pos = ray.getOrigin()+hit.t*ray.getDirection();
-    hit.normal = normal;
-    hit.shape = this;
-	return true;
 }
 
 bool Cone::intersect(const Ray &ray, Hit &hit) {
@@ -126,6 +94,7 @@ bool Cone::intersect(const Ray &ray, Hit &hit) {
     hit.shape = this;
 	return true;
 }
+
 
 Cone::operator std::string() const {
     stringstream ss;

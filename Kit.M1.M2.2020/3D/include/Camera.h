@@ -23,30 +23,37 @@
     class Image;
     class Camera {
         private:
-            /*Vector pos;
+            /*Vector lookfrom;
             Vector target;
             Vector up;
             double theta,phi,dist;*/
 
-            Vector pos;
+            Vector lookfrom;
+            Vector lookat;
+            Vector vup;
             Vector lowerLeftCorner;
             Vector horizontal;
             Vector vertical;
             Vector u, v, w;
+            double vfov;
+            double aspectRatio;
+            double aperture;
+            double dist;
             double lensRadius;
+            double viewport_height, viewport_width;
 
             friend std::ostream& operator<<(std::ostream&, const Camera&);
         public:
             /**
-             *  @brief Constructs a Camera with it's pos, target, theta, phi and distance.
-             *  @param pos: Vector
+             *  @brief Constructs a Camera with it's lookfrom, target, theta, phi and distance.
+             *  @param lookfrom: Vector
              *  @param target: Vector
              *  @param up: Vector
              *  @param theta: double
              *  @param phi: double
              *  @param dist:double
             */
-            //Camera(Vector pos, Vector target, Vector up, double theta, double phi, double dist);
+            //Camera(Vector lookfrom, Vector target, Vector up, double theta, double phi, double dist);
 
             /**
              *  @brief Constructs a default Camera.
@@ -78,7 +85,7 @@
             /**
              *  @brief Creates a Camera with it's description.
              *  The format of description should be:
-             *  { pos | target | theta | phi | dist }
+             *  { lookfrom | target | theta | phi | dist }
              *  { double double double | double double double | double | double | double}
              *  @param description: string
              *  @return Camera*
@@ -86,10 +93,14 @@
             static Camera* create(string description);
 
             /**
-             *  @brief Getter for pos.
+             *  @brief Getter for lookfrom.
              *  @return Vector
             */
             const Vector getPos() const;
+
+            /**
+             *  @brief Getter for 
+            */
 
             /**
              *  @brief Makes a ray from the camera.
@@ -100,6 +111,45 @@
             */
             Ray makeRay(const int &u, const int &v, const Image& im);
 
+            /**
+             *  @brief Sets the position of the camera.
+             *  Moves position from x, y and z.
+             *  @param x: double
+             *  @param y: double
+             *  @param z: double
+             *  @return Camera&
+            */
+            Camera& setPos(double x, double y, double z);
+
+            /**
+             *  @brief Sets the lookat point of the camera.
+             *  Moves the lookat from x, y and z.
+             *  @param x: double 
+             *  @param y: double
+             *  @param z: double
+             *  @return: Camera&
+            */
+            Camera& setLookAt(double x, double y, double z);
+
+            /**
+             *  @brief Sets the up point of the camera.
+             *  Moves the up from x, y and z
+             *  @param x: double
+             *  @param y: double
+             *  @param z: double
+             *  @return: Camera&
+            */
+            Camera& setUp(double x, double y, double z);
+
+            /**
+             *  @brief Sets the fov of the camera.
+             *  Moves the fov.
+             *  @param fov:double
+             *  @return Camera&
+            */
+            Camera& setFov(double fov);
+
+            Camera& operator=(const Camera& cam);
             virtual operator std::string() const;
     };
     
