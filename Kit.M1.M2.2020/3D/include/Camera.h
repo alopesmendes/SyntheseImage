@@ -21,12 +21,33 @@
     class Vector;
     class Ray;
     class Image;
+
+    class Coord {
+        public:
+            Vector lookfrom;
+            Vector lookat;
+            Vector vup;
+            double vfov;
+            double aspectRatio;
+            double aperture;
+            double dist;
+
+            /**
+             *  @brief Constructs Coord.
+             *  @param lookfrom will determine the position of the camera: Vector
+             *  @param lookat will allow us to determine the direction in which the camera is looking at: Vector
+             *  @param vup will determine in which axis the camera is placed: Vector
+             *  @param vfov will determine the fov for the camera is in degrees: double
+             *  @param aspectRatio will determine the aspect ratio of the camera: double
+             *  @param aperture will determine the lens radius: double
+             *  @param dist will determine the focus distance of the camera: double
+            */
+            Coord(Vector lookfrom, Vector lookat, Vector vup, double vfov, double aspectRatio, double aperture, double dist);
+            ~Coord();
+    };
     class Camera {
+
         private:
-            /*Vector lookfrom;
-            Vector target;
-            Vector up;
-            double theta,phi,dist;*/
 
             Vector lookfrom;
             Vector lookat;
@@ -44,21 +65,6 @@
 
             friend std::ostream& operator<<(std::ostream&, const Camera&);
         public:
-            /**
-             *  @brief Constructs a Camera with it's lookfrom, target, theta, phi and distance.
-             *  @param lookfrom: Vector
-             *  @param target: Vector
-             *  @param up: Vector
-             *  @param theta: double
-             *  @param phi: double
-             *  @param dist:double
-            */
-            //Camera(Vector lookfrom, Vector target, Vector up, double theta, double phi, double dist);
-
-            /**
-             *  @brief Constructs a default Camera.
-            */
-            //Camera();
 
             /**
              *  @brief Constructs a Camera with the different values.
@@ -112,45 +118,34 @@
             Ray makeRay(const int &u, const int &v, const Image& im);
 
             /**
-             *  @brief Sets the position of the camera.
-             *  Moves position from x, y and z.
-             *  @param x: double
-             *  @param y: double
-             *  @param z: double
-             *  @return Camera&
+             *  @brief Sets the camera.
+             *  @param pos: Vector
+             *  @param target: Vector
+             *  @param up: Vector
+             *  @param fov: double
+             *  @param ar: double
+             *  @param ap: double
+             *  @param d: double
+             *  @return: Camera
             */
-            Camera& setPos(double x, double y, double z);
+            Camera& newPlacedCamera(Vector pos = Vector(), Vector target = Vector(), Vector up = Vector(), double fov = 0, double ar = 0, double ap = 0, double d = 0);
 
-            /**
-             *  @brief Sets the lookat point of the camera.
-             *  Moves the lookat from x, y and z.
-             *  @param x: double 
-             *  @param y: double
-             *  @param z: double
-             *  @return: Camera&
-            */
-            Camera& setLookAt(double x, double y, double z);
-
-            /**
-             *  @brief Sets the up point of the camera.
-             *  Moves the up from x, y and z
-             *  @param x: double
-             *  @param y: double
-             *  @param z: double
-             *  @return: Camera&
-            */
-            Camera& setUp(double x, double y, double z);
-
-            /**
-             *  @brief Sets the fov of the camera.
-             *  Moves the fov.
-             *  @param fov:double
-             *  @return Camera&
-            */
-            Camera& setFov(double fov);
-
+            friend Camera operator+(Camera& cam, const Coord& coord);
             Camera& operator=(const Camera& cam);
             virtual operator std::string() const;
+
+            class Coord {
+            public:
+                Vector lookfrom;
+                Vector lookat;
+                Vector vup;
+                double vfov;
+                double aspectRatio;
+                double aperture;
+                double dist;
+                Coord(Vector lookfrom, Vector lookat, Vector vup, double vfov, double aspectRatio, double aperture, double dist);
+                ~Coord();
+        };
     };
     
     

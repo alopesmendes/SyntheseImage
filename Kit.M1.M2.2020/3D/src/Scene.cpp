@@ -140,25 +140,26 @@ void Scene::buildImage() {
     Image::save(image, imageName);
 }
 
+
 void Scene::buildWindow() {
     GraphicWindow g(image.getWidth(), image.getHeight());
     bool quit = false;
     SDL_Event event;
     g.render(image, camera);
-    map<SDL_Keycode, Camera&> events = {
-        {SDLK_DOWN, camera.setPos(0, -10, 0)},
-        {SDLK_RIGHT, camera.setPos(10, 0, 0)},
-        {SDLK_UP, camera.setPos(0, 10, 0)},
-        {SDLK_LEFT, camera.setPos(-10, 0, 0)},
-        {SDLK_i, camera.setLookAt(0, 10, 0)},
-        {SDLK_k, camera.setLookAt(0, -10, 0)},
-        {SDLK_j, camera.setLookAt(-10, 0, 0)},
-        {SDLK_l, camera.setLookAt(10, 0, 0)},
-        {SDLK_x, camera.setUp(1, 0, 0)},
-        {SDLK_y, camera.setUp(0, 1, 0)},
-        {SDLK_z, camera.setUp(0, 0, 1)},
-        {SDLK_KP_PLUS, camera.setFov(-10)},
-        {SDLK_KP_MINUS, camera.setFov(10)},
+    static const map<SDL_Keycode, Coord> events = {
+        {SDLK_DOWN, Coord(Vector(0., -10, 0.), Vector(), Vector(), 0., 0., 0., 0.)},
+        {SDLK_RIGHT, Coord(Vector(10, 0., 0.), Vector(), Vector(), 0., 0., 0., 0.)},
+        {SDLK_UP, Coord(Vector(0., 10, 0.), Vector(), Vector(), 0., 0., 0., 0.)},
+        {SDLK_LEFT, Coord(Vector(-10, 10, 0.), Vector(), Vector(), 0., 0., 0., 0.)},
+        {SDLK_i, Coord(Vector(), Vector(0., 10, 0.), Vector(), 0., 0., 0., 0.)},
+        {SDLK_k, Coord(Vector(), Vector(0., -10, 0.), Vector(), 0., 0., 0., 0.)},
+        {SDLK_j, Coord(Vector(), Vector(-10, 0., 0.), Vector(), 0., 0., 0., 0.)},
+        {SDLK_l, Coord(Vector(), Vector(10, 0., 0.), Vector(), 0., 0., 0., 0.)},
+        {SDLK_x, Coord(Vector(), Vector(), Vector(1, 0., 0.), 0., 0., 0., 0.)},
+        {SDLK_y, Coord(Vector(), Vector(), Vector(0., 1, 0.), 0., 0., 0., 0.)},
+        {SDLK_z, Coord(Vector(), Vector(), Vector(0., 0., 1), 0., 0., 0., 0.)},
+        {SDLK_KP_PLUS, Coord(Vector(), Vector(), Vector(), -10., 0., 0., 0.)},
+        {SDLK_KP_MINUS, Coord(Vector(), Vector(), Vector(), 10., 0., 0., 0.)},
     };
 
     while (!quit) {
@@ -169,58 +170,13 @@ void Scene::buildWindow() {
                 break;
             
             case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    /// Arrow for pos
-                    case SDLK_DOWN:                        
-                        camera.setPos(0, -10, 0);
-                        break;
-                    case SDLK_RIGHT:
-                        camera.setPos(10, 0, 0);
-                        break;
-                    case SDLK_UP:
-                        camera.setPos(0, 10, 0);
-                        break;
-                    case SDLK_LEFT:
-                        camera.setPos(-10, 0, 0);
-                        break;
-                    /// Look at with i,j,k,l
-                    case SDLK_i:
-                        camera.setLookAt(0, 10, 0);
-                        break;
-                    case SDLK_k:
-                        camera.setLookAt(0, -10, 0);
-                        break;
-                    case SDLK_j:
-                        camera.setLookAt(-10, 0, 0);
-                        break;
-                    case SDLK_l:
-                        camera.setLookAt(10, 0, 0);
-                        break;
-                    /// vup with x,y,z
-                    case SDLK_x:
-                        camera.setUp(1, 0, 0);
-                        break;
-                    case SDLK_y:
-                        camera.setUp(0, 1, 0);
-                        break;
-                    case SDLK_z:
-                        camera.setUp(0, 0, 1);
-                        break;
-                    case SDLK_KP_PLUS:
-                        camera.setFov(-10);
-                        break;
-                    case SDLK_KP_MINUS:
-                        camera.setFov(10);
-                    default:
-                        break;
+                auto itr = events.find(event.key.keysym.sym);
+                if (itr != events.end()) {
+                    camera = camera+ itr->second;
+                    render();
+                    g.render(image, camera);
                 }
-                render();
-                g.render(image, camera);
                 break;
-            
-            default:
-                break;
-                
         }
     }
 

@@ -99,6 +99,7 @@
             friend Vector operator/(const Vector&, const Vector&);
             friend Vector operator/(const Vector&, const double&);
             friend Vector operator/(const double&, const Vector&);
+            friend bool operator==(const Vector&, const Vector&);
             virtual operator std::string() const;
 
     };

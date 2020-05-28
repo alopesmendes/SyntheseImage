@@ -66,6 +66,20 @@ Camera::~Camera() {
 
 }
 
+Coord::Coord(Vector lookfrom, Vector lookat, Vector vup, double vfov, double aspectRatio, double aperture, double dist) {
+    this->lookfrom = lookfrom;
+    this->lookat = lookat;
+    this->vup = vup;
+    this->vfov = vfov;
+    this->aspectRatio = aspectRatio;
+    this->aperture = aperture;
+    this->dist = dist;
+}
+
+Coord::~Coord() {
+
+}
+
 Camera* Camera::create(string description) {
     
     stringstream iss(description);
@@ -125,25 +139,6 @@ Ray Camera::makeRay(const int &i, const int &j, const Image &im) {
 
 }
 
-Camera &Camera::setPos(double x, double y, double z) {
-    Vector add(x, y, z);
-    return *this = Camera(lookfrom+add, lookat, vup, vfov, aspectRatio, aperture, dist);
-}
-
-Camera &Camera::setLookAt(double x, double y, double z) {
-    Vector add(x, y, z);
-    return *this = Camera(lookfrom, lookat+add, vup, vfov, aspectRatio, aperture, dist);
-}
-
-Camera &Camera::setUp(double x, double y, double z) {
-    Vector add(x, y, z);
-    return *this = Camera(lookfrom, lookat, add, vfov, aspectRatio, aperture, dist);
-}
-
-Camera &Camera::setFov(double fov) {
-    return *this = Camera(lookfrom, lookat, vup, vfov + fov, aspectRatio, aperture, dist);
-}
-
 Camera &Camera::operator=(const Camera &cam) {
     this->lookfrom = cam.lookfrom;
     this->lookat = cam.lookat;
@@ -168,6 +163,27 @@ Camera &Camera::operator=(const Camera &cam) {
     lensRadius = aperture / 2;
     return *this;
 }
+
+Camera operator+(Camera &cam, const Coord &coord) {
+    
+    return  Camera(
+            cam.lookfrom+coord.lookfrom, 
+            cam.lookat+coord.lookat, 
+            coord.vup == Vector() ? cam.vup : coord.vup, 
+            cam.vfov+coord.vfov,
+            cam.aspectRatio+coord.aspectRatio, 
+            cam.aperture+coord.aperture, 
+            cam.dist+coord.dist
+            );
+}
+
+Camera& Camera::newPlacedCamera(Vector pos, Vector target, Vector up, double fov, double ar, double ap, double d) {
+    if (up == Vector()) {
+        up = vup;
+    }
+    return *this = Camera(lookfrom+pos, lookat+target, up, vfov+fov, aspectRatio+ar, aperture+ap, dist+d);
+}
+
 
 Camera::operator std::string() const {
     stringstream ss;

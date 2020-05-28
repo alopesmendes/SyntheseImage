@@ -29,6 +29,7 @@
     class Light;
     class Shape;
     enum StandardFigure;
+    class Coord;
     class Scene {
         private:
             Image image;

@@ -57,6 +57,10 @@ Vector operator/(const double &a, const Vector &b) {
     return Vector(a / b.x, a / b.y, a / b.z);
 }
 
+bool operator==(const Vector &a, const Vector &b) {
+    return a.x == b.x && a.y == b.y && a.z == b.z;
+}
+
 double Vector::scalarProduct(const Vector &v) {
     return this->x * v.x + this->y * v.y + this->z * v.z;
 }
