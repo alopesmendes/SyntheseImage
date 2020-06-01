@@ -9,8 +9,12 @@
 
     #include <iostream>
     #include <string>
+    #include <random>
 
     using namespace std;
+
+    static std::default_random_engine engine;
+    static std::uniform_real_distribution<double> uniform(0, 1);
     
     class Vector {
         private:
@@ -69,6 +73,13 @@
              *  @return Vector.
             */
             Vector getNormalized();
+
+            /**
+             *  @brief Returns a random direction vector for normal/
+             *  @param normal: Vector
+             *  @return: Vector
+            */
+            static Vector dRandom(Vector normal);
 
             /**
              *  @brief Getter for x.

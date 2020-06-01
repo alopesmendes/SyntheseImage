@@ -1,14 +1,21 @@
 #include "../include/Material.h"
 #include <sstream>
 
-Material::Material(bool mirror, bool transparecy) {
+
+Material::Material() : Material(Color(), Color(), Color(), Color(), 0, false, false) {
+    
+}
+
+Material::Material(Color ambience, Color diffuse, Color specular, Color reflectance, double specularExponent, bool mirror, bool transparecy) {
+    this->ambience = ambience;
+    this->diffuse = diffuse;
+    this->specular = specular;
+    this->reflectance = reflectance;
+    this->specularExponent = specularExponent;
     this->mirror = mirror;
     this->transparecy = transparecy;
 }
 
-Material::Material() : Material(false, false) {
-    
-}
 
 Material::~Material() {
 
@@ -24,7 +31,12 @@ const bool Material::isTransparent() const {
 
 Material::operator std::string() const {
     stringstream ss;
-    ss << "Material (mirror:" << mirror
+    ss << "Material (ambience:" << ambience
+    << ", diffuse:" << diffuse
+    << ", specular:" << specular
+    << ", reflectance:" << reflectance
+    << ", exponent:" << specularExponent
+    << ", mirror:" << mirror 
     << ", transparecy:" << transparecy << ")";
     return ss.str();
 }
@@ -35,6 +47,12 @@ std::ostream &operator<<(std::ostream &os, const Material &material) {
     return os;
 }
 
-std::istream &operator>>(std::istream &is, Material &material) {
-    return is >> material.mirror >> material.transparecy;
+std::istream &operator>>(std::istream &is, Material &m) {
+    return  is >> m.ambience
+            >> m.diffuse 
+            >> m.specular 
+            >> m.reflectance 
+            >> m.specularExponent 
+            >> m.mirror 
+            >> m.transparecy;
 }

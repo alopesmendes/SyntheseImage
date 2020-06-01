@@ -8,8 +8,11 @@
     #include <iostream>
     #include <string>
 
+    #include "Color.h"
+
     using namespace std;
 
+    class Color;
     class Material {
         private:
             bool mirror;
@@ -18,19 +21,26 @@
 
             friend std::istream& operator>>(std::istream&, Material&);
         public:
-            double ambience;
-            double diffuse;
-            double specular;
-            double reflectance;
-            int specularExponent;
-            
-            /**
-             *  @brief Constructs a Material with it's ambience, diffuse, specular, refletance and specularExponent.
-            */
-            Material(bool mirror, bool transparecy);
+            Color ambience;
+            Color diffuse;
+            Color specular;
+            Color reflectance;
+            double specularExponent;
 
             /**
-             *  @brief Constructs default Material.
+             *  @brief Constructs a Material with it's ambience, diffuse, specular, reflectance and specularExponent.
+             *  @param ambience: Color
+             *  @param diffuse: Color
+             *  @param specular: Color
+             *  @param reflectance: Color
+             *  @param specularExponent: double
+             *  @param mirror: bool
+             *  @param transparecy: bool
+            */
+            Material(Color ambience, Color diffuse, Color specular, Color reflectance, double specularExponent, bool mirror, bool transparecy);
+
+            /**
+             *  @brief Constructs a default Material.
             */
             Material();
 

@@ -38,7 +38,7 @@ Vector Light::getPos() const {
     return pos;
 }
 
-Color Light::getColor(const Scene &scene, const Hit &hit) {
+Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
     Color diffuse, specular, c;
     Hit hitLight;
     c = hit.shape->getColor() * 0.01;
@@ -56,10 +56,30 @@ Color Light::getColor(const Scene &scene, const Hit &hit) {
     double ks = pow(max(0.0, (rayLight.getDirection().scalarProduct(rRefl.getDirection()))), 2.);
     diffuse = kd * hit.shape->getColor();
     specular = ks * hit.shape->getColor();
-    c += hit.shape->getColor() + intensity * (diffuse + specular);
+    c += hit.shape->getColor() + intensity * (hit.shape->getMaterial().ambience+ diffuse + specular);
     return c;
 }
+/*
+Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
+    Vector n,l,v,r;
+    Color diffuse, specular, ambience;
+    double nl, exponent;
+    diffuse = hit.shape->getMaterial().diffuse;
+    ambience = hit.shape->getMaterial().ambience;
+    specular = hit.shape->getMaterial().specular;
+    l = (hit.pos - pos).getNormalized();
+    n = hit.normal;
 
+    v = -1.0*(hit.pos - ray.getOrigin());
+    v.normalize();
+    
+    nl = n.scalarProduct(l);
+    r = (2*nl*n) - l;
+    r.normalize();
+
+    return hit.shape->getColor() * intensity + (ambience + diffuse*nl + specular*pow(v.scalarProduct(r),exponent));
+}
+*/
 Light::operator std::string() const {
     stringstream ss;
     ss << "Light ( position:" << pos 

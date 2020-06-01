@@ -44,10 +44,30 @@
             friend std::ostream& operator<<(std::ostream&, const Scene&);
 
             /**
-             *  @brief Gets the right color for a pixel.
+             *  @brief Traces the ray to obtaint the correct Color.
+             *  @param ray: const Ray&
+             *  @param nbonds: int
              *  @return Color.
             */
             Color traceRay(const Ray& ray, int nbonds = 0);
+
+            /**
+             *  @brief Sets the color of the shape as a mirror.
+             *  @param c: Color&
+             *  @param ray: const Ray&
+             *  @param hit: const Hit&
+             *  @param nbonds: int
+            */
+            void mirror(Color& c, const Ray& ray, const Hit& hit, int& nbonds);
+
+            /**
+             *  @brief Sets the color of the shape as it his transparent.
+             *  @param c: Color&
+             *  @param ray: const Ray&
+             *  @param hit: const Hit&
+             *  @param nbonds: int
+            */
+            void transperecy(Color& c, const Ray &ray, const Hit &hit, int& nbonds);
 
         public:
             /**

@@ -89,6 +89,19 @@ Vector Vector::cross(const Vector &v) {
         this->x * v.y - this->y * v.x);
 }
 
+Vector Vector::dRandom(Vector normal) {
+    double r1 = uniform(engine), r2 = uniform(engine);
+    double x = cos(2 * M_PI * r1) * sqrt(1 - r2);
+    double y = sin(2 * M_PI * r1) * sqrt(1 - r2);
+    double z = sqrt(r2);
+    Vector dRandomLocal = Vector(x, y, z);
+    Vector ran = Vector(uniform(engine)-0.5, uniform(engine)-0.5, uniform(engine)-0.5);
+    Vector tangent1 = normal.cross(ran); tangent1.normalize();
+    Vector tangent2 = tangent1.cross(normal);
+
+    return normal*z + tangent1*x + tangent2*y;
+}
+
 const double Vector::getX() const {
     return x;
 }

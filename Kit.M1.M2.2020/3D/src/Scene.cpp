@@ -9,8 +9,8 @@
 #include <omp.h>
 
 
-std::default_random_engine engine;
-std::uniform_real_distribution<double> uniform(0, 1);
+//std::default_random_engine engine;
+//std::uniform_real_distribution<double> uniform(0, 1);
 
 Scene::Scene(int level, string file, string imName, int ps) {
     this->level = level;
@@ -57,6 +57,30 @@ const bool Scene::intersect(const Ray &ray, Hit &hit) const {
     return hasItersect;
 }
 
+void Scene::mirror(Color &c, const Ray &ray, const Hit &hit, int& nbonds) {
+    Vector n = hit.normal;
+    Vector dMirror = ray.getDirection() - n * 2 * n.scalarProduct(ray.getDirection());
+    Ray rMirror = Ray(hit.pos + n*0.001, dMirror);
+    c = traceRay(rMirror, nbonds--);
+}
+
+void Scene::transperecy(Color &c, const Ray &ray, const Hit &hit, int& nbonds) {
+    Vector n = hit.normal;
+    double n1 = 1, n2 = 1.3;
+    Vector nt = hit.normal;
+    if (n.scalarProduct(ray.getDirection()) > 0) {
+        swap(n1, n2);
+        nt = n * (-1);
+    }
+    double radical = 1 - pow(n1 / n2, 2)*(1 - pow(nt.scalarProduct(ray.getDirection()), 2));
+    if (radical > 0) {
+        Vector dirRef = (ray.getDirection() - nt * nt.scalarProduct(ray.getDirection())) * (n1/n2) - nt * sqrt(radical);
+        Ray rayRef = Ray(hit.pos - nt*0.001, dirRef);
+        c = traceRay(rayRef, nbonds--);
+    }
+}
+
+
 Color Scene::traceRay(const Ray &ray, int nbonds) {
     if (nbonds == 0) {
         return image.backgroundColor();
@@ -67,9 +91,7 @@ Color Scene::traceRay(const Ray &ray, int nbonds) {
     
     if (hasIter) {
         if ( hit.shape->getMaterial().isMirror() ) {
-            Vector dMirror = ray.getDirection() - hit.normal * 2 * hit.normal.scalarProduct(ray.getDirection());
-            Ray rMirror = Ray(hit.pos + hit.normal*0.001, dMirror);
-            c = traceRay(rMirror, nbonds - 1);
+            mirror(c, ray, hit, nbonds);
         } else {
             if ( hit.shape->getMaterial().isTransparent() ) {
                 double n1 = 1, n2 = 1.3;
@@ -85,23 +107,14 @@ Color Scene::traceRay(const Ray &ray, int nbonds) {
                     c = traceRay(rayRef, nbonds - 1);
                 }
             } else {
-                // contribution eclairage direct
+                // direct illumination
                 for (auto light = lights.begin(); light != lights.end(); light++) {
-                    c+= light->getColor((*this), hit);
+                    c+= light->getColor((*this), ray, hit);
                 }
 
-                // ajout contribution indirect
+                // indirect illuminations
                 if (level == 3 && ps > 0) {
-                    double r1 = uniform(engine), r2 = uniform(engine);
-                    double x = cos(2 * M_PI * r1) * sqrt(1 - r2);
-                    double y = sin(2 * M_PI * r1) * sqrt(1 - r2);
-                    double z = sqrt(r2);
-                    Vector dRandomLocal = Vector(x, y, z);
-                    Vector ran = Vector(uniform(engine)-0.5, uniform(engine)-0.5, uniform(engine)-0.5);
-                    Vector tangent1 = hit.normal.cross(ran); tangent1.normalize();
-                    Vector tangent2 = tangent1.cross(hit.normal);
-                    
-                    Vector dRandom = hit.normal*z + tangent1*x + tangent2*y;
+                    Vector dRandom = Vector::dRandom(hit.normal);
                     Ray rayRandom = Ray(hit.pos + hit.normal*0.001, dRandom);
                     c += hit.shape->getColor() * traceRay(rayRandom, nbonds - 1);
                 }
@@ -138,6 +151,7 @@ void Scene::render() {
 
 void Scene::buildImage() {
     Image::save(image, imageName);
+    cout << "Saved image:" << imageName << endl;
 }
 
 
@@ -170,6 +184,9 @@ void Scene::buildWindow() {
                 break;
             
             case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_s) {
+                    buildImage();
+                }
                 auto itr = events.find(event.key.keysym.sym);
                 if (itr != events.end()) {
                     camera = camera+ itr->second;
@@ -179,7 +196,6 @@ void Scene::buildWindow() {
                 break;
         }
     }
-
 }
 
 void Scene::build() {
