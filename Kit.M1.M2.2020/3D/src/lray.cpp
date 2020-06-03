@@ -1,4 +1,3 @@
-#include <g3x.h>
 #include <iostream>
 #include <ctype.h>
 #include <stdio.h>

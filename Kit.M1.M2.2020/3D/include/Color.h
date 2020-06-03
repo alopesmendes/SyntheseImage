@@ -11,9 +11,10 @@
 
     #include <iostream>
     #include <string>
-
+    #include "Vector.h"
+    
     using namespace std;
-
+    class Vector;
     class Color {
         private:
             double red, green, blue;

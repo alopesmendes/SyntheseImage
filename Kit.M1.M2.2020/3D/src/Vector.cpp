@@ -89,6 +89,10 @@ Vector Vector::cross(const Vector &v) {
         this->x * v.y - this->y * v.x);
 }
 
+Vector Vector::reflect(const Vector &v) {
+    return (*this) - 2 * (*this).scalarProduct(v) * v; 
+}
+
 Vector Vector::dRandom(Vector normal) {
     double r1 = uniform(engine), r2 = uniform(engine);
     double x = cos(2 * M_PI * r1) * sqrt(1 - r2);

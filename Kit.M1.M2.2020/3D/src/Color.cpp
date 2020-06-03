@@ -81,6 +81,7 @@ const Color operator/(const double &a, const Color &b) {
     return Color(a / b.red, a / b.green, a / b.blue);
 }
 
+
 const Color operator+(const Color &a, const Color &b) {
     return Color(a.red + b.red, a.green + b.green, a.blue + b.blue);
 }

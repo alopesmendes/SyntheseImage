@@ -39,6 +39,29 @@ void Scene::addImage(const Image &im) {
     image = im;
 }
 
+const Camera Scene::getCam() const {
+    return camera;
+}
+
+const bool Scene::intersectShadowRay(const Hit &hit) const{
+    for (auto l = lights.begin(); l != lights.end(); ++l) {
+        Vector v = l->getPos() - hit.pos;
+        double d_light2 = v.scalarProduct(v);
+        Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
+        for (auto categorie = shapes.begin(); categorie != shapes.end(); ++categorie) {
+            for (auto shape = categorie->second.begin(); shape != categorie->second.end(); ++shape) {
+                Hit localHit;
+                bool localItersect = (**shape).intersect(rayLight, localHit);
+                if (localItersect && localHit.t*localHit.t <= d_light2) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
 const bool Scene::intersect(const Ray &ray, Hit &hit) const {
     bool hasItersect = false;
     hit.t = INFINITY;
@@ -82,7 +105,7 @@ void Scene::transperecy(Color &c, const Ray &ray, const Hit &hit, int& nbonds) {
 
 
 Color Scene::traceRay(const Ray &ray, int nbonds) {
-    if (nbonds == 0) {
+    if (nbonds <= 0) {
         return image.backgroundColor();
     }
     Hit hit, hitLight;
@@ -94,29 +117,28 @@ Color Scene::traceRay(const Ray &ray, int nbonds) {
             mirror(c, ray, hit, nbonds);
         } else {
             if ( hit.shape->getMaterial().isTransparent() ) {
-                double n1 = 1, n2 = 1.3;
-                Vector nt = hit.normal;
-                if (hit.normal.scalarProduct(ray.getDirection()) > 0) {
-                    swap(n1, n2);
-                    nt = hit.normal * (-1);
-                }
-                double radical = 1 - pow(n1 / n2, 2)*(1 - pow(nt.scalarProduct(ray.getDirection()), 2));
-                if (radical > 0) {
-                    Vector dirRef = (ray.getDirection() - nt * nt.scalarProduct(ray.getDirection())) * (n1/n2) - nt * sqrt(radical);
-                    Ray rayRef = Ray(hit.pos - nt*0.001, dirRef);
-                    c = traceRay(rayRef, nbonds - 1);
-                }
+                transperecy(c, ray, hit, nbonds);
             } else {
                 // direct illumination
-                for (auto light = lights.begin(); light != lights.end(); light++) {
-                    c+= light->getColor((*this), ray, hit);
-                }
+                c = hit.shape->getMaterial().ambience;
+                if (level == 3) {
+                    bool shadow = intersectShadowRay(hit);
+                    if (shadow == false) {
+                        for (auto light = lights.begin(); light != lights.end(); light++) {
+                            c += light->getColor((*this), ray, hit);
+                        }
+                    }
 
-                // indirect illuminations
-                if (level == 3 && ps > 0) {
-                    Vector dRandom = Vector::dRandom(hit.normal);
-                    Ray rayRandom = Ray(hit.pos + hit.normal*0.001, dRandom);
-                    c += hit.shape->getColor() * traceRay(rayRandom, nbonds - 1);
+                    // indirect illuminations
+                    if (ps > 0) {
+                        Vector dRandom = Vector::dRandom(hit.normal);
+                        Ray rayRandom = Ray(hit.pos + hit.normal*0.001, dRandom);
+                        c += hit.shape->getColor() * traceRay(rayRandom, nbonds - 1);
+                    }
+                } else {
+                    for (auto light = lights.begin(); light != lights.end(); light++) {
+                        c += light->getColor((*this), ray, hit);
+                    }
                 }
             }
         }
@@ -169,9 +191,9 @@ void Scene::buildWindow() {
         {SDLK_k, Coord(Vector(), Vector(0., -10, 0.), Vector(), 0., 0., 0., 0.)},
         {SDLK_j, Coord(Vector(), Vector(-10, 0., 0.), Vector(), 0., 0., 0., 0.)},
         {SDLK_l, Coord(Vector(), Vector(10, 0., 0.), Vector(), 0., 0., 0., 0.)},
-        {SDLK_x, Coord(Vector(), Vector(), Vector(1, 0., 0.), 0., 0., 0., 0.)},
-        {SDLK_y, Coord(Vector(), Vector(), Vector(0., 1, 0.), 0., 0., 0., 0.)},
-        {SDLK_z, Coord(Vector(), Vector(), Vector(0., 0., 1), 0., 0., 0., 0.)},
+        {SDLK_x, Coord(Vector(), Vector(), Vector(1., 0., 0.), 0., 0., 0., 0.)},
+        {SDLK_y, Coord(Vector(), Vector(), Vector(0., 1., 0.), 0., 0., 0., 0.)},
+        {SDLK_z, Coord(Vector(), Vector(), Vector(0., 0., 1.), 0., 0., 0., 0.)},
         {SDLK_KP_PLUS, Coord(Vector(), Vector(), Vector(), -10., 0., 0., 0.)},
         {SDLK_KP_MINUS, Coord(Vector(), Vector(), Vector(), 10., 0., 0., 0.)},
     };

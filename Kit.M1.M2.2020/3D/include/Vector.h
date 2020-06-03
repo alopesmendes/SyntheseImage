@@ -55,6 +55,13 @@
              *  @return Vector
             */
             Vector cross(const Vector& v);
+
+            /**
+             *  @brief Compute the reflection direction.
+             *  @param v: const Vector&
+             *  @return: Vector
+            */
+            Vector reflect(const Vector& v);
             
             /**
              *  @brief Normalize the Vector.

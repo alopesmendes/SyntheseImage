@@ -130,22 +130,18 @@
             */
             Camera& newPlacedCamera(Vector pos = Vector(), Vector target = Vector(), Vector up = Vector(), double fov = 0, double ar = 0, double ap = 0, double d = 0);
 
+
+            /**
+             *  @brief Getter for lookat.
+             *  @return: Vector
+            */
+            const Vector getLookAt() const;
+
+
             friend Camera operator+(Camera& cam, const Coord& coord);
             Camera& operator=(const Camera& cam);
             virtual operator std::string() const;
 
-            class Coord {
-            public:
-                Vector lookfrom;
-                Vector lookat;
-                Vector vup;
-                double vfov;
-                double aspectRatio;
-                double aperture;
-                double dist;
-                Coord(Vector lookfrom, Vector lookat, Vector vup, double vfov, double aspectRatio, double aperture, double dist);
-                ~Coord();
-        };
     };
     
     

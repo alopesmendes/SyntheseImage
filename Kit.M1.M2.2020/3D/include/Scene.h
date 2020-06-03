@@ -85,10 +85,19 @@
             ~Scene();
 
             /**
+             *  @brief Checks if the intersection is in the shadow.
+             *  @param ray: const Ray&
+             *  @param hit: hit&
+             *  @return: bool
+            */
+            const bool intersectShadowRay(const Hit &hit) const;
+            
+
+            /**
              *  @brief Checks if the shapes intersect with the ray and hit allow us to keep track of this shapes.
              *  @param ray: const Ray&
              *  @param hit: Hit&
-             *  @return bool
+             *  @return: bool
             */
             const bool intersect(const Ray& ray, Hit& hit) const;
 
@@ -137,6 +146,12 @@
              *  @brief Builds the scene in a window, image or both.
             */
             void build();
+
+            /**
+             *  @brief Getter for Camera.
+             *  @return: Camera
+            */
+            const Camera getCam() const;
 
             virtual operator std::string() const;
 

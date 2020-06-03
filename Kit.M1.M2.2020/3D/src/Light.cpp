@@ -1,13 +1,15 @@
 #include "../include/Light.h"
+#include "../include/Utils.h"
 #include <cmath>
 #include <sstream>
 
-Light::Light(Vector pos, double intensity) {
+Light::Light(Vector pos, Color color,  double intensity) {
     this->pos = pos;
+    this->color = color;
     this->intensity = intensity;
 }
 
-Light::Light() : Light(Vector(), 0) {
+Light::Light() : Light(Vector(), Color(), 0) {
     
 }
 
@@ -16,28 +18,24 @@ Light::~Light() {
 }
 
 Light* Light::create(string description) {
-    string pos, intensity;
-    double pos_x, pos_y, pos_z;
-    double it;
+    char separator = '|';
     stringstream iss(description);
-    getline(iss, pos, '|');
-    getline(iss, intensity, '}');
-    stringstream issPos(pos);
-    stringstream issIntensity(intensity);
-    issPos >> pos_x >> pos_y >> pos_z;
-    issIntensity >> it;
-    return new Light(Vector(pos_x, pos_y, pos_z), it);
+    Vector pos = Utils::decodeVector(iss, separator);
+    Color color = Utils::decodeColor(iss, separator);
+    double intensity = Utils::decodeDouble(iss, separator);
+    return new Light(pos, color, intensity);
 }
 
-const double Light::getIntensity() const {
-    return intensity;
+const Color Light::calcIntensity(const double &norm) const {
+    return color * intensity / (4 * M_PI * norm);
 }
 
 
 Vector Light::getPos() const {
     return pos;
 }
-
+/*
+version 1
 Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
     Color diffuse, specular, c;
     Hit hitLight;
@@ -45,10 +43,6 @@ Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
     Vector v = pos - hit.pos;
     double d_light2 = v.scalarProduct(v);
     Ray rayLight = Ray(hit.pos + hit.normal*0.01, v.getNormalized());
-    bool hasIterLight = scene.intersect(rayLight, hitLight);
-    if (hasIterLight && (hitLight.t*hitLight.t <= d_light2)) {
-        return Color();
-    } 
     Vector normal = hit.normal;
     Vector dir = rayLight.getDirection() - 2 * rayLight.getDirection().scalarProduct(normal) * normal;
     Ray rRefl = Ray(hit.pos, -1 * dir);
@@ -59,7 +53,10 @@ Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
     c += hit.shape->getColor() + intensity * (hit.shape->getMaterial().ambience+ diffuse + specular);
     return c;
 }
+*/
+
 /*
+version 2
 Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
     Vector n,l,v,r;
     Color diffuse, specular, ambience;
@@ -76,14 +73,30 @@ Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
     nl = n.scalarProduct(l);
     r = (2*nl*n) - l;
     r.normalize();
-
-    return hit.shape->getColor() * intensity + (ambience + diffuse*nl + specular*pow(v.scalarProduct(r),exponent));
+    return hit.shape->getColor() * intensity + (diffuse*nl + specular*pow(v.scalarProduct(r),exponent));
 }
 */
+
+Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
+    Color ambient = hit.shape->getMaterial().ambience * color;
+    Vector n = hit.normal;
+    Vector lightDir = (pos - hit.pos);
+    n.normalize();
+    double diff = max(n.scalarProduct(lightDir.getNormalized()), 0.);
+    Color diffuse = diff * hit.shape->getMaterial().diffuse;
+
+    Vector viewDir = (scene.getCam().getLookAt() - pos).getNormalized();
+    Vector reflectDir = (-1*lightDir.getNormalized()).reflect(n);
+    double spec = pow(max(viewDir.scalarProduct(reflectDir), 0.), hit.shape->getMaterial().specularExponent);
+    Color specular = hit.shape->getMaterial().specular * spec * color;
+    return (ambient + diffuse + specular) * hit.shape->getColor() * calcIntensity(lightDir.norm(lightDir));
+}
 Light::operator std::string() const {
     stringstream ss;
     ss << "Light ( position:" << pos 
-    << ", intensity:" << intensity << ")"; 
+    << ", " << color
+    << ", intensity:" << intensity
+    << ")"; 
     return ss.str();
 }
 

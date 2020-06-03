@@ -29,6 +29,7 @@
     class Light {
         private:
             Vector pos;
+            Color color;
             double intensity;
 
             friend std::ostream& operator<<(std::ostream&, const Light&);
@@ -39,7 +40,7 @@
              *  @param pos: Vector
              *  @param intensity: double
             */
-            Light(Vector pos, double intensity);
+            Light(Vector pos, Color color, double intensity);
 
             /**
              *  @brief Constructs default Light.
@@ -62,10 +63,11 @@
             static Light* create(string description);
 
             /**
-             *  @brief Getter for intensity.
-             *  @return double
+             *  @brief Calculates the intensity of the light.
+             *  @param norm: const double&
+             *  @return Color
             */
-            const double getIntensity() const;
+            const Color calcIntensity(const double& norm) const;
 
             /**
              *  @brief Getter for pos

@@ -15,13 +15,13 @@ else              #en mode normal
 endif
 
 # assemblage des infos de lib. et inc.
-lib = $(libG3X) $(shell sdl2-config --libs)
+lib = $(shell sdl2-config --libs) #$(libG3X)
 
 # fichiers *.c locaux
 src = src/
 
 # fichiers *.h locaux et lib.
-inc = -I./include $(incG3X) 
+inc = -I./include #$(incG3X) 
 
 
 exec = lray
@@ -48,8 +48,9 @@ lray : lray.o Parser.o StandardFigure.o Shape.o Sphere.o Color.o Vector.o Utils.
 	@echo "  processor      : $(PROCBIT)"
 	@echo "  compiler       : $(CC)"
 	@echo "  options        : $(CFLAGS)"
-	@echo "  lib g2x/OpenGl : $(libG2X)$(COMP)"
-	@echo "  headers        : $(incG2X)"
+	@echo "  lib/sdl2		: $(shell sdl2-config --libs)$(COMP)
+	#@echo "  lib g2x/OpenGl : $(libG2X)$(COMP)"
+	#@echo "  headers        : $(incG2X)"
 clean : 
 	@rm -f *.o
 cleanall :
