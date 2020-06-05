@@ -125,7 +125,7 @@ Color Scene::traceRay(const Ray &ray, int nbonds) {
                     bool shadow = intersectShadowRay(hit);
                     if (shadow == false) {
                         for (auto light = lights.begin(); light != lights.end(); light++) {
-                            c += light->getColor((*this), ray, hit);
+                            c += light->getColor((*this), camera, hit);
                         }
                     }
 
@@ -137,7 +137,7 @@ Color Scene::traceRay(const Ray &ray, int nbonds) {
                     }
                 } else {
                     for (auto light = lights.begin(); light != lights.end(); light++) {
-                        c += light->getColor((*this), ray, hit);
+                        c += light->getColor((*this), camera, hit);
                     }
                 }
             }

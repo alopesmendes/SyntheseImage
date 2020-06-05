@@ -17,7 +17,7 @@
     #include "Color.h"
     #include "Hit.h"
     #include "Scene.h"
-    #include "Ray.h"
+    #include "Camera.h"
 
     using namespace std;
 
@@ -25,7 +25,7 @@
     class Color;
     class Hit;
     class Scene;
-    class Ray;
+    class Camera;
     class Light {
         private:
             Vector pos;
@@ -81,7 +81,7 @@
              *  @param hit: const Hit&
              *  @return Color
             */
-            virtual Color getColor(const Scene& scene, const Ray& ray, const Hit& hit);
+            virtual Color getColor(const Scene& scene, const Camera& cam, const Hit& hit);
 
             virtual operator std::string() const;
     };

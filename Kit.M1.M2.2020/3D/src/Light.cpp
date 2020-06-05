@@ -77,7 +77,7 @@ Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
 }
 */
 
-Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
+Color Light::getColor(const Scene &scene, const Camera &cam, const Hit &hit) {
     Color ambient = hit.shape->getMaterial().ambience * color;
     Vector n = hit.normal;
     Vector lightDir = (pos - hit.pos);
@@ -85,7 +85,7 @@ Color Light::getColor(const Scene &scene, const Ray& ray, const Hit &hit) {
     double diff = max(n.scalarProduct(lightDir.getNormalized()), 0.);
     Color diffuse = diff * hit.shape->getMaterial().diffuse;
 
-    Vector viewDir = (scene.getCam().getLookAt() - pos).getNormalized();
+    Vector viewDir = (cam.getLookAt() - pos).getNormalized();
     Vector reflectDir = (-1*lightDir.getNormalized()).reflect(n);
     double spec = pow(max(viewDir.scalarProduct(reflectDir), 0.), hit.shape->getMaterial().specularExponent);
     Color specular = hit.shape->getMaterial().specular * spec * color;
