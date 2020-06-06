@@ -2,15 +2,14 @@
 #include <sstream>
 
 
-Material::Material() : Material(Color(), Color(), Color(), Color(), 0, false, false) {
+Material::Material() : Material(Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), 1, false, false) {
     
 }
 
-Material::Material(Color ambience, Color diffuse, Color specular, Color reflectance, double specularExponent, bool mirror, bool transparecy) {
+Material::Material(Color ambience, Color diffuse, Color specular, double specularExponent, bool mirror, bool transparecy) {
     this->ambience = ambience;
     this->diffuse = diffuse;
     this->specular = specular;
-    this->reflectance = reflectance;
     this->specularExponent = specularExponent;
     this->mirror = mirror;
     this->transparecy = transparecy;
@@ -34,7 +33,6 @@ Material::operator std::string() const {
     ss << "Material (ambience:" << ambience
     << ", diffuse:" << diffuse
     << ", specular:" << specular
-    << ", reflectance:" << reflectance
     << ", exponent:" << specularExponent
     << ", mirror:" << mirror 
     << ", transparecy:" << transparecy << ")";
@@ -51,7 +49,6 @@ std::istream &operator>>(std::istream &is, Material &m) {
     return  is >> m.ambience
             >> m.diffuse 
             >> m.specular 
-            >> m.reflectance 
             >> m.specularExponent 
             >> m.mirror 
             >> m.transparecy;

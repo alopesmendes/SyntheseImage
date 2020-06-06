@@ -1,7 +1,7 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
- *  Will create a Light to illumate the scene.
- *  The method getColor will return the right color according to the hit information.
+ *  Will create a Light to illuminate the scene.
+ *  The method getColor will return the right color according to the scene, camera and hit information.
  *  @see Vector.h
  *  @see Color.h
  *  @see Hit.h

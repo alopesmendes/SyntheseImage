@@ -21,12 +21,26 @@ enum StandardFigure {
     +StandardFigure resolveStandardFigure(string input)
 }
 
+class GraphicWindow {
+    .. Constructor ..
+    GraphicWindow(int w, int h)
+    ==
+    +void render(const Image &img, const Camera& cam)
+    +void setPixel(int x, int y, const Color &color)
+}
+
 class Scene {
     .. Constructor ..
     +Scene()
     ==
-    +void addCamera(Camera camera)
-    +void addShape(StandardFigure sf, Camera camera)
+    +void addCamera(const Camera& camera)
+    +void addShape(const StandardFigure& standardFigure, Shape* shape)
+    +void addLight(const Light& l)
+    +void addImage(const Image& im)
+    +const bool intersectShadowRay(const Hit &hit) const
+    +const bool intersect(const Ray& ray, Hit& hit) const
+    +void render()
+    +void build()
 }
 
 class Camera {
@@ -120,4 +134,5 @@ Hit .up..> Shape
 Light .left...>Hit
 Light -up--->Vector
 Light .up...>Scene
+GraphicWindow .up....> Scene
 @enduml

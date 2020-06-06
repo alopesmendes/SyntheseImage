@@ -115,7 +115,7 @@
              *  @param im: const Image&
              *  @return: Ray.
             */
-            Ray makeRay(const int &u, const int &v, const Image& im);
+            Ray makeRay(const int &i, const int &j, const Image& im);
 
             /**
              *  @brief Sets the camera.

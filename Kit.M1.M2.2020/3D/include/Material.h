@@ -15,20 +15,19 @@
     class Color;
     class Material {
         private:
-            bool mirror;
-            bool transparecy;
             friend std::ostream& operator<<(std::ostream&, const Material&);
 
             friend std::istream& operator>>(std::istream&, Material&);
         public:
+            bool mirror;
+            bool transparecy;
             Color ambience;
             Color diffuse;
             Color specular;
-            Color reflectance;
             double specularExponent;
 
             /**
-             *  @brief Constructs a Material with it's ambience, diffuse, specular, reflectance and specularExponent.
+             *  @brief Constructs a Material with it's ambience, diffuse, specular and specularExponent.
              *  @param ambience: Color
              *  @param diffuse: Color
              *  @param specular: Color
@@ -37,7 +36,7 @@
              *  @param mirror: bool
              *  @param transparecy: bool
             */
-            Material(Color ambience, Color diffuse, Color specular, Color reflectance, double specularExponent, bool mirror, bool transparecy);
+            Material(Color ambience, Color diffuse, Color specular, double specularExponent, bool mirror, bool transparecy);
 
             /**
              *  @brief Constructs a default Material.

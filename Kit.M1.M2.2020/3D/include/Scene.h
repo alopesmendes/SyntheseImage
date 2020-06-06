@@ -1,7 +1,7 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
- *  Will create a scene with it's camera, lights and shapes.
- *  Will build a image after it traces it's rays to determine the color of the pixels.
+ *  Will create a scene with its camera, lights and shapes.
+ *  Will build an image after it traces its rays to determine the color of the pixels.
  *  @see Camera.h
  *  @see StandardFigure.h"
  *  @see Shape.h

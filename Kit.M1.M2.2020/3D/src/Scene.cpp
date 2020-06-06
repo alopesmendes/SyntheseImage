@@ -113,21 +113,21 @@ Color Scene::traceRay(const Ray &ray, int nbonds) {
     bool hasIter = intersect(ray, hit);
     
     if (hasIter) {
-        if ( hit.shape->getMaterial().isMirror() ) {
+        if ( level == 3 && hit.shape->getMaterial().isMirror() ) {
             mirror(c, ray, hit, nbonds);
         } else {
-            if ( hit.shape->getMaterial().isTransparent() ) {
+            if ( level == 3 && hit.shape->getMaterial().isTransparent() ) {
                 transperecy(c, ray, hit, nbonds);
             } else {
                 // direct illumination
                 c = hit.shape->getMaterial().ambience;
                 if (level == 3) {
-                    bool shadow = intersectShadowRay(hit);
+                    bool shadow =  intersectShadowRay(hit);
                     if (shadow == false) {
                         for (auto light = lights.begin(); light != lights.end(); light++) {
                             c += light->getColor((*this), camera, hit);
                         }
-                    }
+                    } 
 
                     // indirect illuminations
                     if (ps > 0) {
@@ -162,7 +162,7 @@ void Scene::render() {
             Ray ray = Ray(camera.getPos(), dir);*/
             Ray ray = camera.makeRay(i, j, image);
             Color c;
-            int nrays = level == 3 ? ps : 1;
+            int nrays = level == 3 && ps > 0 ? ps : 1;
             for (int k = 0; k < nrays; ++k) {
                 c += traceRay(ray, 5) / nrays;
             }

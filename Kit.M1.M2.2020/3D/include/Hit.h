@@ -1,6 +1,6 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
- *  Will keep the intersect informations as the point, the normal, t and the shape.
+ *  Will keep the intersection information as the point, the normal, t and the shape
  *  @see Vector.h
  *  @see Shape.h
 */

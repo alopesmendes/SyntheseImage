@@ -1,6 +1,6 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
- *  Will decode the lines.
+ *  Has globals methods that can be used in other classes.
  *  @see Vector.h
  *  @see Color.h
  *  @see Material.h

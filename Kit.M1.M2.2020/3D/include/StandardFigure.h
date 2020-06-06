@@ -1,6 +1,6 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
- *  Will create a enum to regroup every element that can be added to the scene.
+ *  Will create an enumeration to regroup every element that can be added to the scene.
  *  The method resolveStandardFigure will verify the input is well written. 
 */
 

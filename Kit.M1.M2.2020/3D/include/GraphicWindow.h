@@ -1,5 +1,13 @@
-#ifndef RAYTRACER_GUI_H
-#define RAYTRACER_GUI_H
+/**
+ *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
+ *  Creates a graphic window that will represent the image in real time and will allow us to navigate the scene with the camera.
+ *  @see Color.h
+ *  @see Image.h
+ *  @see Camera.h
+*/
+
+#ifndef __GRAPHICWINDOW_HPP__
+#define __GRAPHICWINDOW_HPP__
 
     #pragma once
 
@@ -63,4 +71,4 @@
             virtual operator std::string() const;
     };
 
-#endif //RAYTRACER_GUI_H
+#endif 

@@ -73,7 +73,7 @@ The text before the *{* can be in upper, lower or both cases.
 
 
 ## Bugs
-The transparency does not work that well with the cube it might produce a segmentation fault.
+The transparency does not work that well with the cube it might produce a segmentation fault. The shadows are not perfect. If the command line is not written properly the program will not work correctly. The graphic window since it will reder the image every time it can be very slow.
 
 ## Conclusion 
 The user can create different scenes with this version of ray tracing.  

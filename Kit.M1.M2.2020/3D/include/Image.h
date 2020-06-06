@@ -1,6 +1,6 @@
 /**
  *  @authors: LOPES MENDES Ailton, LAMBERT-DELAVAQUERIE Fabien
- *  Will generate a Image, will use the protocole to generate a ppm https://fr.wikipedia.org/wiki/Portable_pixmap
+ *  Will generate an Image by using the protocol to generate a ppm https://fr.wikipedia.org/wiki/Portable_pixmap
  *  The method save will construct the file ppm. Will need to use the setPixel to set a pixel color.
  *  @see Color.h 
 */
@@ -94,6 +94,10 @@
             */             
             static void save(const Image& image, const string& file);
 
+            /**
+             *  @brief Returns a int array of the image.
+             *  @return: int*
+            */
             const int *toIntArray() const;
 
             Image &operator=(const Image &c);
