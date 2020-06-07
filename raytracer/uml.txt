@@ -1,0 +1,138 @@
+@startuml
+
+class Parser {
+    {static}-Parser init(int argc, char **argv, string opts)
+    {static}-void addToScene(StandardFigure sf, string description, Scene& scene)
+    {static}+Scene parser(int argc, char **argv)
+}
+
+enum StandardFigure {
+    INVALID,
+    IMAGE,
+    CAMERA,
+    LIGHT,
+    SPHERE,
+    CUBE,
+    TRIANGLE,
+    PLANE,
+    CONE,
+    CYLINDER,
+    ==
+    +StandardFigure resolveStandardFigure(string input)
+}
+
+class GraphicWindow {
+    .. Constructor ..
+    GraphicWindow(int w, int h)
+    ==
+    +void render(const Image &img, const Camera& cam)
+    +void setPixel(int x, int y, const Color &color)
+}
+
+class Scene {
+    .. Constructor ..
+    +Scene()
+    ==
+    +void addCamera(const Camera& camera)
+    +void addShape(const StandardFigure& standardFigure, Shape* shape)
+    +void addLight(const Light& l)
+    +void addImage(const Image& im)
+    +const bool intersectShadowRay(const Hit &hit) const
+    +const bool intersect(const Ray& ray, Hit& hit) const
+    +void render()
+    +void build()
+}
+
+class Camera {
+    .. Constructor ..
+    +Camera(Vector pos, Vector target, double theta, double phi, double dist)
+    +Camera()
+    ==
+    +{static}Camera* create(string description)
+    +Ray makeRay(const int &u, const int &v, const Image& im)
+}
+
+class Image {
+    .. Constructor ..
+    +Image(int width, int height, const Color& color = Color(0,0,0))
+    +Image()
+    ==
+    +void setPixel(int x, int y, Color color)
+    +{static}Image* create(string description)
+    +{static}void save(const Image& image, const string& file)
+}
+
+note left of Shape : Many shapes as sphere, planes...\nextends this one.
+class Shape {
+    .. Constructor ..
+    ==
+    +{abstract}const Color getColor() const
+    +{abstract}const Material getMaterial() const
+    +{abstract}bool intersect(const Ray& ray, Hit& hit)
+}
+
+class Vector {
+    .. Constructor ..
+    +Vector(double x, double y, double z)
+    +Vector()
+    ==
+    +double scalarProduct(const Vector &p)
+    +Vector cross(const Vector& v)
+    +double norm(const Vector &v)
+    +Vector getNormalized()
+}
+
+class Color {
+    .. Constructor ..
+    +Color(double red, double green, double blue)
+    +Color()
+    ==
+}
+
+class Ray {
+    .. Constructor ..
+    +Ray(Vector origin, Vector direction);
+    +Ray()
+    ==
+    
+}
+
+class Hit {
+    .. Constructor ..
+    +Hit()
+    .. Fields ..
+    +Vector pos
+    +Vector normal
+    +double t
+    +Shape* shape
+}
+
+class Light {
+    .. Constructor ..
+    +Light(Vector pos, double intensity)
+    +Light()
+    ==
+    +{static}Light* create(string description)
+    +Color getColor(const Scene& scene, const Hit& hit)
+}
+
+
+Vector -left-> Shape
+Color -right-> Shape
+Scene .down..> Shape
+Scene .right..> Camera
+Scene .left..> StandardFigure
+Parser .down.> Scene
+Parser .down.> StandardFigure
+Vector -up--> Camera
+Image .down..> Camera
+Image -down--> Scene
+Color -----> Image
+Ray .down.> Camera
+Ray .down.> Shape
+Hit .up..> Shape
+Light .left...>Hit
+Light -up--->Vector
+Light .up...>Scene
+GraphicWindow .up....> Scene
+@enduml
