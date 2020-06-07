@@ -74,11 +74,11 @@ const Color operator*(const Color &a, const Color &b) {
 }
 
 const Color operator/(const Color &a, const double &b) {
-    return Color(a.red / b, a.green / b, a.blue / b);
+    return Color(a.red / (b == 0 ? 1 : b), a.green / (b == 0 ? 1 : b), a.blue / (b == 0 ? 1 : b));
 }
 
 const Color operator/(const double &a, const Color &b) {
-    return Color(a / b.red, a / b.green, a / b.blue);
+    return Color(a / (b.red == 0 ? 1 : b.red), a / (b.green == 0 ? 1 : b.green), a / (b.blue == 0 ? 1 : b.blue));
 }
 
 

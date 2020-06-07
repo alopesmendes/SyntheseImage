@@ -46,15 +46,15 @@ Vector operator*(const Vector &a, const Vector &b) {
 }
 
 Vector operator/(const Vector &a, const Vector &b) {
-    return Vector(a.x / b.x, a.y / b.y, a.z / b.z);
+    return Vector(a.x / (b.x == 0 ? 1 : b.x), a.y / (b.y == 0 ? 1 : b.y), a.z / (b.z == 0 ? 1 : b.z));
 }
 
 Vector operator/(const Vector &a, const double &b) {
-    return Vector(a.x / b, a.y / b, a.z / b);
+    return Vector(a.x / (b == 0 ? 1 : b), a.y / (b == 0 ? 1 : b), a.z / (b == 0 ? 1 : b));
 }
 
 Vector operator/(const double &a, const Vector &b) {
-    return Vector(a / b.x, a / b.y, a / b.z);
+    return Vector(a / (b.x == 0 ? 1 : b.x), a / (b.y == 0 ? 1 : b.y), a / (b.z == 0 ? 1 : b.z));
 }
 
 bool operator==(const Vector &a, const Vector &b) {
@@ -71,6 +71,9 @@ double Vector::norm(const Vector &v) {
 
 void Vector::normalize() {
     double norm = sqrt(scalarProduct(*this));
+    if (norm == 0) {
+        norm = 1;
+    }
     x /= norm;
     y /= norm;
     z /= norm;
