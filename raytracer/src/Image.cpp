@@ -78,9 +78,11 @@ const int *Image::toIntArray() const
     return res;
 }
 
-
-void Image::save(const Image& image, const string& file) {
-    if (image.width == 0 || image.height == 0) { fprintf(stderr, "Can't save an empty image\n"); return; }
+void Image::savePPM(const Image &image, const std::string &file) {
+    if (image.width == 0 || image.height == 0) { 
+        fprintf(stderr, "Can't save an empty image\n"); 
+        return;
+    }
     std::ofstream ofs;
     try {
         ofs.open(file.c_str(), std::ios::binary); // need to spec. binary mode for Windows users
@@ -100,6 +102,62 @@ void Image::save(const Image& image, const string& file) {
         ofs.close();
     }
 }
+
+void Image::saveBMP(const Image &image, const std::string &file) {
+    if (image.width == 0 || image.height == 0) {
+        fprintf(stderr, "Can't save an empty image\n");
+        return;
+    }
+    unsigned char bmpFileHeader[14] = {'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0};
+    unsigned char bmpInfoHeader[40] = {40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0};
+    unsigned char bmpPad[3] = {0, 0, 0};
+
+    int fileSize = 54 + 3 * image.width * image.height;
+    bmpFileHeader[2] = (unsigned char)(fileSize);
+    bmpFileHeader[3] = (unsigned char)(fileSize >> 8);
+    bmpFileHeader[4] = (unsigned char)(fileSize >> 16);
+    bmpFileHeader[5] = (unsigned char)(fileSize >> 24);
+
+    bmpInfoHeader[4] = (unsigned char)(image.width);
+    bmpInfoHeader[5] = (unsigned char)(image.width >> 8);
+    bmpInfoHeader[6] = (unsigned char)(image.width >> 16);
+    bmpInfoHeader[7] = (unsigned char)(image.width >> 24);
+    bmpInfoHeader[8] = (unsigned char)(image.height);
+    bmpInfoHeader[9] = (unsigned char)(image.height >> 8);
+    bmpInfoHeader[10] = (unsigned char)(image.height >> 16);
+    bmpInfoHeader[11] = (unsigned char)(image.height >> 24);
+
+    FILE *f;
+    f = fopen(file.c_str(), "wb");
+    if (f != nullptr) {
+        fwrite(bmpFileHeader, 1, 14, f);
+        fwrite(bmpInfoHeader, 1, 40, f);
+        std::vector<unsigned char> bgrPixels(image.width * image.height * 3);
+        for (int i = 0; i < image.height * image.width; i++) {
+            bgrPixels[i * 3] = Utils::clamp(Utils::gammaCorrection(image.pixels[i].getBlue()), 0., 255.);
+            bgrPixels[i * 3 + 1] = Utils::clamp(Utils::gammaCorrection(image.pixels[i].getGreen()), 0., 255.);
+            bgrPixels[i * 3 + 2] = Utils::clamp(Utils::gammaCorrection(image.pixels[i].getRed()), 0., 255.);
+        }
+
+        for (int i = 0; i < image.height; i++)
+        {
+            fwrite(&bgrPixels[0] + (image.width * (image.height - i - 1) * 3), 3, image.width, f);
+            fwrite(bmpPad, 1, (4 - (image.width * 3) % 4) % 4, f);
+        }
+        fclose(f);
+    }
+
+}
+
+void Image::save(const Image& image, const string& file) {
+    if (Utils::checkIfExtenstionCorrect(file, "ppm")) {
+        savePPM(image, file);
+    } else if (Utils::checkIfExtenstionCorrect(file, "bmp")) {
+        saveBMP(image, file);
+    }
+}
+
+
 
 Image &Image::operator=(const Image &im) {
     this->width = im.width;

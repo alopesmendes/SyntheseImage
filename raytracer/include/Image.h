@@ -22,6 +22,20 @@
             Color* pixels;
 
             friend std::ostream& operator<<(std::ostream&, const Image&);
+
+            /**
+             *  @brief Saves all the pixels of the image in the file in the format ppm.
+             *  @param image: const Image&
+             *  @param file: const string&
+            */             
+            static void savePPM(const Image& image, const string& file);
+
+            /**
+             *  @brief Saves all the pixels of the image in the file in the format bmp.
+             *  @param image: const Image&
+             *  @param file: const string&
+            */             
+            static void saveBMP(const Image& image, const string& file);
         
         public:
             /**

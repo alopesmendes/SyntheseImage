@@ -38,8 +38,8 @@ Parser::Parser(int level, string file, string imageName, int ps) {
         cerr << "input file format is not .txt" << endl;
         exit(EXIT_FAILURE);
     }
-    if (!Utils::checkIfExtenstionCorrect(imageName, "ppm")) {
-        cerr << "output image name format is not .ppm" << endl;
+    if (!Utils::checkIfExtenstionCorrect(imageName, "ppm") && !Utils::checkIfExtenstionCorrect(imageName, "bmp")) {
+        cerr << "output image name format is not .ppm or .bmp" << endl;
         exit(EXIT_FAILURE);
     }
     this->level = level;
