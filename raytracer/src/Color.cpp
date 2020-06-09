@@ -29,35 +29,15 @@ Color &Color::operator=(const Color &c) {
     return (*this);
 }
 
-const double Color::gammaCorrection(double value) const {
-    return pow(value, 1/2.2);
-}
-
-const double Color::clamp(double value, const double &vmin, const double &vmax) const {
-    return min(vmax, max(vmin, value));
-}
-
-const unsigned char Color::getRed() const {
-    return clamp(gammaCorrection(red), 0., 255);
-}
-
-const unsigned char Color::getBlue() const {
-    return clamp(gammaCorrection(blue), 0., 255.);
-}
-
-const unsigned char Color::getGreen() const {
-    return clamp(gammaCorrection(green), 0., 255.);
-}
-
-const double Color::getDRed() const {
+const double Color::getRed() const {
     return red;
 }
 
-const double Color::getDBlue() const {
+const double Color::getBlue() const {
     return blue;
 }
 
-const double Color::getDGreen() const {
+const double Color::getGreen() const {
     return green;
 }
 

@@ -8,6 +8,8 @@
 #include <sstream>
 #include <stdlib.h>   
 #include <getopt.h>
+#include <cerrno>
+#include <cstring>
 #include "../include/Parser.h"
 #include "../include/Camera.h"
 #include "../include/Sphere.h"
@@ -19,10 +21,27 @@
 #include "../include/Triangle.h"
 #include "../include/Cone.h"
 #include "../include/Cylinder.h"
+#include "../include/Utils.h"
 
 using namespace std;
 
 Parser::Parser(int level, string file, string imageName, int ps) {
+    if (level <= 0) {
+        cerr << "level was not purposed" << endl;
+        exit(EXIT_FAILURE);
+    }
+    if (level < 1 || level > 3) {
+        cerr << "level is not between 1 and 3" << endl;
+        exit(EXIT_FAILURE);
+    }
+    if (!Utils::checkIfExtenstionCorrect(file, "txt")) {
+        cerr << "input file format is not .txt" << endl;
+        exit(EXIT_FAILURE);
+    }
+    if (!Utils::checkIfExtenstionCorrect(imageName, "ppm")) {
+        cerr << "output image name format is not .ppm" << endl;
+        exit(EXIT_FAILURE);
+    }
     this->level = level;
     this->file = file;
     this->imageName = imageName;
@@ -37,9 +56,9 @@ string Parser::getImageName() {
 
 Parser Parser::init(int argc, char **argv, string opts) {
     int opt;
-    int level;
-    string file;
-    string imageName;
+    int level = 0;
+    string file = "";
+    string imageName = "";
     int ps = 0;
     int this_option_optind = optind ? optind : 1;
     int option_index = 0;
@@ -67,6 +86,7 @@ Parser Parser::init(int argc, char **argv, string opts) {
                 break;
         }
     }
+
     return Parser(level, file, imageName, ps);
 }
 
@@ -113,6 +133,11 @@ Scene Parser::parser(int argc, char **argv) {
     Scene scene = Scene(parser.level, parser.file, parser.imageName, parser.ps);
     ifstream readFile(parser.file.c_str());
 
+    if(!readFile.is_open()) {
+        cerr << "unable to open: " << strerror(errno) << endl;
+        exit(EXIT_FAILURE);
+    }
+   
     while(getline(readFile, line)) {
         stringstream iss(line);
         getline(iss, figure, '{');

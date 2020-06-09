@@ -1,4 +1,5 @@
 #include "../include/Utils.h"
+#include <cmath>
 
 size_t Utils::nthOccurrence(const string& str, const string& findMe, int nth) {
     size_t  pos = 0;
@@ -56,4 +57,16 @@ double Utils::decodeDouble(std::stringstream &iss, const char &separator) {
     issValue >> value;
     return value;
 
+}
+
+double Utils::clamp(double value, const double &vmin, const double &vmax) {
+    return min(vmax, max(vmin, value));
+}
+
+double Utils::gammaCorrection(double value) {
+    return pow(value, 1/2.2);
+}
+
+bool Utils::checkIfExtenstionCorrect(string file, string extension) {
+    return file.substr(file.find_last_of(".") + 1) == extension;
 }

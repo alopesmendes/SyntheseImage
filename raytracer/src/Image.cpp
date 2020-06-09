@@ -66,11 +66,13 @@ Color Image::getPixelColor(int x, int y) {
 const int *Image::toIntArray() const
 {
     int *res = new int[width * height * sizeof(int)];
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            res[j + i * width] = pixels[j + i * width].getRed() * 0x10000 + pixels[j + i * width].getGreen() * 0x100 + pixels[j + i * width].getBlue();
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            unsigned char r, g, b;
+            r = Utils::clamp(Utils::gammaCorrection(pixels[j + i * width].getRed()), 0., 255.);
+            g = Utils::clamp(Utils::gammaCorrection(pixels[j + i * width].getGreen()), 0., 255.);
+            b = Utils::clamp(Utils::gammaCorrection(pixels[j + i * width].getBlue()), 0., 255.);
+            res[j + i * width] = r * 0x10000 + g * 0x100 + b;
         }
     }
     return res;
@@ -87,9 +89,9 @@ void Image::save(const Image& image, const string& file) {
         unsigned char r, g, b;
         // loop over each pixel in the image, clamp and convert to byte format
         for (int i = 0; i < image.width * image.height; ++i) {
-            r = image.pixels[i].getRed();
-            g = image.pixels[i].getGreen();
-            b = image.pixels[i].getBlue();
+            r = Utils::clamp(Utils::gammaCorrection(image.pixels[i].getRed()), 0., 255.);
+            g = Utils::clamp(Utils::gammaCorrection(image.pixels[i].getGreen()), 0., 255.);
+            b = Utils::clamp(Utils::gammaCorrection(image.pixels[i].getBlue()), 0., 255.);
             ofs << r << g << b;
         }
         ofs.close();

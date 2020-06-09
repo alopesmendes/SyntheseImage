@@ -66,7 +66,7 @@ GraphicWindow &GraphicWindow::operator=(const GraphicWindow &g)
 
 void GraphicWindow::setPixel(int x, int y, const Color &color)
 {
-    if (SDL_SetRenderDrawColor(_render_, color.getDRed(), color.getDGreen(), color.getDBlue(), SDL_ALPHA_OPAQUE) == -1) {
+    if (SDL_SetRenderDrawColor(_render_, color.getRed(), color.getGreen(), color.getBlue(), SDL_ALPHA_OPAQUE) == -1) {
         cerr << "Error could not set the color for the drawing functions." << endl;
     }
     if (SDL_RenderDrawPoint(_render_, x, y) == -1) {

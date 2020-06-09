@@ -70,6 +70,31 @@
              *  @return double
             */
             static double decodeDouble(stringstream& iss, const char& separator);
+
+            /**
+             *  @brief Returns the clamp of value according to vmin and vmax.
+             *  @param value: double
+             *  @param vmin: const double&
+             *  @param vmax: const double&
+             *  @return double
+            */
+            static double clamp(double value, const double& vmin, const double& vmax);
+
+            /**
+             *  @brief Returns the value with gamma correction.
+             *  Raises to power 1/2.2.
+             *  @param value: double
+             *  @return double
+            */
+            static double gammaCorrection(double value);
+
+            /**
+             *  @brief  Checks if the extenstion of the file is correct.
+             *  @param file: string
+             *  @param extension: string
+             *  @return true if the file extension is the same as extension.
+            */
+            static bool checkIfExtenstionCorrect(string file, string extension);
             
     };
 #endif

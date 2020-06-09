@@ -20,24 +20,6 @@
             friend std::ostream& operator<<(std::ostream&, const Color&);
 
             friend std::istream& operator>>(std::istream&, Color&);
-
-            /**
-             *  @brief Returns the clamp of value according to vmin and vmax.
-             *  @param value: double
-             *  @param vmin: const double&
-             *  @param vmax: const double&
-             *  @return double
-            */
-            const double clamp(double value, const double& vmin, const double& vmax) const;
-
-            /**
-             *  @brief Returns the value with gamma correction.
-             *  Raises to power 1/2.2.
-             *  @param value: double
-             *  @return double
-            */
-            const double gammaCorrection(double value) const;
-
         
         public:
             /**
@@ -63,37 +45,19 @@
              *  @brief Getter for red.
              *  @return red;
             */
-            const unsigned char getRed() const;
+            const double getRed() const;
 
             /**
              *  @brief Getter for blue.
              *  @return blue;
             */
-            const unsigned char getBlue() const;
+            const double getBlue() const;
 
             /**
              *  @brief Getter for green.
              *  @return green;
             */
-            const unsigned char getGreen() const;
-
-            /**
-             *  @brief Getter for red.
-             *  @return red;
-            */
-            const double getDRed() const;
-
-            /**
-             *  @brief Getter for blue.
-             *  @return blue;
-            */
-            const double getDBlue() const;
-
-            /**
-             *  @brief Getter for green.
-             *  @return green;
-            */
-            const double getDGreen() const;
+            const double getGreen() const;
 
             friend const Color operator*(const Color&, const double&);
             friend const Color operator*(const double&, const Color&);

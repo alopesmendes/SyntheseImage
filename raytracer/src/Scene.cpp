@@ -82,7 +82,7 @@ const bool Scene::intersect(const Ray &ray, Hit &hit) const {
 
 void Scene::mirror(Color &c, const Ray &ray, const Hit &hit, int& nbonds) {
     Vector n = hit.normal;
-    Vector dMirror = ray.getDirection() - n * 2 * n.scalarProduct(ray.getDirection());
+    Vector dMirror = ray.getDirection().reflect(n);
     Ray rMirror = Ray(hit.pos + n*0.001, dMirror);
     c = traceRay(rMirror, nbonds--);
 }

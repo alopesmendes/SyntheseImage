@@ -89,7 +89,8 @@ Vector Vector::cross(const Vector &v) {
     return Vector(
         this->y * v.z - this->z * v.y,
         this->z * v.x - this->x * v.z,
-        this->x * v.y - this->y * v.x);
+        this->x * v.y - this->y * v.x
+    );
 }
 
 Vector Vector::reflect(const Vector &v) {
