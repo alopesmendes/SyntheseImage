@@ -46,7 +46,7 @@ const int Image::getHeight() const {
 }
 
 const Color Image::backgroundColor() const {
-    return bg;
+    return bg * 3e+07;
 }
 
 void Image::setPixel(int x, int y, Color color) {

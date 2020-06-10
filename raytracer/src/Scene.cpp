@@ -8,10 +8,6 @@
 #include <limits>
 #include <omp.h>
 
-
-//std::default_random_engine engine;
-//std::uniform_real_distribution<double> uniform(0, 1);
-
 Scene::Scene(int level, string file, string imName, int ps) {
     this->level = level;
     this->file = file;
@@ -102,7 +98,6 @@ void Scene::transperecy(Color &c, const Ray &ray, const Hit &hit, int& nbonds) {
         c = traceRay(rayRef, nbonds--);
     }
 }
-
 
 Color Scene::traceRay(const Ray &ray, int nbonds) {
     if (nbonds <= 0) {
